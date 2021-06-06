@@ -2,17 +2,17 @@ import styles from './card.module.scss';
 
 export default function Card() {
   return (
-    <div className={styles.card}>
+    <div className={[styles.card , 'm-2'].join(' ')}>
       <div className="p-2">
         <div className="row">
-          <span className={styles.cardTitle}>The Title</span>
+          <h5>Card Title</h5>
         </div>
-        <div className={styles.cardBody}>
-          <span>Kαλησπέρα</span>
+        <div>
+          <span>Thats a message Card</span>
         </div>
-        <div className={styles.classFooter}>
-          <button className="btn btn-primary bg-primary m-2">Procceed</button>
-          <button className="btn btn-primary bg-secondary">Cancel</button>
+        <div>
+          <span className="badge badge-primary m-2">badge 1</span>
+          <span className="badge badge-secondary m-2">badge 2</span>
         </div>
       </div>
     </div>

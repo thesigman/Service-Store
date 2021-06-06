@@ -1,0 +1,22 @@
+.card {
+  background-color: #ffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+
+  .cardBody {
+    font-size: 16px;
+  }
+
+  .cardTitle {
+    display: block;
+    font-size: 18px;
+    text-align: start;
+  }
+
+  .cardFooter {
+    text-align: end;
+  }
+}
+ 
+
+

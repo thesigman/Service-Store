@@ -1,0 +1,39 @@
+@import "./colors";
+
+/* Backgrounds */
+body .bg-primary {
+  background-color: $primaryColor !important;
+}
+
+body .bg-secondary {
+  background-color: $secondaryColor  !important;
+}
+
+body .bg-success {
+  background-color: $successColor;
+}
+
+body .bg-danger {
+  background-color: $dangerColor;
+}
+
+
+/* Border */
+body .bd-primary {
+  border-color: $primaryColor !important;
+}
+
+body .bd-secondary {
+  border-color: $secondaryColor !important;
+}
+
+body .bg-success {
+  background-color: $successColor;
+}
+
+body .bg-danger {
+  background-color: $dangerColor;
+}
+
+
+

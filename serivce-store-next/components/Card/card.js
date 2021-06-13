@@ -1,14 +1,14 @@
 import styles from './card.module.scss';
 
-export default function Card() {
+export default function Card(props) {
   return (
     <div className={[styles.card , 'm-2'].join(' ')}>
       <div className="p-2">
         <div className="row">
-          <h5>Card Title</h5>
+          <h5>{props.name}</h5>
         </div>
         <div>
-          <span>Thats a message Card</span>
+          <span>{props.description}</span>
         </div>
         <div>
           <span className="badge badge-primary m-2">badge 1</span>

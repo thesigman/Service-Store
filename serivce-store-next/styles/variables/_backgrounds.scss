@@ -17,6 +17,10 @@ body .bg-danger {
   background-color: $dangerColor;
 }
 
+body .bg-gray {
+  background-color: $grayColor;
+}
+
 
 /* Border */
 body .bd-primary {
@@ -31,8 +35,12 @@ body .bd-success {
   background-color: $successColor;
 }
 
-body .bg-danger {
+body .bd-danger {
   background-color: $dangerColor;
+}
+
+body .bd-gray {
+  background-color: $grayColor;
 }
 
 

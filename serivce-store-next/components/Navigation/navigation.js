@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function NavigationBar() {
   return (
-    <nav className={[styles.navbarcustom, 'navbar', 'navbar-inverse', 'navbar-static-top'].join(' ')}>
+    <nav className={[styles.navbarcustom, 'navbar', 'navbar-expand-lg', 'navbar-static-top'].join(' ')}>
       <div className="container">
         <div className="navbar-header">
           <Image
@@ -19,13 +19,13 @@ export default function NavigationBar() {
           </button>
         </div>
     
-        <ul className="nav navbar-nav navbar-right">
-          <li>
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
             <Search></Search>
           </li>
-          <li> <FontAwesomeIcon icon={faBell} className="text-white" ></FontAwesomeIcon></li>
-          <li><FontAwesomeIcon icon={faQuestionCircle} className="text-white" ></FontAwesomeIcon></li>
-          <li><FontAwesomeIcon icon={faCog} className="text-white" ></FontAwesomeIcon></li>
+          <li className="nav-link"> <FontAwesomeIcon icon={faBell} className="text-white" ></FontAwesomeIcon></li>
+          <li className="nav-link"><FontAwesomeIcon icon={faQuestionCircle} className="text-white" ></FontAwesomeIcon></li>
+          <li className="nav-link"><FontAwesomeIcon icon={faCog} className="text-white" ></FontAwesomeIcon></li>
         </ul>
       </div>
     </nav>

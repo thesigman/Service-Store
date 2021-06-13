@@ -5,6 +5,8 @@ import Navigation from '../components/Navigation/navigation'
 import MessageCard from '../components/Card/messageCard'
 import Card from '../components/Card/card'
 import TaskCard from '../components/Card/taskCard';
+import AdminBar from '../components/AdminBar/adminBar'
+import Layout from '../components/Layout/layout'
 
 export default function Home() {
 
@@ -13,33 +15,31 @@ export default function Home() {
   }
 
   return (
-    <div className="container-fluid">
-      <Navigation></Navigation>
-      <input onChange={(event)=> thanos(event.target.value)}></input>
-      <div className="row">
-        <div className="col-3">
-          <TaskCard
-            title="To Do"
-            cardBg="bg-primary"
-          >
-          </TaskCard>
+      <Layout>
+        <div className="row">
+          <div className="col-3">
+            <TaskCard
+              title="To Do"
+              cardBg="bg-primary"
+            >
+            </TaskCard>
+          </div>
+          <div className="col-3">
+            <TaskCard
+              title="In progess"
+              cardBg="bg-secondary"></TaskCard>
+          </div>
+          <div className="col-3">
+            <TaskCard
+              title="Done"
+              cardBg="bg-success"></TaskCard>
+          </div>
+          <div className="col-3">
+            <TaskCard
+              title="Thanos Kapsalis"
+              cardBg="bg-danger"></TaskCard>
+          </div>
         </div>
-        <div className="col-3">
-          <TaskCard
-            title="In progess"
-            cardBg="bg-secondary"></TaskCard>
-        </div>
-        <div className="col-3">
-          <TaskCard
-            title="Done"
-            cardBg="bg-success"></TaskCard>
-        </div>
-        <div className="col-3">
-          <TaskCard
-            title="Thanos Kapsalis"
-            cardBg="bg-danger"></TaskCard>
-        </div>
-      </div>
-    </div>
-  )
+      </Layout>
+    )
 }

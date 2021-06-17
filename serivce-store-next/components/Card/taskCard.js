@@ -57,7 +57,7 @@ export default function taskCard(props) {
   });
 
   return (
-    <div className={[props.cardBg, 'm-2', 'p-2'].join(' ')}>
+    <div className={[props.cardBg, 'm-2', 'p-2', styles.taskCard].join(' ')}>
       <h3 className="text-white">{props.title}</h3>
       <div>
         {cards}

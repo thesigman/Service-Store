@@ -13,7 +13,9 @@ export default function NavigationBar() {
             src='/logo.png'
             width={191}
             height={27}
-            loading="eager" />
+            loading="eager"
+            to="http://localhost:3001" />
+            <a href="http://localhost:3001"></a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>

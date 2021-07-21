@@ -10,15 +10,15 @@ body .bg-secondary {
 }
 
 body .bg-success {
-  background-color: $successColor;
+  background-color: $successColor !important;
 }
 
 body .bg-danger {
-  background-color: $dangerColor;
+  background-color: $dangerColor !important;
 }
 
 body .bg-gray {
-  background-color: $grayColor;
+  background-color: $grayColor !important;
 }
 
 
@@ -32,15 +32,15 @@ body .bd-secondary {
 }
 
 body .bd-success {
-  background-color: $successColor;
+  background-color: $successColor !important;
 }
 
 body .bd-danger {
-  background-color: $dangerColor;
+  background-color: $dangerColor !important;
 }
 
 body .bd-gray {
-  background-color: $grayColor;
+  background-color: $grayColor !important;
 }
 
 

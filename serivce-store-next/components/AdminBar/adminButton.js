@@ -1,5 +1,6 @@
 import styles from './adminBar.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
 import { faCog, faPaperPlane, faHome, faEdit, faUserCircle, faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
 export default function AdminButton(props) {
   return (
@@ -9,7 +10,7 @@ export default function AdminButton(props) {
           <FontAwesomeIcon icon={faCog} className="text-white" ></FontAwesomeIcon>
         </div>
         <div className="col">
-          <b className="text-white"> {props.title}</b>
+          <b className="text-white"> <Link href="/profile"><a className="text-white">{props.title}</a></Link></b>
         </div>
       </div>
 

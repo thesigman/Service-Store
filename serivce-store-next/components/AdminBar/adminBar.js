@@ -33,7 +33,8 @@ export default function AdminBar() {
       
       {
         'icon': 'faUserCircle',
-        'title': 'Το προφίλ μου'
+        'title': 'Το προφίλ μου',
+        'url': '/profile'
       },
       
       {
@@ -46,6 +47,7 @@ export default function AdminBar() {
       <AdminButton key={index}
         icon={menuInfo[index]['icon']}
         title={menuInfo[index]['title']}
+        url={menuInfo[index]['url']}
       ></AdminButton>]
     }
     setAdminBarItems(items);

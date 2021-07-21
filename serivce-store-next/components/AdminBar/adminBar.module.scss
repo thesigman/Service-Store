@@ -1,5 +1,6 @@
+@import '../../styles/variables/colors';
 .adminBar {
-  background-color: #1C5A8A !important;
+  background-color: $secondaryGreenColor !important;
   min-height: 100%;
 }
 

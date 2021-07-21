@@ -1,0 +1,86 @@
+@import '../styles/variables/colors';
+.login {
+  position: relative;
+  margin: auto;
+  max-width: 460px;
+  overflow: hidden;
+  z-index: 1;
+
+  .formcontentwrapper {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+
+    .eologo {
+      padding-bottom: 47px;
+      padding-top: 40px;
+      display: block;
+      margin: auto;
+    }
+
+    .formitem {
+      display: block;
+      margin: auto;
+    }
+
+    .formcontent {
+      width: 85%;
+      margin: auto;
+      padding-bottom: 5%;
+
+      label {
+        font-size: 20px !important;
+      }
+
+      input[type=submit] {
+        font-size: 14px !important;
+      }
+
+      .forgotpassword {
+        font-size: 14px;
+      }
+    }
+
+    .contentmiddle {
+      display: table;
+      margin: auto;
+    }
+  }
+}
+
+.pagecenter {
+  display: table;
+  height: 100%;
+  width: 100%;
+
+  > div {
+    display: table-row;
+    height: 100%;
+
+    > div {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: $primaryColor;
+}
+
+.separator::before,
+.separator::after {
+  content : '';
+  flex: 1;
+  border-bottom: 1px solid $primaryColor;
+}
+
+.separator:not(:empty)::before {
+  margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: .25em;
+}

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import router from 'next/router';
 import Image from 'next/dist/client/image';
 import styles from './login.module.scss';
-import stylesin from '../components/Search/search.module.scss'
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 
 export default function login() {
@@ -23,11 +22,13 @@ export default function login() {
 
 
   return (
-    <div className={[styles.pagecenter].join(' ')}>
+
+    <div className={['pagecenter'].join(' ')}>
+ 
       <div>
         <div>
           <div className={[styles.login].join(' ')}>
-            <div className="container">
+            <div className="container-fluid">
               <div className={[styles.formcontentwrapper, 'bg-white', 'col'].join(' ')}>
                 <Image
                   src='/logo_dark.png'
@@ -37,19 +38,19 @@ export default function login() {
                 <div className={[styles.formcontent].join(' ')}>
                   <div>
                     <h4>Username</h4>
-                    <input type="text" className={[stylesin.faIcon, stylesin.Search].join(' ')} placeholder="&#xf002; Username" />
+                    <input type="text"  placeholder="Username" />
                   </div>
                   <div className="mt-4 mb-4">
                     <h4>Password</h4>
-                    <input type="text" className={[stylesin.faIcon, stylesin.Search].join(' ')} placeholder="&#xf002; Password" />
-                  </div>
+                    <input type="password" placeholder="Password" />
+                  </div> 
                   <div className="mt-4">
-                    <button className="btn bg-primary btn-100" >Login</button>
+                    <button className="btn btn-small bg-primary btn-100" >Login</button>
                   </div>
                   <a href='/reset'>
-                    <span className={[styles.contentmiddle, styles.forgotpassword].join(' ')}>Forgot your password</span>
+                    <a className={[styles.contentmiddle , 'text-primary', 'mt-2'].join(' ')}>Forgot your password</a>
                   </a>
-                  <div className={[styles.separator, 'mb-2', 'mt-2'].join(' ')}> or </div>
+                  <div className={['separator', 'mb-2', 'mt-2'].join(' ')}> or </div>
                   <div className={[styles.contentmiddled].join(' ')}>
                     <p>Alternative Method</p>
                   </div>

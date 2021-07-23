@@ -35,6 +35,12 @@ body {
   background-color: #ffff;
 }
 
+// Default κλάση της next-js για empty pages 
+// Για κάποιο λογο πάει το height στο 50%
+#__next {
+  height: 100%;
+}
+
 .text-bold {
   font-weight: 700 !important;
 }
@@ -43,7 +49,6 @@ body {
   font-size: 24px;
   line-height: 36px;
 }
-
 
 .separator {
   display: flex;
@@ -54,15 +59,39 @@ body {
 
 .separator::before,
 .separator::after {
-  content : '';
+  content: "";
   flex: 1;
   border-bottom: 1px solid $primaryColor;
 }
 
 .separator:not(:empty)::before {
-  margin-right: .25em;
+  margin-right: 0.25em;
 }
 
 .separator:not(:empty)::after {
-  margin-left: .25em;
+  margin-left: 0.25em;
+}
+
+.pagecenter {
+  display: table;
+  height: 100%;
+  width: 100%;
+
+  > div {
+    display: table-row;
+    height: 100%;
+
+    > div {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+}
+
+// Χρησιμεύει στη χρήση fa-icons σε input με placeholder
+.faIcon {
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
 }

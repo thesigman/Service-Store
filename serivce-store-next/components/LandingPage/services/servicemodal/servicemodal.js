@@ -1,7 +1,5 @@
 import React from 'react';
-import '../../landing.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+
 const servicemodal  = () => {
   return (
   <div className="modal-wrapper color-primary m-2">

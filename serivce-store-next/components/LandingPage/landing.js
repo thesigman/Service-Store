@@ -1,6 +1,5 @@
 import { Button } from 'react-bootstrap'
 import React from 'react'
-import styles from './landing.css'
 import SearchModal from './searchmodal/searchmodal'
 
 

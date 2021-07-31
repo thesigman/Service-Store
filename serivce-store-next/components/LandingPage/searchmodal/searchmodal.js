@@ -1,5 +1,4 @@
 import React from 'react'
-import '../landing.css'
 import {Button}  from 'react-bootstrap';
 
 

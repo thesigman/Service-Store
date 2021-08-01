@@ -11,19 +11,19 @@
 
 .first-half{
   display: table-caption;
-  padding: 5%;
+  padding: 5% !important;
   text-align: start;
+  line-height: 1.5;
 }
 
 .title-text {
   font-size: 50px;
-  
   font-weight:bold;
   
 }
 
 .btn-rounded{
-  border-radius: 16px;
+  border-radius: 16px !important;
 }
 
 .color-primary {
@@ -34,6 +34,9 @@
   background-color : #fff !important
 }
 
+.btn-long {
+  width: 100% !important;
+}
 .text-white{
   color: #fff
 }
@@ -82,7 +85,7 @@
   font-weight: bold;
   display: block;
   margin: auto;
-  padding-top: 6%;
+  padding: 1% !important;
 }
 
 .search-area{
@@ -100,7 +103,6 @@
   padding-top: 50px;
 }
 .icon{
-  font-size: 45px !important;
   display: block;
   margin: auto;
   /* vertical-align: middle; */
@@ -146,9 +148,7 @@
 }
 
 .video-responsive iframe {
-  left: 0;
-  top: 0;
-  height: 50%;
+  margin: auto;
   width: 50%;
-  position: absolute;
+  padding: 10px;
 }

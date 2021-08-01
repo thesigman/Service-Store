@@ -7,8 +7,8 @@ const services = () => {
   return (
     <div className="services-wrapper ">
       <div className={[styles.servicetitle, 'm-2'].join(' ')}>
-        <span className="title-text text-primary">Πακέτα υπηρεσιών</span>
-        <p className="text-secondary">Ολοκληρωμένα πακέτα ψηφιακού μετασχηματισμού</p>
+        <span className="title-text">Πακέτα υπηρεσιών</span>
+        <p>Ολοκληρωμένα πακέτα ψηφιακού μετασχηματισμού</p>
       </div>
       <div className={[styles.services, 'm-2'].join(' ')}>
         <div className="row">

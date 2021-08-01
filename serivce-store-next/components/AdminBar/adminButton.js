@@ -9,7 +9,7 @@ export default function AdminButton(props) {
         <div className="col-2">
           <FontAwesomeIcon icon={faCog} className="text-white" ></FontAwesomeIcon>
         </div>
-        <div className="col">
+        <div className="col-6">
           <b className="text-white"> <Link href="/profile"><a className="text-white">{props.title}</a></Link></b>
         </div>
       </div>

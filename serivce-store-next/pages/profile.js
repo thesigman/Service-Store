@@ -4,15 +4,30 @@ import Layout from '../components/Layout/layout'
 import Image from 'next/image';
 import Rate from '../components/Rate/rate';
 import Innercontainer from '../components/container/innerContainer'
+import axios  from './api/axiosConfiguration';
 import { useState, useEffect } from 'react'
 
 export default function Profile() {
+  const [nameOfCompany, setNameOfCOmpany ]  = useState();
+  const [phone, setPhone] = useState();
+  const [activity, setActivity] = useState();
+  const [rating , setRating ] = useState();
 
-  /**
-   * Θα υλοποιηθεί λογική που θα λαμβάνει πληοροφορίες απο το προφιλ του χρήστη με την 
-   * χρήση του κατάλληλου request και θα τα φορτώνει στο view
-   */
 
+  useEffect(() => {
+    axios.get('/providers')
+  .then(function (response) {
+    setNameOfCOmpany(response.data[0].NameOfCompany);
+    setPhone(response.data[0].Phone);
+    setActivity(response.data[0].Activity);
+    setRating(response.data[0].Rating);
+  }) .catch(function (error) {
+    // Σε περίπτωση που δεν έχει πρόσβαση η υπάρχει error θα προστεθεί εδώ
+  })
+  .then(function () {
+    // always executed
+  });
+  });
   return (
     <Layout>
       <div className="row mt-4">
@@ -30,36 +45,32 @@ export default function Profile() {
                 <div className="col">
                   <Rate
                     title='Αξιοπιστία'
-                    stars='5'
+                    stars={rating}
                     starColor='text-secondary'
                   ></Rate>
                   <Rate
                     title='Ευελιξία'
-                    stars='3'
+                    stars={rating}
                     starColor='text-success'
                   ></Rate>
                   <Rate
                     title='Ταχύτητα'
-                    stars='4'
+                    stars={rating}
                     starColor='text-primary'
                   ></Rate>
                 </div>
               </div>
               <div className="mt-2">
                 <h4>Όνομα Επιχείρησης</h4>
-                <h3 className="text-bold">Web Design</h3>
-              </div>
-              <div className="mt-2">
-                <h4>Όνομα Επιχείρησης</h4>
-                <h3 className="text-bold">Web Design</h3>
+                <h3 className="text-bold">{nameOfCompany}</h3>
               </div>
               <div className="mt-2">
                 <h4>Ειδικότητα</h4>
-                <h3 className="text-bold">Web Developer</h3>
+                <h3 className="text-bold">{activity}r</h3>
               </div>
               <div className="mt-2">
-                <h4>Επιπλέον Γνώσεις</h4>
-                <h3 className="text-bold">Photoshop, Indesign, Video Editing</h3>
+                <h4>Τηλέφωνο</h4>
+                <h3 className="text-bold">{phone}</h3>
               </div>
             </div>
           </Innercontainer>

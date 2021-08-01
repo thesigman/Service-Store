@@ -4,8 +4,11 @@ import Layout from '../components/Layout/layout'
 import Image from 'next/image';
 import Rate from '../components/Rate/rate';
 import Innercontainer from '../components/container/innerContainer'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios  from './api/axiosConfiguration';
 import { useState, useEffect } from 'react'
+import { Button } from 'react-bootstrap';
+import { faGlobe, faMapMarker, faPhone, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default function Profile() {
   const [nameOfCompany, setNameOfCOmpany ]  = useState();
@@ -40,24 +43,8 @@ export default function Profile() {
                     src='/profile.png'
                     width={190}
                     height={190}
-                    loading="eager" />
-                </div>
-                <div className="col">
-                  <Rate
-                    title='Αξιοπιστία'
-                    stars={rating}
-                    starColor='text-secondary'
-                  ></Rate>
-                  <Rate
-                    title='Ευελιξία'
-                    stars={rating}
-                    starColor='text-success'
-                  ></Rate>
-                  <Rate
-                    title='Ταχύτητα'
-                    stars={rating}
-                    starColor='text-primary'
-                  ></Rate>
+                    loading="eager"
+                   />
                 </div>
               </div>
               <div className="mt-2">
@@ -68,9 +55,23 @@ export default function Profile() {
                 <h4>Ειδικότητα</h4>
                 <h3 className="text-bold">{activity}r</h3>
               </div>
-              <div className="mt-2">
-                <h4>Τηλέφωνο</h4>
-                <h3 className="text-bold">{phone}</h3>
+              <div className="mt-4">
+                <Button className="btn btn-small-secondary btn-long bd-primary text-primary">
+                  <FontAwesomeIcon  icon={faPhoneAlt}></FontAwesomeIcon>
+                  <span>  {phone}</span>
+                </Button>
+              </div>
+              <div className="mt-4">
+                <Button className="btn btn-small-secondary btn-long bd-primary text-primary">
+                  <FontAwesomeIcon  icon={faGlobe}></FontAwesomeIcon>
+                  <span>google.gr</span>
+                </Button>
+              </div>
+              <div className="mt-4">
+                <Button className="btn btn-small-secondary btn-long bd-primary text-primary">
+                  <FontAwesomeIcon  icon={faMapMarker}></FontAwesomeIcon>
+                  <span>Τσιμισκή 47, Θεσσαλλονίκη</span>
+                </Button>
               </div>
             </div>
           </Innercontainer>

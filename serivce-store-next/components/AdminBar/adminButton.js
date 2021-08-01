@@ -6,11 +6,11 @@ export default function AdminButton(props) {
   return (
     <button className={[styles.adminButton , 'm-2'].join(' ')}>
       <div className="row ">
-        <div className="col-2">
-          <FontAwesomeIcon icon={faCog} className="text-white" ></FontAwesomeIcon>
+        <div className="col-2"> 
+          <FontAwesomeIcon icon={faHome} className="text-white" ></FontAwesomeIcon>
         </div>
         <div className="col-6">
-          <b className="text-white"> <Link href="/profile"><a className="text-white">{props.title}</a></Link></b>
+          <b className="text-white"> <Link href={props.uri}><a className="text-white">{props.title}</a></Link></b>
         </div>
       </div>
 

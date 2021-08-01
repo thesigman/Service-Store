@@ -13,33 +13,38 @@ export default function AdminBar() {
     let menuInfo = [
       {
         'icon': 'faHome',
-        'title': 'Αρχική Σελίδα'
+        'title': 'Αρχική Σελίδα',
+        'uri' : '/home'
       },
 
       {
         'icon': 'faProjectDiagram',
-        'title': 'Projects'
+        'title': 'Projects',
+        'uri' : '/projects'
       },
 
       {
         'icon': 'faEdit',
-        'title': 'Υπο επεξεργασία'
+        'title': 'Υπο επεξεργασία',
+        'uri': '/edit'
       },
 
       {
         'icon': 'faPaperPlane',
-        'title': 'Εισερχόμενα'
+        'title': 'Εισερχόμενα',
+        'uri' : ''
       },
 
       {
         'icon': 'faUserCircle',
         'title': 'Το προφίλ μου',
-        'url': '/profile'
+        'uri': '/profile'
       },
 
       {
         'icon': 'faCog',
-        'title': 'Ρυθμίσεις'
+        'title': 'Ρυθμίσεις',
+        'uri' : '/settings'
       },
     ]
     for (let index = 0; index < 6; index++) {
@@ -48,7 +53,7 @@ export default function AdminBar() {
         <AdminButton key={index}
           icon={menuInfo[index]['icon']}
           title={menuInfo[index]['title']}
-          url={menuInfo[index]['url']}
+          uri={menuInfo[index]['uri']}
         ></AdminButton>
       </div>
       ]

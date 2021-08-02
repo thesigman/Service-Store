@@ -1,23 +1,35 @@
-import axios from 'axios';
 import { useState } from 'react';
 import router from 'next/router';
 import Image from 'next/dist/client/image';
 import styles from './login.module.scss';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
+import axios from './api/axiosConfiguration'
 
 export default function login() {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  var default_credentials = {
-    username: "thanos",
-    password: "thanos"
-  };
+  const [messageText, setMessageText] = useState();
+
 
 
   const login = () => {
-    if (username == default_credentials.username && password == default_credentials.password) {
-      router.push('/');
-    }
+    const credentials = {
+      'identifier' : username,
+      'password' : password
+    };
+    axios.post('/auth/local', credentials)
+    .then(function (response) {
+      if(response.status == 200){
+        setMessageText('');
+        window.location.href = "/home";
+      }
+    }) .catch(function (error) {
+      setMessageText('Invalid Username or Password');
+
+    })
+    .then(function () {
+      // always executed
+    });
   }
 
 
@@ -38,14 +50,15 @@ export default function login() {
                 <div className={[styles.formcontent].join(' ')}>
                   <div>
                     <h4>Username</h4>
-                    <input type="text"  placeholder="Username" />
+                    <input onChange={event=>setUsername(event.target.value)} type="text"  placeholder="Username" />
                   </div>
                   <div className="mt-4 mb-4">
                     <h4>Password</h4>
-                    <input type="password" placeholder="Password" />
+                    <input onChange={event=>setPassword(event.target.value)} type="password" placeholder="Password" />
                   </div> 
+                  <p className={[styles.contentmiddle, 'text-danger'].join(' ')} value={messageText}>{messageText}</p>
                   <div className="mt-4">
-                    <button className="btn btn-small bg-primary btn-100" >Login</button>
+                    <button onClick={()=>login()} className="btn btn-small bg-primary btn-100" >Login</button>
                   </div>
                   <a href='/reset'>
                     <a className={[styles.contentmiddle , 'text-primary', 'mt-2'].join(' ')}>Forgot your password</a>

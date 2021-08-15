@@ -20,7 +20,7 @@ export default function AdminBar() {
       {
         'icon': 'faProjectDiagram',
         'title': 'Projects',
-        'uri' : '/projects'
+        'uri' : '/questionaire'
       },
 
       {

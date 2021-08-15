@@ -1,37 +1,13 @@
 import { useState } from 'react';
-import router from 'next/router';
 import Image from 'next/dist/client/image';
 import styles from './login.module.scss';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
-import axios from './api/axiosConfiguration'
+import {loginUser} from "../libs/auth";
 
 export default function login() {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [messageText, setMessageText] = useState();
-
-
-
-  const login = () => {
-    const credentials = {
-      'identifier' : username,
-      'password' : password
-    };
-    axios.post('/auth/local', credentials)
-    .then(function (response) {
-      if(response.status == 200){
-        setMessageText('');
-        window.location.href = "/home";
-      }
-    }) .catch(function (error) {
-      setMessageText('Invalid Username or Password');
-
-    })
-    .then(function () {
-      // always executed
-    });
-  }
-
 
   return (
 
@@ -58,7 +34,7 @@ export default function login() {
                   </div> 
                   <p className={[styles.contentmiddle, 'text-danger'].join(' ')} value={messageText}>{messageText}</p>
                   <div className="mt-4">
-                    <button onClick={()=>login()} className="btn btn-small bg-primary btn-100" >Login</button>
+                    <button onClick={()=>loginUser(username, password)} className="btn btn-small bg-primary btn-100" >Login</button>
                   </div>
                   <a href='/reset'>
                     <a className={[styles.contentmiddle , 'text-primary', 'mt-2'].join(' ')}>Forgot your password</a>

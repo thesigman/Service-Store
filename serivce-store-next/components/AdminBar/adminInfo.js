@@ -18,7 +18,7 @@ export default function AdminInfo() {
   .then(function () {
     // always executed
   });
-  });
+  },[]);
   return (
     <div className={[styles.adminInfo , 'm-2'].join(' ')}>
       <div className="row h-100">

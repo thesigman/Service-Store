@@ -12,6 +12,7 @@
 import axios from "axios";
 const instance = axios.create({
   baseURL: 'http://islab-thesis.aegean.gr:82/api',
+
 });
 
 export default instance;

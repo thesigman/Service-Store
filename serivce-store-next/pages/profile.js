@@ -30,7 +30,7 @@ export default function Profile() {
   .then(function () {
     // always executed
   });
-  });
+  }, []);
   return (
     <Layout>
       <div className="row mt-4">

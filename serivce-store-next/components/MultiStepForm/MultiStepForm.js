@@ -2,27 +2,28 @@ import { useState, useEffect, Children } from "react";
 import styles from "./form.module.scss";
 import Selector from "../Selector/selector";
 import axios from '../../pages/api/axiosConfiguration'
+import { Button } from "react-bootstrap";
+import { v4 as uuidv4 } from 'uuid';
 
 
 export default function MultiStepForm() {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([])
   const [name, setName] = useState(0)
+  const [dependQuest, setDependQuest] = useState([]);
 
   const newPage = () => {
     setPage(page => page + 1);
-    console.log(data);
   }
-
-
 
   return (
     <div className={[styles.formCard, 'p-4'].join(' ')}>
-      <p>Ερώτηση {page} από 3</p>
+      {page <  4 && <p>Βήμα {page} από 3</p>}
       <div>
         {page === 1 && <StepOne name={setName} data={data} newPage={newPage} update={setData} />}
-        {page === 2 && <StepTwo name={name} newPage={newPage} data={data} update={setData} />}
-        {page === 3 && <StepThree name={name} newPage={newPage} data={data} update={setData} />}
+        {page === 2 && <StepTwo name={name} dependencies={dependQuest} updateQuest={setDependQuest} newPage={newPage} data={data} update={setData} />}
+        {page === 3 && <StepThree name={name} dependencies={dependQuest} newPage={newPage} updateQuest={setDependQuest} data={data} update={setData} />}
+        {page === 4 && <StepFour/>}
       </div>
     </div>
   )
@@ -36,6 +37,8 @@ function StepOne(props) {
   const [service1Active, setService1Active] = useState([]);
   const [service2Active, setService2Active] = useState([]);
   const [serviceName, setServiceName] = useState([])
+  const [boldtext, setBoldText] = useState('Καλώς Ορίσατε')
+  const [serviceText, setServiceText] = useState('Επιλέξτε για να ξεκινήσετε')
   useEffect(() => {
     axios.get('/services').then(
       (response) => {
@@ -66,9 +69,11 @@ function StepOne(props) {
         let tmp = service1.filter(x => x.question == answer);
         tmp = tmp.map(a => a.answer)
         setService1Active(tmp);
+        setBoldText(answer);
         props.update([...props.data, { 'question': triggerElement, 'answer': answer }]);
         break;
       case 'service_1':
+        setServiceText(answer)
         tmp = service2.filter(x => x.question == answer);
         tmp = tmp.map(a => a.answer)
         setService2Active(tmp);
@@ -83,8 +88,8 @@ function StepOne(props) {
   }
   return (
     <div>
-      <h5 className="text-center"><b>Ανάπτυξη Website</b></h5>
-      <p className="text-center">Κατασκευή e-shop</p>
+      <h5 className="text-center"><b>{boldtext}</b></h5>
+      <p className="text-center">{serviceText}</p>
       <div className="row">
         <div className="col">
           <Selector placeholder="Domain" id="domain" onChange={updateDom} values={[...new Set(domains.values())]}></Selector>
@@ -109,6 +114,7 @@ function StepTwo(props) {
   const [domQuestions, setDomQuestions] = useState([]);
   const [activeChuck, setactiveChuck] = useState(0);
   const [question, setQuestion] = useState();
+  const [dependQuest, setDependQuest] = useState([]);
 
   const updateDom = async (question, answer) => {
     setQuestion({ 'question': question[0], 'answer': answer });
@@ -119,7 +125,14 @@ function StepTwo(props) {
       props.update([...props.data, { 'question': question.question, 'answer': question.answer }]);
     }
 
-  }, [question])
+  }, [question]);
+
+  useEffect(() => {
+    if (dependQuest) {
+      props.updateQuest([...props.dependencies, { 'name': dependQuest.name, 'question': dependQuest.question }]);
+    }
+  }, [dependQuest])
+
 
 
   useEffect(() => {
@@ -133,12 +146,12 @@ function StepTwo(props) {
         let item;
         if (element.multiple != null) {
           const multiple = element.multiple;
-          if(multiple.depend != 0) {console.log(multiple.depend)}
-          item = <div key={index} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} multiple={true} placeholder={multiple.multiple_quest} id={element.id} values={multiple.multiple_ans}></Selector></div></div>;
+          if (multiple.depend != 0) { setDependQuest({ 'name': multiple.depend, 'question': multiple.multiple_quest }) }
+          item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} multiple={true} placeholder={multiple.multiple_quest} id={element.id} values={multiple.multiple_ans}></Selector></div></div>;
         } else {
           const single = element.single;
-          if(single.depend != 0) {console.log(single.depend)}
-          item = <div key={index} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} placeholder={single.single_quest} id={element.id} values={single.single_ans}></Selector></div></div>;
+          if (single.depend != 0) { setDependQuest({ 'name': single.depend, 'question': single.single_quest }) }
+          item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} placeholder={single.single_quest} id={element.id} values={single.single_ans}></Selector></div></div>;
         }
         chunk = [...chunk, item];
         if (index % step == 0) {
@@ -176,5 +189,94 @@ function StepTwo(props) {
 }
 
 function StepThree(props) {
- 
+  const [domQuestions, setDomQuestions] = useState([]);
+  const [activeChuck, setactiveChuck] = useState(0);
+  const [question, setQuestion] = useState();
+  const [dependQuest, setDependQuest] = useState([]);
+
+  const updateDom = async (question, answer) => {
+    setQuestion({ 'question': question[0], 'answer': answer });
+  }
+
+  useEffect(() => {
+    if (question) {
+      props.update([...props.data, { 'question': question.question, 'answer': question.answer }]);
+    }
+
+  }, [question]);
+
+  useEffect(() => {
+    if (dependQuest) {
+      props.updateQuest([...props.dependencies, { 'name': dependQuest.name, 'question': dependQuest.question }]);
+    }
+  }, [dependQuest])
+
+
+
+  useEffect(() => {
+    let singleNAmes = props.dependencies.map(function (a) { return a.name; });
+    let onlyNames = [...new Set(singleNAmes)];
+    let step = 2;
+
+    onlyNames.forEach((name, bigIndex) => {
+      if (typeof name == 'undefined') { return; }
+      axios.get(`characteristics?name=${name}`).then((response) => {
+        let tempQuestions = []
+        let chunk = []
+        response.data.forEach((element, index) => {
+          // Σε αυτο τo Step θα απαντήσουμε μόνο τις ερωτήσεις που δεν έχουν σύνδεση με άλλες 
+          // Ελέγχουμε αμα είναι single η multiple answer για να rendaroyme το κατάλληλο dom
+          let item;
+          if (element.multiple != null) {
+            const multiple = element.multiple;
+            item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} multiple={true} placeholder={multiple.multiple_quest} id={element.id} values={multiple.multiple_ans}></Selector></div></div>;
+          } else {
+            const single = element.single;
+            item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} placeholder={single.single_quest} id={element.id} values={single.single_ans}></Selector></div></div>;
+          }
+          chunk = [...chunk, item];
+          if (index % step == 0) {
+            tempQuestions = [...tempQuestions, chunk];
+            chunk = [];
+          }
+
+        })
+        setDomQuestions(tempQuestions);
+      })
+
+    })
+  },[]);
+
+
+  const nextChunck = () => {
+    if (activeChuck == domQuestions.length - 1) {
+      props.newPage()
+    }
+    setactiveChuck(activeChuck => activeChuck + 1)
+  }
+
+  const prevChuck = () => {
+    setactiveChuck(activeChuck => activeChuck - 1)
+  }
+
+  return (
+    <div>
+      <div className="row">
+        {domQuestions[activeChuck]}
+      </div>
+      <div className="d-flex float-end">
+        {activeChuck > 0 && <button onClick={prevChuck} className=" mt-2 btn text-primary no-bd btn-secondary-small">Προηγούμενο</button>}
+        <button onClick={nextChunck} className=" mt-2 btn bg-primary btn-small">Επόμενο</button>
+      </div>
+    </div>
+  )
+
+}
+
+function StepFour() {
+  return (
+    <div>
+      <p>Τα στοιχεία σας αποθηκεύτικαν με επιτυχία !</p>
+    </div>
+  )
 }

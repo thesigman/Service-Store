@@ -18,12 +18,12 @@ export default function MultiStepForm() {
 
   return (
     <div className={[styles.formCard, 'p-4'].join(' ')}>
-      {page <  4 && <p>Βήμα {page} από 3</p>}
+      {page < 4 && <p>Βήμα {page} από 3</p>}
       <div>
         {page === 1 && <StepOne name={setName} data={data} newPage={newPage} update={setData} />}
         {page === 2 && <StepTwo name={name} dependencies={dependQuest} updateQuest={setDependQuest} newPage={newPage} data={data} update={setData} />}
         {page === 3 && <StepThree name={name} dependencies={dependQuest} newPage={newPage} updateQuest={setDependQuest} data={data} update={setData} />}
-        {page === 4 && <StepFour/>}
+        {page === 4 && <StepFour  data={data} />}
       </div>
     </div>
   )
@@ -64,12 +64,15 @@ function StepOne(props) {
   }, [])
 
   const updateDom = (question, answer, triggerElement) => {
+    let found;
     switch (triggerElement) {
       case 'domain':
         let tmp = service1.filter(x => x.question == answer);
         tmp = tmp.map(a => a.answer)
         setService1Active(tmp);
         setBoldText(answer);
+        found = props.data.find((item) => item.question == triggerElement);
+        if (typeof found != "undefined") { props.data.splice(found, 1); }
         props.update([...props.data, { 'question': triggerElement, 'answer': answer }]);
         break;
       case 'service_1':
@@ -77,11 +80,15 @@ function StepOne(props) {
         tmp = service2.filter(x => x.question == answer);
         tmp = tmp.map(a => a.answer)
         setService2Active(tmp);
+        found = props.data.find((item) => item.question == triggerElement);
+        if (typeof found != "undefined") { props.data.splice(found, 1); }
         props.update([...props.data, { 'question': triggerElement, 'answer': answer }]);
         break;
       case 'service_2':
         const name = Object.keys(serviceName).find(key => serviceName[key] === answer);
         props.name(name);
+        found = props.data.find((item) => item.question == triggerElement);
+        if (typeof found != "undefined") { props.data.splice(found, 1); }
         props.update([...props.data, { 'question': triggerElement, 'answer': answer }]);
         break;
     }
@@ -122,6 +129,9 @@ function StepTwo(props) {
 
   useEffect(() => {
     if (question) {
+      // Εαν υπάρχει ήδη η ερώτηση θα πρέπει να αντικατασταθεί με την καινούρια απάντησ 
+      const found = props.data.find((item) => item.question == question.question);
+      if (typeof found != "undefined") { props.data.splice(found, 1); }
       props.update([...props.data, { 'question': question.question, 'answer': question.answer }]);
     }
 
@@ -245,7 +255,7 @@ function StepThree(props) {
       })
 
     })
-  },[]);
+  }, []);
 
 
   const nextChunck = () => {
@@ -273,7 +283,15 @@ function StepThree(props) {
 
 }
 
-function StepFour() {
+function StepFour(props) {
+  let jsonData  = {};
+  jsonData['domain'] = props.data['domain'];
+  jsonData['service_1'] = props.data['service_1']
+  jsonData['service_2'] = props.data['service_2']
+  jsonData['request'] = 'Company';
+  jsonData['answears']['quest'] = props.data.filter((element) => {if(element.question!='domain' && element.question!= 'service_1' && element.question != 'service2'){ return element.question}});
+  jsonData['answears']['answear'] = props.data.filter((element) => {if(element.question!='domain' && element.question!= 'service_1' && element.question != 'service2'){ return element.answer}});
+  console.log(jsonData);
   return (
     <div>
       <p>Τα στοιχεία σας αποθηκεύτικαν με επιτυχία !</p>

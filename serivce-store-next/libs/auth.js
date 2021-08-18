@@ -14,7 +14,7 @@ import axios from "../pages/api/axiosConfiguration";
  * @param {string} username
  * @param {string} password
  */
-export const loginUser = (username, password) => {
+export const loginUser = (username, password, props) => {
   const credentials = {
     identifier: username,
     password: password,
@@ -26,6 +26,9 @@ export const loginUser = (username, password) => {
         // Set the authentication token as cookie on browser
         Cookie.set("token", response.data.jwt);
         Router.push("/home");
+        const user = response.data.user;
+        props.setUser(user)
+        props.setIsAuthenticated(true);
       }
     })
     .catch(function (error) {

@@ -9,8 +9,8 @@ import axios  from './api/axiosConfiguration';
 import { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap';
 import { faGlobe, faMapMarker, faPhone, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
-
-export default function Profile() {
+import Router from 'next/router';
+export default function Profile(props) {
   const [nameOfCompany, setNameOfCOmpany ]  = useState();
   const [phone, setPhone] = useState();
   const [activity, setActivity] = useState();
@@ -32,8 +32,8 @@ export default function Profile() {
   });
   }, []);
   return (
-    <Layout>
-      <div className="row mt-4">
+    <Layout user={props}>
+      {!props.isAuthenticated && <p>You have to login First</p> ||  <div className="row mt-4">
         <div className="col-4">
           <Innercontainer>
             <div className="p-4">
@@ -109,7 +109,8 @@ export default function Profile() {
             </div>
           </Innercontainer>
         </div>
-      </div>
+      </div>  }
+     
     </Layout >
   )
 }

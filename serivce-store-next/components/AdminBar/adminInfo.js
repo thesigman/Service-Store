@@ -3,21 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAt } from '@fortawesome/free-solid-svg-icons';
 import axios from '../../pages/api/axiosConfiguration'
 import { useEffect, useState } from 'react';
-export default function AdminInfo() {
+export default function AdminInfo(props) {
   const [username, setUserName] = useState('username');
   const [orgname, setOrgName] = useState('orgName');
 
   useEffect(() => {
-    axios.get('/providers')
-  .then(function (response) {
-    setUserName(response.data[0].NameOfCompany);
-    setOrgName(response.data[0].NameOfCompany);
-  }) .catch(function (error) {
-    // Σε περίπτωση που δεν έχει πρόσβαση η υπάρχει error θα προστεθεί εδώ
-  })
-  .then(function () {
-    // always executed
-  });
+    setUserName(props.user.user.username);
+    setOrgName(props.user.user.username);
   },[]);
   return (
     <div className={[styles.adminInfo , 'm-2'].join(' ')}>

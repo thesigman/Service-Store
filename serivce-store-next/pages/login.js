@@ -34,7 +34,7 @@ export default function login(props) {
                   </div> 
                   <p className={[styles.contentmiddle, 'text-danger'].join(' ')} value={messageText}>{messageText}</p>
                   <div className="mt-4">
-                    <button onClick={()=>loginUser(username, password)} className="btn btn-small bg-primary btn-100" >Login</button>
+                    <button onClick={()=>loginUser(username, password, props)} className="btn btn-small bg-primary btn-100" >Login</button>
                   </div>
                   <a href='/reset'>
                     <a className={[styles.contentmiddle , 'text-primary', 'mt-2'].join(' ')}>Forgot your password</a>

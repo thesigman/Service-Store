@@ -9,7 +9,7 @@ import AdminBar from '../components/AdminBar/adminBar'
 import Layout from '../components/Layout/layout'
 import { useState, useEffect } from 'react'
 
-export default function Home() {
+export default function Home(props) {
 
   /**
    * Το state και το effect θα χρησιμοποιηθο΄ύν για την οργάνωση της πληροφορίας
@@ -30,7 +30,7 @@ export default function Home() {
     setDone(4);
     setMessages(5);
 
-  },[]);
+  }, []);
 
   /**
    * TaskCard αποτελείτ την μεγάλη κάρτα που αναπαριστά κάθε κατηγορία 
@@ -40,42 +40,45 @@ export default function Home() {
    */
 
   return (
-    <Layout>
-      <div className="row">
-        <div className="col-3">
-          <TaskCard
-            title="To Do"
-            cardBg="bg-primary"
-            counter={toDOsCount}
-            type="todo"
-          >
-          </TaskCard>
+    <Layout user={props}>
+      {!props.isAuthenticated && <p>You have to login First</p> ||
+        <div className="row">
+          <div className="col-3">
+            <TaskCard
+              title="To Do"
+              cardBg="bg-primary"
+              counter={toDOsCount}
+              type="todo"
+            >
+            </TaskCard>
+          </div>
+          <div className="col-3">
+            <TaskCard
+              title="In progess"
+              cardBg="bg-secondary"
+              counter={inProgressCount}
+              type="progress"
+            ></TaskCard>
+          </div>
+          <div className="col-3">
+            <TaskCard
+              title="Done"
+              cardBg="bg-success"
+              counter={doneCount}
+              type="done"
+            ></TaskCard>
+          </div>
+          <div className="col-3">
+            <TaskCard
+              title="Messages"
+              cardBg="bg-gray"
+              counter={messagesCount}
+              type="message"
+            ></TaskCard>
+          </div>
         </div>
-        <div className="col-3">
-          <TaskCard
-            title="In progess"
-            cardBg="bg-secondary"
-            counter={inProgressCount}
-            type="progress"
-          ></TaskCard>
-        </div>
-        <div className="col-3">
-          <TaskCard
-            title="Done"
-            cardBg="bg-success"
-            counter={doneCount}
-            type="done"
-          ></TaskCard>
-        </div>
-        <div className="col-3">
-          <TaskCard
-            title="Messages"
-            cardBg="bg-gray"
-            counter={messagesCount}
-            type="message"
-          ></TaskCard>
-        </div>
-      </div>
+      }
     </Layout>
+
   )
 }

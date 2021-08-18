@@ -32,15 +32,14 @@ function MyApp({ Component, pageProps }) {
             return null;
           }
           const user = response.data;
-          setUser({'email': user.email, 'id':user.id, 'role': user.role.id.name});
-          setIsAuthenticated[true];
-
+          setUser(response.data);
+          setIsAuthenticated(true);
         }
       );
     }
   }, [token])
 
-  return <Component user={user} setUser={setUser} {...pageProps} />
+  return <Component user={user} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setUser={setUser} {...pageProps} />
 }
 
 export default MyApp

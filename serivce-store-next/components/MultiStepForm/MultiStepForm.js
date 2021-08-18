@@ -23,7 +23,7 @@ export default function MultiStepForm() {
         {page === 1 && <StepOne name={setName} data={data} newPage={newPage} update={setData} />}
         {page === 2 && <StepTwo name={name} dependencies={dependQuest} updateQuest={setDependQuest} newPage={newPage} data={data} update={setData} />}
         {page === 3 && <StepThree name={name} dependencies={dependQuest} newPage={newPage} updateQuest={setDependQuest} data={data} update={setData} />}
-        {page === 4 && <StepFour  data={data} />}
+        {page === 4 && <StepFour data={data} />}
       </div>
     </div>
   )
@@ -284,13 +284,13 @@ function StepThree(props) {
 }
 
 function StepFour(props) {
-  let jsonData  = {};
+  let jsonData = {};
   jsonData['domain'] = props.data['domain'];
   jsonData['service_1'] = props.data['service_1']
   jsonData['service_2'] = props.data['service_2']
   jsonData['request'] = 'Company';
-  jsonData['answears']['quest'] = props.data.filter((element) => {if(element.question!='domain' && element.question!= 'service_1' && element.question != 'service2'){ return element.question}});
-  jsonData['answears']['answear'] = props.data.filter((element) => {if(element.question!='domain' && element.question!= 'service_1' && element.question != 'service2'){ return element.answer}});
+  jsonData['answears']['quest'] = props.data.filter((element) => { if (element.question != 'domain' && element.question != 'service_1' && element.question != 'service2') { return element.question } });
+  jsonData['answears']['answear'] = props.data.filter((element) => { if (element.question != 'domain' && element.question != 'service_1' && element.question != 'service2') { return element.answer } });
   console.log(jsonData);
   return (
     <div>

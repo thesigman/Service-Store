@@ -5,18 +5,20 @@ import styles from '../components/MultiStepForm/form.module.scss'
 import MultiStepForm from "../components/MultiStepForm/MultiStepForm";
 
 
-export default function Questionaire() {
+export default function Questionaire(props) {
   return (
-    <Layout>
-      <div className={['pagecenter'].join(' ')}>
-        <div className={styles.container}>
-          <div>
+    <Layout user={props}>
+      {!props.isAuthenticated && <p>You have to login First</p> ||
+        <div className={['pagecenter'].join(' ')}>
+          <div className={styles.container}>
             <div>
-              <div className={[styles.login].join(' ')}>
-                <div className="container-fluid">
-                  <div className={[styles.formcontentwrapper, 'bg-white', 'col'].join(' ')}>
-                    <div className={[styles.formcontent].join(' ')}>
-                      <MultiStepForm></MultiStepForm>
+              <div>
+                <div className={[styles.login].join(' ')}>
+                  <div className="container-fluid">
+                    <div className={[styles.formcontentwrapper, 'bg-white', 'col'].join(' ')}>
+                      <div className={[styles.formcontent].join(' ')}>
+                        <MultiStepForm></MultiStepForm>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -24,7 +26,7 @@ export default function Questionaire() {
             </div>
           </div>
         </div>
-      </div>
+      }
     </Layout>
   )
 }

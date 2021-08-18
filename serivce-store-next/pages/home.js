@@ -30,7 +30,7 @@ export default function Home() {
     setDone(4);
     setMessages(5);
 
-  });
+  },[]);
 
   /**
    * TaskCard αποτελείτ την μεγάλη κάρτα που αναπαριστά κάθε κατηγορία 

@@ -54,7 +54,7 @@ export default function taskCard(props) {
       ></Card>]
     }
     setItems(items);
-  } );
+  }, [] );
 
   return (
     <div className={[props.cardBg, 'm-2', 'p-2', styles.taskCard].join(' ')}>

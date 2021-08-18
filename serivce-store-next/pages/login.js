@@ -4,11 +4,11 @@ import styles from './login.module.scss';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 import {loginUser} from "../libs/auth";
 
-export default function login() {
+export default function login(props) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [messageText, setMessageText] = useState();
-
+  console.log(props);
   return (
 
     <div className={['pagecenter'].join(' ')}>

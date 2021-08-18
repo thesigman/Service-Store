@@ -10,9 +10,7 @@ function MyApp({ Component, pageProps }) {
   const [token, setToken] = useState();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState([]);
-
-  useEffect(async () => {
-
+  useEffect(() => {
     setToken(Cookie.get("token"));
     if (token) {
       /**
@@ -20,28 +18,29 @@ function MyApp({ Component, pageProps }) {
        * Σε περίπτωση που το token δεν ειναι valid ο χρήστης επιστρέφεται στο Login
        * @param {string} token
        */
-       let config = {
+      let config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
-      console.log("thee");
-      axios.get("/users/me",config).then(
+      axios.get("/users/me", config).then(
         (response) => {
-          if(response.status != 200) {
+          if (response.status != 200) {
             Cookie.remove("token");
             setUser([]);
             Router.push('/login')
             return null;
           }
-          const user = response.userprovider;
-          this.setUser(user);
+          const user = response.data;
+          setUser({'email': user.email, 'id':user.id, 'role': user.role.id.name});
+          setIsAuthenticated[true];
+
         }
       );
     }
-  }, [])
+  }, [token])
 
-  return <Component {...pageProps} />
+  return <Component user={user} setUser={setUser} {...pageProps} />
 }
 
 export default MyApp

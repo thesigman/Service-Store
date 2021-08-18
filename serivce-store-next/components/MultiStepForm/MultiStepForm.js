@@ -24,6 +24,7 @@ export default function MultiStepForm() {
         {page === 2 && <StepTwo name={name} dependencies={dependQuest} updateQuest={setDependQuest} newPage={newPage} data={data} update={setData} />}
         {page === 3 && <StepThree name={name} dependencies={dependQuest} newPage={newPage} updateQuest={setDependQuest} data={data} update={setData} />}
         {page === 4 && <StepFour data={data} />}
+        <Button onClick={newPage}>NExt step</Button>
       </div>
     </div>
   )
@@ -285,13 +286,20 @@ function StepThree(props) {
 
 function StepFour(props) {
   let jsonData = {};
-  jsonData['domain'] = props.data['domain'];
-  jsonData['service_1'] = props.data['service_1']
-  jsonData['service_2'] = props.data['service_2']
-  jsonData['request'] = 'Company';
-  jsonData['answears']['quest'] = props.data.filter((element) => { if (element.question != 'domain' && element.question != 'service_1' && element.question != 'service2') { return element.question } });
-  jsonData['answears']['answear'] = props.data.filter((element) => { if (element.question != 'domain' && element.question != 'service_1' && element.question != 'service2') { return element.answer } });
-  console.log(jsonData);
+  jsonData['domain'] = props.data.find((element) => element.question == 'domain').answer;
+  jsonData['service_1'] = props.data.find((element) => element.question == 'service_1').answer;
+  jsonData['service_2'] = props.data.find((element) => element.question == 'service_2').answer;
+  jsonData['requester'] = 'Company';
+  jsonData['answears'] = {'quest' : props.data.filter(x => x.question != 'domain' && x.question != 'service_1' && x.question != 'service_2' ).map(x => x.question), 'answear' : props.data.filter(x => x.question != 'domain' && x.question != 'service_1' && x.question != 'service_2' ).map(x => x.answer)}
+  const final_data =JSON.stringify(jsonData);
+  console.log(final_data);
+  axios.post('/requests', final_data).then((response) =>{
+    if(response.status = 200) {
+        console.log('Successfully Sent')
+    }
+  }
+    
+  )
   return (
     <div>
       <p>Τα στοιχεία σας αποθηκεύτικαν με επιτυχία !</p>

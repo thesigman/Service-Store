@@ -24,8 +24,8 @@ export default function MultiStepForm() {
         {page === 2 && <StepTwo name={name} dependencies={dependQuest} updateQuest={setDependQuest} newPage={newPage} data={data} update={setData} />}
         {page === 3 && <StepThree name={name} dependencies={dependQuest} newPage={newPage} updateQuest={setDependQuest} data={data} update={setData} />}
         {page === 4 && <StepFour data={data} />}
-        <Button onClick={newPage}>NExt step</Button>
       </div>
+      <Button onClick={newPage}>NExt</Button>
     </div>
   )
 }
@@ -291,6 +291,12 @@ function StepFour(props) {
   jsonData['service_2'] = props.data.find((element) => element.question == 'service_2').answer;
   jsonData['requester'] = 'Company';
   jsonData['answears'] = {'quest' : props.data.filter(x => x.question != 'domain' && x.question != 'service_1' && x.question != 'service_2' ).map(x => x.question), 'answear' : props.data.filter(x => x.question != 'domain' && x.question != 'service_1' && x.question != 'service_2' ).map(x => x.answer)}
+  jsonData['published_at'] = new Date();
+  jsonData['updatedAt'] = new Date();
+  jsonData['status'] = 'Open';
+  jsonData['name'] = uuidv4();
+
+
   const final_data =JSON.stringify(jsonData);
   console.log(final_data);
   axios.post('/requests', final_data).then((response) =>{

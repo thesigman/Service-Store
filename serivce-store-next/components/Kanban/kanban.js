@@ -15,6 +15,7 @@ export default function Kanban(props) {
     'border-radius': '6px',
 
   }
+
   const data = {
     lanes: [
       {

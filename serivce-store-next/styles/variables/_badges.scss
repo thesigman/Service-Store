@@ -1,6 +1,7 @@
-@import "./colors";
+@import './colors';
 
 .badge {
+
   &.badge-primary {
     background-color: $primaryColor;
   }
@@ -13,7 +14,8 @@
     background-color: $successColor;
   }
 
-  &.badge-danger {
+  &.badge-danger{
     background-color: $dangerColor;
   }
+
 }

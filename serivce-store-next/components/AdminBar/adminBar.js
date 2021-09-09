@@ -4,7 +4,7 @@ import AdminInfo from './adminInfo';
 import { useState, useEffect } from 'react';
 
 
-export default function AdminBar() {
+export default function AdminBar(props) {
   const [adminBarItem, setAdminBarItems] = useState([])
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function AdminBar() {
       {
         'icon': 'faProjectDiagram',
         'title': 'Projects',
-        'uri' : '/projects'
+        'uri' : '/questionaire'
       },
 
       {
@@ -63,7 +63,7 @@ export default function AdminBar() {
 
   return (
     <div className={[styles.adminBar, 'p-2'].join(' ')}>
-      <AdminInfo></AdminInfo>
+      <AdminInfo user={props.user}></AdminInfo>
       <hr></hr>
       {adminBarItem}
     </div>

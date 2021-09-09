@@ -4,12 +4,13 @@
 @import "./variables/buttons";
 @import "./variables/backgrounds";
 @import "./variables/badges";
+@import "./variables/landing";
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
   font-size: 16px !important;
   line-height: 140% !important;
   color: $textPrimary !important;
@@ -33,4 +34,65 @@ body {
   border: 0.5px solid gray;
   border-radius: 6px;
   background-color: #ffff;
+}
+
+// Default κλάση της next-js για empty pages 
+// Για κάποιο λογο πάει το height στο 50%
+#__next {
+  height: 100%;
+}
+
+.text-bold {
+  font-weight: 700 !important;
+}
+
+.font-24 {
+  font-size: 24px;
+  line-height: 36px;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: $primaryColor;
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid $primaryColor;
+}
+
+.separator:not(:empty)::before {
+  margin-right: 0.25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: 0.25em;
+}
+
+.pagecenter {
+  display: table;
+  height: 100%;
+  width: 100%;
+
+  > div {
+    display: table-row;
+    height: 100%;
+
+    > div {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+}
+
+// Χρησιμεύει στη χρήση fa-icons σε input με placeholder
+.faIcon {
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
 }

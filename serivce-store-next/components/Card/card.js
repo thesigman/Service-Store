@@ -12,7 +12,7 @@ export default function Card(props) {
         </div>
         <div>
           <span className="badge badge-primary m-2">badge 1</span>
-          <span className="badge badge-secondary m-2">badge 2</span>
+          <span className="badge badge-success m-2">badge 2</span>
         </div>
       </div>
     </div>

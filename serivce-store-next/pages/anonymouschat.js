@@ -186,7 +186,7 @@ class AnonymousChat extends Component {
         <Head>
           <title>Chatroom</title>
         </Head>
-        {/* <Layout> */}
+        <Layout user={this.props}>
         <div className="row mt-2">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
@@ -241,7 +241,7 @@ class AnonymousChat extends Component {
           </div>
         </div>
 
-        {/* </Layout> */}
+        </Layout>
       </>
     );
   }

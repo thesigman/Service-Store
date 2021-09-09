@@ -1,0 +1,20 @@
+
+.logo {
+  display: block;
+    width: 15%;
+    height: auto;
+    opacity: 0.6;
+}
+
+.servicetitle {
+  display: block;
+}
+
+.services{
+  display: inline-block;
+  margin:auto;
+}
+.service-header{
+  display: block;
+  margin: auto;
+}

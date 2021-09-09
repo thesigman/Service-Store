@@ -188,8 +188,8 @@ class Providers extends Component {
   };
   render() {
     return (
-      // <Layout>
-      <Fragment>
+      <Layout user={this.props}>
+      {/* //<Fragment> */}
         <div className="row">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
@@ -260,8 +260,8 @@ class Providers extends Component {
             </div>
           </div>
         </div>
-        {/* </Layout> */}
-      </Fragment>
+      {/* </Fragment> */}
+      </Layout>
     );
   }
 }

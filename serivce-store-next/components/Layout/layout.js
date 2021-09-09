@@ -6,7 +6,7 @@ const Layout = props => (
     <NavigationBar></NavigationBar>
     <div className="row h-100">
       <div className={['col-2', styles.adminCol].join(' ')}>
-        <AdminBar />
+        <AdminBar user={props.user}/>
       </div>
       <div className="col">
         {props.children}

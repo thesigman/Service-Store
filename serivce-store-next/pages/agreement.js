@@ -108,8 +108,8 @@ class Agreement extends Component {
   render() {
     moment.locale("el");
     return (
-      <Fragment>
-        {/* <Layout> */}
+      // <Fragment>
+        <Layout user={this.props}>
         {/* <div className="row">
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
@@ -184,8 +184,8 @@ class Agreement extends Component {
           </div>
         </div>
         {/* <AgreementForm /> */}
-      </Fragment>
-      //{/* </Layout> */}
+      {/* </Fragment> */}
+      </Layout>
     );
   }
 }

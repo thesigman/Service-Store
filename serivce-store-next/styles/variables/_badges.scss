@@ -1,0 +1,19 @@
+@import "./colors";
+
+.badge {
+  &.badge-primary {
+    background-color: $primaryColor;
+  }
+
+  &.badge-secondary {
+    background-color: $secondaryColor;
+  }
+
+  &.badge-success {
+    background-color: $successColor;
+  }
+
+  &.badge-danger {
+    background-color: $dangerColor;
+  }
+}

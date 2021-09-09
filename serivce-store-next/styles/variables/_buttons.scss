@@ -1,0 +1,192 @@
+body .btn {
+  width: auto;
+  height: 56px;
+  border-radius: 10px;
+  border-style: none;
+  font-size: 18px;
+  color: #fff;
+  font-weight: 700;
+  // :hover {
+  //   background-color: #2a87ce
+  // }
+}
+// body .btn-secondary {
+//   width: auto;
+//   height: 56px;
+//   border-radius: 10px;
+//   border: 0.5px solid;
+//   font-size: 18px;
+//   color: #fff;
+//   font-weight: 700;
+//   background-color: #fff;
+// }
+
+body .btn-small {
+  width: auto;
+  height: 44px;
+  border-radius: 10px;
+  border-style: none;
+  font-size: 18px;
+  color: #fff !important;
+  font-weight: 700;
+  // :hover {
+  //   background-color: #2a87ce
+  // }
+}
+body .btn-small-secondary {
+  width: auto;
+  height: 36px;
+  border-radius: 10px;
+  border: 0.5px solid;
+  border-style: none;
+  font-size: 18px;
+  color: $primaryColor !important;
+  background-color: #fff !important;
+  font-weight: 700;
+}
+
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 14px 20px;
+
+//   &.btn-primary {
+//     /* Primary P100 */
+//     background: $primaryColor;
+//     border-radius: 6px;
+//   }
+
+//   &.btn-success {
+//     background-color: $successColor;
+//     border-radius: 6px;
+//   }
+// }
+
+// body .btn-primary {
+//   /* @uikit-component-button-largeprimary */
+
+//   /* Auto Layout */
+
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 14px 20px;
+
+//   /* Primary P100 */
+//   background: #6aade1;
+//   border-radius: 6px;
+// }
+
+// body .btn-primary:hover {
+//   background: #2a87ce;
+// }
+// body .btn-primary:active {
+//   background: #1c5a8a;
+// }
+
+// body .btn-primary:disabled {
+//   /* Grey 40 */
+//   background: #eeeeee;
+//   border-radius: 10px;
+//   color: #b6b4b5;
+// }
+
+body .btn-secondary {
+  /* Auto Layout */
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 20px;
+
+  /* White */
+
+  background: #ffffff;
+  /* Primary P100 */
+
+  border: 1px solid #6aade1;
+  box-sizing: border-box;
+  border-radius: 10px;
+
+  //text
+  /* Button 1 - (Bold 18) */
+
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 120%;
+  /* identical to box height, or 22px */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  /* Primary P100 */
+  color: #6aade1;
+}
+body .btn-secondary:hover {
+  background-color: #fff;
+  color: #2a87ce;
+  border: 1px solid #2a87ce;
+}
+body .btn-secondary:focus {
+  background-color: #fff;
+  color: #1c5a8a;
+  border: 1px solid #1c5a8a;
+}
+
+body .btn-icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+
+  width: 44px;
+  height: 44px;
+
+  /* Primary P100 */
+
+  background: #2a87ce;
+  border-radius: 10px;
+}
+body .btn-small {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 20px;
+
+  width: auto;
+  height: 36 !important;
+  /* White */
+
+  background: #ffffff;
+  /* Primary P100 */
+
+  border: 1px solid #6aade1;
+  box-sizing: border-box;
+  border-radius: 10px;
+
+  //text
+  /* Button 1 - (Bold 18) */
+
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 120%;
+  /* identical to box height, or 22px */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  /* Primary P100 */
+  color: #6aade1;
+  &.btn-primary {
+    background: $primaryColor;
+    border-radius: 6px;
+  }
+}

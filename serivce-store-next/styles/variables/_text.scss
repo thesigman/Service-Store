@@ -1,0 +1,51 @@
+@import "./colors";
+body h1 {
+  font-size: 48px;
+  line-height: 140%;
+  font-weight: 700;
+}
+
+body h2 {
+  font-size: 36px;
+  line-height: 140%;
+  font-weight: 700;
+}
+
+body h3 {
+  font-size: 28px;
+  line-height: 140%;
+  font-weight: 400;
+}
+
+body h4 {
+  font-weight: 20px;
+  line-height: 140%;
+  font-weight: 400;
+}
+
+body h5 {
+  font-size: 18px;
+  line-height: 140%;
+  font-weight: 300px;
+}
+
+/* Text */
+body .text-primary {
+  color: $primaryColor !important;
+}
+
+body .text-secondary {
+  color: $secondaryColor !important;
+}
+
+body .text-success {
+  color: $successColor !important;
+}
+
+body .text-danger {
+  color: $dangerColor !important;
+}
+
+body .text-gray {
+  color: $textGray !important;
+}

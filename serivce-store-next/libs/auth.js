@@ -15,20 +15,22 @@ import axios from "../pages/api/axiosConfiguration";
  * @param {string} password
  */
 export const loginUser = (username, password, props) => {
+
   const credentials = {
     identifier: username,
     password: password,
   };
+  
   axios
     .post("/auth/local", credentials)
     .then(function (response) {
       if (response.status == 200) {
         // Set the authentication token as cookie on browser
         Cookie.set("token", response.data.jwt);
-        Router.push("/home");
         const user = response.data.user;
         props.setUser(user)
         props.setIsAuthenticated(true);
+        Router.push("/home");
       }
     })
     .catch(function (error) {

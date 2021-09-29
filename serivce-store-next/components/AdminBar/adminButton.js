@@ -13,8 +13,6 @@ export default function AdminButton(props) {
           <b className="text-white"> <Link href={props.uri}><a className="text-white">{props.title}</a></Link></b>
         </div>
       </div>
-
-
     </button>
   )
 }

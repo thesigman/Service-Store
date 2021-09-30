@@ -9,7 +9,7 @@ export default function AdminInfo(props) {
 
   useEffect(() => {
     setUserName(props.user.user.username);
-    setOrgName(props.user.user.username);
+    setOrgName(props.user.user.NameOfCompany);
   },[]);
   return (
     <div className={[styles.adminInfo , 'm-2'].join(' ')}>

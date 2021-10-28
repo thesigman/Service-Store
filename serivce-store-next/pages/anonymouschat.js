@@ -7,8 +7,9 @@ import AnonymousChatTitle from "../components/Title/anonymousChatTitle.jsx";
 import QuestionSideCard from "../components/Card/questionSideCard.jsx";
 import { devteam2 } from "./api/axiosConfiguration";
 import socket from "socket.io-client";
-const sock = socket.io("http://localhost:5550");
+const sock = socket.io("http://islab-thesis.aegean.gr:5550/trans");
 import style from "../components/LeftBar/box.module.scss";
+import axios from 'axios';
 
 class AnonymousChat extends Component {
   state = {
@@ -20,6 +21,7 @@ class AnonymousChat extends Component {
     created: [],
     currentid: "",
     user: {},
+    requestid: "",
   };
 
   constructor(props) {
@@ -28,19 +30,15 @@ class AnonymousChat extends Component {
 
   componentDidMount() {
     //plain javascript
-    // const urlSearchParams = new URLSearchParams(window.location.search);
-    // const params = Object.fromEntries(urlSearchParams.entries());
-    // const requestId = params.requestId ?? "";
-    // if (requestId == "") {
-    //   return;
-    // }
-    //
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+    this.setState({requestid: params.requestId});
     this.setState({
       user: JSON.parse(window.sessionStorage.getItem("application_user")),
     });
     devteam2
       .post("/anonymousmessages/", {
-        id: "611a7981fd554e07fc12fc4a",
+        id: params.requestId,
       })
       .then(
         (response) => {
@@ -64,8 +62,8 @@ class AnonymousChat extends Component {
 
   handleOffer = (offer) => {
     // offer["requestid"] = "6102af2b7b7e6aee3e1922ac";
-    offer["requestid"] = "61260b4ae1249539241b0823";
-    offer["provider"] = "61018436ec74ca45f8c8e3ee";
+    offer["requestid"] = "617ae6ec4f8b86975ff5d96c";
+    offer["provider"] = this.state.user.id;
 
     devteam2.post("/offers/", { offer: offer }).then(
       (response) => {
@@ -92,14 +90,20 @@ class AnonymousChat extends Component {
   }
 
   handleMessage = (m) => {
-    let o = {
-      msg: m,
-      senderId: this.state.user.id,
-      _id: this.state.currentid,
-      requestid: "611a7981fd554e07fc12fc4a",
-    };
-    console.log("eimai sto anonymouschat", o);
-    sock.emit("anonymouschatmessage", o);
+
+    try {
+      let o = {
+        msg: m,
+        senderId: this.state.user.id,
+        _id: this.state.currentid,
+        requestid: this.state.requestid,
+      };
+      console.log("eimai sto anonymouschat", o);
+      sock.emit("anonymouschatmessage", o);
+    } catch (error) {
+      console.log(error);
+    }
+    
     // sock.on("message", (m) => {
     //   console.log(m);
     //   // appendMessages(`${data.message} created: ${data.created}`);
@@ -118,10 +122,10 @@ class AnonymousChat extends Component {
   handleQuestion = (question) => {
     console.log("eimai sto anonymous chat222", question);
 
-    devteam2
-      .post("http://localhost:5550/api/anonymousmessages/id/", {
+    axios
+      .post("http://islab-thesis.aegean.gr:82/trans/api/anonymousmessages/id/", {
         id: question._id,
-        requestid: "611a7981fd554e07fc12fc4a",
+        requestid: this.state.requestid,
       })
       .then(
         (response) => {
@@ -175,10 +179,10 @@ class AnonymousChat extends Component {
   };
 
   handleAnswered = () => {
-    devteam2
-      .post("/anonymousmessages/answered", {
+    axios
+      .post("http://islab-thesis.aegean.gr:82/trans/api/anonymousmessages/answered", {
         questionId: this.state.currentid,
-        requestid: "611a7981fd554e07fc12fc4a",
+        requestid: this.state.requestid,
       })
       .then(
         (response) => {

@@ -13,7 +13,7 @@ const instance = axios.create({
   baseURL: "http://islab-thesis.aegean.gr:82/api",
 });
 const devteam2 = axios.create({
-  baseURL: "http://localhost:5550/api",
+  baseURL: "http://islab-thesis.aegean.gr:82/trans/api",
 });
 
 export { instance, devteam2 };

@@ -4,7 +4,7 @@ import AdminInfo from './adminInfo';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import { faCog, faPaperPlane, faHome, faEdit, faUserCircle, faProjectDiagram, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCog, faPaperPlane, faHome, faEdit, faUserCircle, faProjectDiagram, faSignOutAlt, faWallet } from '@fortawesome/free-solid-svg-icons';
 
 export default function AdminBar(props) {
   return (
@@ -48,7 +48,17 @@ export default function AdminBar(props) {
             <FontAwesomeIcon icon={faUserCircle} className="text-white" ></FontAwesomeIcon>
           </div>
           <div className="col-6">
-            <b className="text-white"> <Link href="/"><a className="text-white">Προφιλ</a></Link></b>
+            <b className="text-white"> <Link href="/profile"><a className="text-white">Προφιλ</a></Link></b>
+          </div>
+        </div>
+      </button>
+      <button className={[styles.adminButton, 'm-2'].join(' ')}>
+        <div className="row ">
+          <div className="col-2">
+            <FontAwesomeIcon icon={faWallet} className="text-white" ></FontAwesomeIcon>
+          </div>
+          <div className="col-6">
+            <b className="text-white"> <Link href="/ewallet"><a className="text-white">E-πορτοφόλι</a></Link></b>
           </div>
         </div>
       </button>

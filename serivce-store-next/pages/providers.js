@@ -37,8 +37,8 @@ class Providers extends Component {
 
     devteam2
       .post("/requests/cid/", {
-        cid: "61017675b47117629c1a8b67",
-        // cid: this.state.user.id,
+        //cid: "61017675b47117629c1a8b67",
+         cid: this.state.user.id,
       })
       .then(
         (response) => {
@@ -53,6 +53,7 @@ class Providers extends Component {
             })
             .then(
               (response) => {
+                console.log(response);
                 this.setState({ offers: response.data[0] });
                 this.setState({ providers: response.data[1] });
               },

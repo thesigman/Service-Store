@@ -19,7 +19,8 @@ const AnonymousChatTitle = (props) => {
     handleOffer,
     handleAnswered,
   } = props;
-  const delay = 172800000;
+  //const delay = 172800000;
+  const delay = 1000000;
   const [modalIsOpen, setIsOpen] = useState(false);
   const customStyles = {
     content: {

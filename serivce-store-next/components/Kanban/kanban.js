@@ -20,11 +20,14 @@ export default function Kanban(props) {
     'border-radius': '6px',
   }
 
+  // Φόρτωστη των request που έχει πραγματοποιήσει ο χρήσητς ως πελάτης
+  const active_user = JSON.parse(window.sessionStorage.getItem("application_user"));
+
   const data2 = {
     lanes: [
       {
-        id: 'Requests',
-        title: 'To Do',
+        id: (active_user.role == "provider") ? 'Provider Requests' : 'Requests',
+        title: (active_user.role == "provider") ? 'Πρότάσεις που σας αφορούν' : 'Εκκρεμείς Προτάσεις',
         cardStyle: cardStyle,
         style: {
           'border-radius': '6px',
@@ -36,7 +39,7 @@ export default function Kanban(props) {
         },
         cards: data,
         onCardClick(cardId, metadata, laneId) {
-          Router.push({pathname : '/anonymouschat', query: {requestId: cardId}});
+          Router.push({ pathname: '/anonymouschat', query: { requestId: cardId } });
         }
       },
       {
@@ -90,16 +93,13 @@ export default function Kanban(props) {
 
   useEffect(async () => {
 
-    // Φόρτωστη των request που έχει πραγματοποιήσει ο χρήσητς ως πελάτης
-    const active_user = JSON.parse(window.sessionStorage.getItem("application_user"));
-    let endpoint = "cid";
-    if (active_user.role == "provider") { endpoint = "id" }
     if (active_user == null) { return; }
-    const response = await axios.post('http://islab-thesis.aegean.gr:82/trans/api/requests/cid', { cid: active_user.id });
+    const response = await axios.post(`http://islab-thesis.aegean.gr:82/trans/api/requests/uid`, { uid: active_user.id, role: active_user.role });
 
     // Κατασεκευή των καρτών 
     let cards = [];
     response.data.forEach(request => {
+
       cards.push({
         'id': request._id,
         'title': request.domain,

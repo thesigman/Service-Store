@@ -1,8 +1,7 @@
 import { Component, Fragment } from "react";
 import Head from "next/head";
-import axios from "axios";
+import { devteam2 } from "./api/axiosConfiguration";
 import "bootstrap/dist/css/bootstrap.css";
-import AgreementForm from "../components/Forms/agreementForm";
 import styles from "../components/ChatRoom/chatroom.module.scss";
 import style from "../components/LeftBar/box.module.scss";
 import ArticleSideCard from "../components/Card/articleSideCard";
@@ -10,75 +9,68 @@ import AgreementTitle from "../components/Title/agreementTitle";
 import { EditText, EditTextarea } from "react-edit-text";
 import Layout from "../components/Layout/layout";
 import moment from "moment";
+
 class Agreement extends Component {
   state = {
     requests: [],
     articles: [],
-    titles: [],
-    description: [],
+    title: "",
+    description: "",
     article: [],
-    services: "",
-    duration: "",
-    dur: "",
-    numofservices: "",
+    splitted: [],
+    accepted: Boolean,
+    keywords: [],
+    user: {},
   };
+
   constructor(props) {
     super(props);
   }
-  // componentDidMount() {
-  //   axios.get("http://localhost:5550/api/articles/").then(
-  //     (response) => {
-  //       // console.log(response);
-  //       console.log(response.data);
-  //       console.log(response.status);
-  //       console.log(response.statusText);
-  //       // console.log(response.headers);
-  //       // console.log(response.config);
-  //       // this.setState({ providers: response.data });
-  //       this.setState({ articles: response.data });
-  //       this.setState({ titles: response.data[0].name });
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
+
   componentDidMount() {
-    axios
-      .post("http://localhost:5550/api/articles/offerid", {
+    console.log(JSON.parse(window.sessionStorage.getItem("offerid")));
+    this.setState({
+      user: JSON.parse(window.sessionStorage.getItem("application_user")),
+    });
+    devteam2
+      .post("/articles/offerid", {
         offerid: "6123c934172d021ef07070ee",
       })
       .then(
         (response) => {
-          // console.log(response);
           console.log(response.data);
-          console.log(response.status);
-          console.log(response.statusText);
-          // console.log(response.headers);
-          // console.log(response.config);
-          // console.log(response.data[0][1]);
           let articles = [];
           let article = [];
           for (let a in response.data[0].articles) {
             articles.push(response.data[0].articles[a]);
+            response.data[0].articles[a].keywords.forEach((keyword) =>
+              this.state.keywords?.push(keyword)
+            );
+            // this.state.keywords?.push(response.data[0].articles[a].keywords);
+            // console.log("response", response.data[0].articles[a].keywords);
           }
-          for (let element in response.data[0].articles["article1"]) {
-            article.push(response.data[0].articles["article1"][element]);
-          }
-          console.log(article);
+          // for (let element in response.data[0].articles["article0"]) {
+          //   article.push(response.data[0].articles["article0"][element]);
+          // }
+          // console.log(article);
           this.setState({ articles });
-          this.setState({ article });
 
-          console.log("arti", this.state.articles[0].name);
-          this.setState({ article: response.data[0].articles["article1"] });
-          // console.log(response.data[0]._id);
-          // console.log(response.data[0].articles.article1);
-          // this.setState({ articles: response.data[0].articles[0] });
-          // console.log(this.state.articles);
-          // this.setState({ article: response.data[0] });
-          this.setState({ titles: response.data[0].articles.article1.name });
+          let parts = this.state.articles[0].text.split(/(\bergolavia+\b)/gi);
+          // let parts = this.state.articles[0].text.split(regexList[0]);
+
+          this.setState({ splitted: parts });
+          this.setState({ article: response.data[0].articles["article0"] });
+
+          this.setState({ article: response.data[0].articles["article0"] });
+          this.setState({ title: response.data[0].articles.article0.name });
           this.setState({
-            description: response.data[0].articles.article1.title,
+            accepted:
+              this.state.user.role === "client"
+                ? response.data[0].articles.article0.clientAccept
+                : response.data[0].articles.article0.providerAccept,
+          });
+          this.setState({
+            description: response.data[0].articles.article0.title,
           });
         },
         (error) => {
@@ -86,17 +78,50 @@ class Agreement extends Component {
         }
       );
   }
+
+  handleArticle = (articleNumber) => {
+    // const regexList = [
+    //   /(\bproviderServices+\b)/gi,
+    //   /(\bduration+\b)/gi,
+    //   /(\bergolavia+\b)/gi,
+    //   /(\bdate+\b)/gi,
+    // ];
+    const regexList = this.state.articles[articleNumber]?.keywords;
+
+    // console.log(new RegExp(`(\\b${regexList[0]}+\\b)`, "gi"));
+    let parts = this.state.articles[articleNumber].text.split(
+      // "(\bproviderServices+\b)
+      new RegExp(`(\\b${regexList[0]}+\\b)`, "gi")
+    );
+
+    regexList.forEach((regex, index) => {
+      if (index >= 1) {
+        let t = parts[parts.length - 1].split(
+          new RegExp(`(\\b${regex}+\\b)`, "gi")
+        );
+        parts.splice(parts.length - 1, 1);
+        t.forEach((element) => parts.push(element));
+      }
+    });
+
+    this.setState({ splitted: parts });
+    this.setState({ article: this.state.articles[articleNumber] });
+    this.setState({ title: this.state.articles[articleNumber].name });
+    this.setState({
+      description: this.state.articles[articleNumber].title,
+    });
+    this.setState({
+      accepted:
+        this.state.user.role === "client"
+          ? this.state.articles[articleNumber].clientAccept
+          : this.state.articles[articleNumber].providerAccept,
+    });
+    // }
+  };
+
   handleSave = (value) => {
-    // console.log(value);
-    // console.log(value.value);
-    // console.log(value.name);
-
     this.setState({ [value.name]: value.value });
-    console.log("state", this.state.services);
-    console.log("state", this.state.duration);
-    console.log("state", this.state.dur);
-    console.log("state", this.state.numofservices);
-
+    console.log([value.name], value.value);
     // console.log(value.previousValue);
   };
   saveAgreement = () => {
@@ -105,87 +130,124 @@ class Agreement extends Component {
     console.log("dur", this.state.dur);
     console.log("numofservices", this.state.numofservices);
   };
+  handleAccepted = () => {
+    devteam2
+      .post("/articles/accepted", {
+        number: this.state.article.number,
+        offerid: "6123c934172d021ef07070ee",
+        userid:
+          this.state.user.role === "client" ? "clientAccept" : "providerAccept",
+      })
+      .then(
+        (response) => {
+          const newArticles = [...this.state.articles];
+          let foundIndex = newArticles.findIndex(
+            (article) => article.number === response.data.number
+          );
+          newArticles[foundIndex] = response.data;
+          this.setState({ articles: newArticles });
+          this.setState({
+            accepted:
+              this.state.user.role === "client"
+                ? response.data.clientAccept
+                : response.data.providerAccept,
+          });
+          if (this.state.article.number === response.data.number) {
+            this.setState({ article: response.data });
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
   render() {
+    let ph = "";
     moment.locale("el");
+
     return (
-      // <Fragment>
-        <Layout user={this.props}>
-        {/* <div className="row">
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item">
-                <a href="#">Αρχική</a>
-              </li>
-              <li className="breadcrumb-item active" aria-current="page">
-                Σύμβαση Παροχής
-              </li>
-            </ol>
-          </nav>
-        </div> */}
+      <>
         <Head>
           <title>Σύμβαση</title>
         </Head>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-sm-3 align-self-center">
-              <h2>Σύμβαση παροχής υπηρεσιών</h2>
-            </div>
-            <div className="col-sm-9">
-              <AgreementTitle
-                title={this.state.titles}
-                description={this.state.description}
-                saveAgreement={this.saveAgreement}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="container-fluid">
-          <div className="row">
-            {/* <Box requests={this.state.requests} /> */}
-            <div className={[style.box, "col-sm-3 bg-primary"].join(" ")}>
-              {this.state.articles.map((article) => (
-                <ArticleSideCard
-                  key={this.state.articles.indexOf(article)}
-                  article={article}
-                  // afm={provider.AFM}
-                  // index={this.state.providers.indexOf(provider)}
-                ></ArticleSideCard>
-              ))}
-            </div>
-
-            <div className="col-sm-9">
-              {/* <Cards providers={this.state.providers} /> */}
-              <div className={[styles.container, " overflow-auto"].join(" ")}>
-                {this.state.articles.map((article) => (
-                  <div style={{ whiteSpace: "wrap" }}>
-                    <label className="mr-2">{article.text}</label>
-                    <br></br>
-                    <EditText
-                      id="services"
-                      name="services"
-                      placeholder="εργασίες/υπηρεσίες"
-                      inline
-                      style={{ width: "500px" }}
-                      onSave={this.handleSave}
-                    />
-                    {/* <label className="mr-2">
-                    σήμερα, την {moment().format("dddd")}{" "}
-                    {moment().format("LL")}, μεταξύ των κάτωθι συμβαλλομένων:
-                  </label> */}{" "}
-                    <br></br>
-                    <label className="mr-2">{article.text1}</label>
-                    <label className="mr-2">{article.text2}</label>
-                    <label className="mr-2">{article.text3}</label>
-                    <label className="mr-2">{article.text4}</label>
+        <Layout user={this.props}>
+          {(!this.props.isAuthenticated && <p>You have to login First</p>) || (
+            <>
+              {this.state.user.id}
+              {this.state.user.role}
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col-sm-3 align-self-center">
+                    <h2>Σύμβαση παροχής υπηρεσιών</h2>
                   </div>
-                ))}
+                  <div className="col-sm-9">
+                    <AgreementTitle
+                      title={this.state.title}
+                      description={this.state.description}
+                      saveAgreement={this.saveAgreement}
+                      accepted={this.state.accepted}
+                      handleAccepted={this.handleAccepted}
+                      index={this.state.article["number"]}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-        {/* <AgreementForm /> */}
-      {/* </Fragment> */}
-      </Layout>
+              <div className="container-fluid">
+                <div className="row">
+                  {/* <Box requests={this.state.requests} /> */}
+                  <div className={[style.box, "col-sm-3 bg-primary"].join(" ")}>
+                    {this.state.articles.map((article) => (
+                      <ArticleSideCard
+                        key={this.state.articles.indexOf(article)}
+                        article={article}
+                        onCardSelect={this.handleArticle}
+                        // index={this.state.providers.indexOf(provider)}
+                      ></ArticleSideCard>
+                    ))}
+                  </div>
+
+                  <div className="col-sm-9">
+                    <div
+                      className={[
+                        styles.container,
+                        " overflow-auto",
+                        "p-2",
+                      ].join(" ")}
+                    >
+                      {this.state.splitted.map((part) => {
+                        if (!this.state.keywords.includes(part)) {
+                          return (
+                            <h5 key={this.state.splitted.indexOf(part)}>
+                              {" "}
+                              {part}
+                            </h5>
+                          );
+                        } else {
+                          if (part === "date") {
+                            ph = "διαρκεια";
+                          }
+                          return (
+                            <div style={{ whiteSpace: "wrap" }}>
+                              <EditText
+                                id={part}
+                                name={part}
+                                placeholder={"sumplhrwste"}
+                                inline
+                                style={{ width: "500px" }}
+                                onSave={this.handleSave}
+                              />
+                            </div>
+                          );
+                        }
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </Layout>
+      </>
     );
   }
 }

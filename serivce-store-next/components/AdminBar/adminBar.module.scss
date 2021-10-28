@@ -1,4 +1,4 @@
-@import '../../styles/variables/colors';
+@import "../../styles/variables/colors";
 .adminBar {
   background-color: $secondaryGreenColor !important;
   min-height: 100%;
@@ -6,15 +6,14 @@
 }
 
 .adminButton {
-  background-color:inherit;
+  background-color: inherit;
   border-radius: 6px;
   text-align: center;
   border-style: none;
 }
 
-.adminInfo{
-  background-color: #fff  !important;
+.adminInfo {
+  background-color: #fff !important;
   box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 6px;
 }
-

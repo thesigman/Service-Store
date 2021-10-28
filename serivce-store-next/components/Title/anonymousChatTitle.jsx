@@ -1,16 +1,24 @@
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
-import Switch from "../Switch/switch";
 import Countdown from "react-countdown";
 import OfferForm from "../Forms/offerForm";
+import Toggle from "react-toggle";
+import "react-toggle/style.css";
+import { zeroPad } from "react-countdown";
 
 const AnonymousChatTitle = (props) => {
   function handleChange() {
     console.log("hi Change");
   }
-
-  const { index, description, answered, created, nextQuestion, handleOffer } =
-    props;
+  const {
+    index,
+    description,
+    answered,
+    created,
+    nextQuestion,
+    handleOffer,
+    handleAnswered,
+  } = props;
   const delay = 172800000;
   const [modalIsOpen, setIsOpen] = useState(false);
   const customStyles = {
@@ -38,9 +46,6 @@ const AnonymousChatTitle = (props) => {
   function closeModal() {
     setIsOpen(false);
   }
-  // useEffect(() => {
-  //   setIsOpen(false);
-  // }, []);
 
   const isCompleted = () => {
     console.log("ended");
@@ -58,14 +63,15 @@ const AnonymousChatTitle = (props) => {
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
       // Render a completed state
-      return <Completionist />;
+      return <Completionist htmlFor={index} />;
     } else {
       // Render a countdown
       return (
         <h3>
-          Χρόνος που απομένει{" "}
+          Χρόνος που απομένει:{" "}
           <strong>
-            {days}:{hours}:{minutes}:{seconds}
+            {days} μέρες {zeroPad(hours, 2)}:{zeroPad(minutes, 2)}':
+            {zeroPad(seconds, 2)}"
           </strong>
         </h3>
       );
@@ -74,60 +80,55 @@ const AnonymousChatTitle = (props) => {
 
   return (
     <>
-      <div className="row justify-content-end">
+      {/* <div className="row justify-content-end">
         <button className="btn bg-success m-2">Κατάθεση Πρότασης</button>
-      </div>
+      </div> */}
       <div className="row justify-content-between">
         <div className="col-3">
           <h2>Ερώτηση {index + 1}</h2>
         </div>
-        <div className="col align-self-center">
-          <Switch
-            // onChange={this.handleChange}
-            label={"απαντήθηκε"}
-            // checked={true}
-            answered={answered}
-            // checked={answered}
-          />
-        </div>
-        <div className="col-5 align-self-center">
-          {/* <h3>
-              Χρόνος που απομένει:
-              <strong> */}
-          <Countdown
-            date={created + delay}
-            onComplete={isCompleted}
-            renderer={renderer}
-          >
-            {/* <Completionist /> */}
-          </Countdown>
-          {/* </strong>
-            </h3> */}
-        </div>
+        {props.userrole === "provider" && (
+          <>
+            <div className="col align-self-center">
+              <Toggle
+                id={(index + 1).toString()}
+                checked={answered}
+                value="yes"
+                onChange={handleAnswered}
+              />
+              <label htmlFor={(index + 1).toString()}>απαντήθηκε</label>
+            </div>
+            <div className="col-5 align-self-center">
+              <Countdown
+                date={created + delay}
+                onComplete={isCompleted}
+                id={index}
+                renderer={renderer}
+              ></Countdown>
+            </div>
+          </>
+        )}
       </div>
       <div className="row justify-content-between">
         <div className="col align-self-end">
           <p>{description}</p>
         </div>
-        <button className="btn btn-small m-2 bg-primary">
+        <button className="btn btn-small m-2 bg-secondaryGreenColor">
           Προηγούμενη ερώτηση
         </button>
         <button
-          className="btn btn-small m-2 bg-secondary"
+          className="btn btn-small m-2 bg-primary"
           onClick={() => nextQuestion(index)}
         >
           Επόμενη ερώτηση
         </button>
       </div>
-      {/* <button className="btn btn-primary" onClick={openModal}>
-        Open Modal
-      </button> */}
       <Modal isOpen={modalIsOpen} style={customStyles} ariaHideApp={false}>
         <div className="container-fluid">
           <div className="row justify-content-end">
             <div className="col">
-              <h5>Project title</h5>
-              <span>Company name</span>
+              <h5>Aquila</h5>
+              <span>SoftBiz</span>
             </div>
             <button className="btn-close" onClick={closeModal}></button>
           </div>
@@ -138,12 +139,6 @@ const AnonymousChatTitle = (props) => {
             closeModal={closeModal}
             handleOffer={handleOffer}
           />
-          {/* <div className="row align-self-end justify-content-between m-2">
-            <button className="btn bg-warning" onClick={closeModal}>
-              Ακύρωση
-            </button>
-            <button className="btn bg-success">Κατάθεση πρότασης</button>
-          </div> */}
         </div>
       </Modal>
     </>

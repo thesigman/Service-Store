@@ -18,9 +18,9 @@ const ProjectCustomerCard = (props) => {
           {/* <div className={styles.title}>Titlos project</div> */}
           <h5>{request.name}</h5>
         </div>
-        <span>
+        <small className="text-muted">
           Δημιουργήθηκε {date.getUTCDate()}/{date.getUTCMonth() + 1}
-        </span>
+        </small>
         <div className={styles.cardFooter}>{request.domain}</div>
       </div>
     </div>

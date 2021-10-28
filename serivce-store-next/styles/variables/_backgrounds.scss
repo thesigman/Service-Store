@@ -6,7 +6,7 @@ body .bg-primary {
 }
 
 body .bg-secondary {
-  background-color: $secondaryColor  !important;
+  background-color: $secondaryColor !important;
 }
 
 body .bg-success {
@@ -20,8 +20,12 @@ body .bg-danger {
 body .bg-gray {
   background-color: $grayColor !important;
 }
-
-
+body .bg-primary140 {
+  background-color: $primaryColor140 !important;
+}
+body .bg-secondaryGreenColor {
+  background-color: $secondaryGreenColor !important;
+}
 /* Border */
 body .bd-primary {
   border-color: $primaryColor !important;
@@ -43,8 +47,9 @@ body .bd-gray {
   background-color: $grayColor !important;
 }
 
+body .bd-gray {
+  background-color: $secondaryGreenColor !important;
+}
 body .no-bd {
   border-color: transparent !important;
 }
-
-

@@ -25,7 +25,7 @@ const QuestionSideCard = (props) => {
           {/* <div className={styles.title}>Titlos project</div> */}
           <h5 className="col-7">Ερώτηση {index + 1}</h5>
           <div className="col-5">
-            <span>{answers} Απαντήσεις</span>
+            <small className="text-muted">{answers} Απαντήσεις</small>
           </div>
         </div>
         <span>{question.question}</span>

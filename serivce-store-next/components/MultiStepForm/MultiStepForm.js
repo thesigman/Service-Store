@@ -1,8 +1,8 @@
 import { useState, useEffect, Children } from "react";
 import styles from "./form.module.scss";
 import Selector from "../Selector/selector";
-import axios from '../../pages/api/axiosConfiguration' ;
-import axios2 from 'axios' ;
+import { instance } from '../../pages/api/axiosConfiguration';
+import axios from 'axios';
 import { Button } from "react-bootstrap";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -42,7 +42,7 @@ function StepOne(props) {
   const [boldtext, setBoldText] = useState('Καλώς Ορίσατε')
   const [serviceText, setServiceText] = useState('Επιλέξτε για να ξεκινήσετε')
   useEffect(() => {
-    axios.get('/services').then(
+    instance.get('/services').then(
       (response) => {
         const res = response.data;
         let tempDomains = []
@@ -149,7 +149,7 @@ function StepTwo(props) {
 
   useEffect(() => {
     let step = 2;
-    axios.get(`characteristics?name=${props.name}`).then((response) => {
+    instance.get(`characteristics?name=${props.name}`).then((response) => {
       let tempQuestions = []
       let chunk = []
       response.data.forEach((element, index) => {
@@ -232,7 +232,7 @@ function StepThree(props) {
 
     onlyNames.forEach((name, bigIndex) => {
       if (typeof name == 'undefined') { return; }
-      axios.get(`characteristics?name=${name}`).then((response) => {
+      instance.get(`characteristics?name=${name}`).then((response) => {
         let tempQuestions = []
         let chunk = []
         response.data.forEach((element, index) => {
@@ -292,18 +292,18 @@ function StepFour(props) {
   jsonData['domain'] = props.data.find((element) => element.question == 'domain').answer;
   jsonData['service_1'] = props.data.find((element) => element.question == 'service_1').answer;
   jsonData['service_2'] = props.data.find((element) => element.question == 'service_2').answer;
-  jsonData['answears'] = {'quest' : props.data.filter(x => x.question != 'domain' && x.question != 'service_1' && x.question != 'service_2' ).map(x => x.question), 'answear' : props.data.filter(x => x.question != 'domain' && x.question != 'service_1' && x.question != 'service_2' ).map(x => x.answer)}
+  jsonData['answears'] = { 'quest': props.data.filter(x => x.question != 'domain' && x.question != 'service_1' && x.question != 'service_2').map(x => x.question), 'answear': props.data.filter(x => x.question != 'domain' && x.question != 'service_1' && x.question != 'service_2').map(x => x.answer) }
   jsonData['published_at'] = new Date();
   jsonData['updatedAt'] = new Date();
   jsonData['status'] = 'Open';
   jsonData['name'] = uuidv4();
 
-  axios2.post('http://islab-thesis.aegean.gr:82/trans/api/requests', jsonData).then((response) =>{
-    if(response.status = 200) {
-        console.log('Successfully Sent')
+  axios.post('http://islab-thesis.aegean.gr:82/trans/api/requests', jsonData).then((response) => {
+    if (response.status = 200) {
+      console.log('Successfully Sent')
     }
   }
-    
+
   )
   return (
     <div>

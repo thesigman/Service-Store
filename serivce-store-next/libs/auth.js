@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Router from "next/router";
 import Cookie from "js-cookie";
-import axios from "../pages/api/axiosConfiguration";
+import {instance} from "../pages/api/axiosConfiguration";
 
 /**
  * Υπεύθνο για την σύνδεση του χρήστη στην εφαρμογή.
@@ -21,14 +21,14 @@ export const loginUser = (username, password, props) => {
     password: password,
   };
 
-  axios
+  instance
     .post("/auth/local", credentials)
     .then(function (response) {
       if (response.status == 200) {
         // Set the authentication token as cookie on browser
         Cookie.set("token", response.data.jwt);
         try {
-          
+
           // Parse των πληροφοριών του χρήστη σε μια απλούστερη μορφή ώστε να αποθηκευτούν τα στοιχεία που θέλουμε 
           const application_user = {
             "id" : (typeof response.data.user.userprovider == "undefined") ? response.data.user.client.id :  response.data.user.userprovider.id,

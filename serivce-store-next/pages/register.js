@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/dist/client/image';
 import styles from './login.module.scss';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 import { loginUser } from "../libs/auth";
 import Selector from '../components/Selector/selector'
-import axios from '../pages/api/axiosConfiguration';
+import { instance } from '../pages/api/axiosConfiguration';
 
 export default function login(props) {
   const [typosEtaireias, setTyposEtaireias] = useState();
@@ -17,7 +17,32 @@ export default function login(props) {
   const [email, setEmail] = useState();
   const [nameOfCompany, setNameOfCompany] = useState();
   const [messageText, setMessageText] = useState();
+  const [TypeOfRequestedJobs, setTypeOfRequestedJobs] = useState();
   const [type, setType] = useState();
+  const [service2, setService2] = useState([]);
+  const [test, setTest] = useState('thanos');
+
+  useEffect(() => {
+
+    instance.get('/services').then(
+      (response) => {
+        const res = response.data;
+        let tempService2 = []
+        res.forEach((value) => {
+          tempService2 = [...tempService2, { 'question': value.service_1, 'answer': value.service_2 }];
+        });
+        setService2([...new Set(tempService2.values())]);
+        if( service2.length > 0) {
+          setService2(service2.map(a => a.answer))
+        }
+
+      }, error => { console.log('test') });
+
+  },[service2.length])
+
+  const updateRequestedJob = (question, answer, triggerElement) => {
+    setTypeOfRequestedJobs(answer);
+  }
 
   const registerUser = () => {
     let path = '/clients';
@@ -37,10 +62,10 @@ export default function login(props) {
     }
     if (type == 'Πάροχος') {
       newUser['Rating'] = 0;
-      newUser['TypeOfRequestedJobs'] = 'e-shop';
+      newUser['TypeOfRequestedJobs'] = TypeOfRequestedJobs;
       path = '/providers';
     }
-    axios
+    instance
       .post(path, newUser)
       .then(function (response) {
         if (response.status == 200) {
@@ -64,18 +89,17 @@ export default function login(props) {
               "id": "60fd79585a9a8e22e48e47b0"
             }
           }
- 
-          console.log(type)
+
           if (type == 'Πάροχος') {
             finalUser['userprovider'] = { '_id': response.data._id }
           } else {
             finalUser['client'] = { '_id': response.data._id }
           }
 
-          axios.post('/users', finalUser).then((response) => {
+          instance.post('/users', finalUser).then((response) => {
             if (response.status == 201) {
               // will be impleneted a redirect 
-              console.log('Grafitkes lagii');
+              console.log('Grafitkes');
             } else {
               console.log(response);
             }
@@ -160,7 +184,11 @@ export default function login(props) {
                   </div>
                   <div>
                     <h4>Δραστηριότητα</h4>
-                    <input onChange={(event) => setActivity(event.target.value)} placeholder="Δραστηριότητα" />
+                    <Selector
+                      placeholder="Δραστηριότητα"
+                      id="service_2"
+                      onChange={updateRequestedJob}
+                      values={[...new Set(service2)]}></Selector>
                   </div>
                   <div>
                     <h4>Όνομα Εταιρείας</h4>

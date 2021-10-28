@@ -9,8 +9,8 @@ export default function AdminInfo(props) {
 
   useEffect(() => {
     setUserName(props.user.user.username);
-    setOrgName(props.user.user.NameOfCompany);
-  },[]);
+    setOrgName(props.user.user.email);
+  });
   return (
     <div className={[styles.adminInfo , 'm-2'].join(' ')}>
       <div className="row h-100">

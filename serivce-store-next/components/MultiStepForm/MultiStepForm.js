@@ -1,7 +1,8 @@
 import { useState, useEffect, Children } from "react";
 import styles from "./form.module.scss";
 import Selector from "../Selector/selector";
-import axios from '../../pages/api/axiosConfiguration'
+import axios from '../../pages/api/axiosConfiguration' ;
+import axios2 from 'axios' ;
 import { Button } from "react-bootstrap";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -285,21 +286,19 @@ function StepThree(props) {
 }
 
 function StepFour(props) {
+  const user = JSON.parse(window.sessionStorage.getItem('application_user'))
   let jsonData = {};
+  jsonData['requester'] = '6171b5c606201326fe288744';
   jsonData['domain'] = props.data.find((element) => element.question == 'domain').answer;
   jsonData['service_1'] = props.data.find((element) => element.question == 'service_1').answer;
   jsonData['service_2'] = props.data.find((element) => element.question == 'service_2').answer;
-  jsonData['requester'] = 'Company';
   jsonData['answears'] = {'quest' : props.data.filter(x => x.question != 'domain' && x.question != 'service_1' && x.question != 'service_2' ).map(x => x.question), 'answear' : props.data.filter(x => x.question != 'domain' && x.question != 'service_1' && x.question != 'service_2' ).map(x => x.answer)}
   jsonData['published_at'] = new Date();
   jsonData['updatedAt'] = new Date();
   jsonData['status'] = 'Open';
   jsonData['name'] = uuidv4();
 
-
-  const final_data =JSON.stringify(jsonData);
-  console.log(final_data);
-  axios.post('/requests', final_data).then((response) =>{
+  axios2.post('http://islab-thesis.aegean.gr:82/trans/api/requests', jsonData).then((response) =>{
     if(response.status = 200) {
         console.log('Successfully Sent')
     }

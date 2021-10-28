@@ -45,6 +45,7 @@ export default function login(props) {
       .then(function (response) {
         if (response.status == 200) {
           // If the user saved successfully in the database then create a strapi user to log in
+          console.log('test')
           let finalUser = {
             "confirmed": true,
             "blocked": false,
@@ -63,20 +64,16 @@ export default function login(props) {
               "id": "60fd79585a9a8e22e48e47b0"
             }
           }
-          console.log(JSON.stringify(finalUser))
-          console.log(response.data._id);
+ 
+          console.log(type)
           if (type == 'Πάροχος') {
-            console.log(type);
             finalUser['userprovider'] = { '_id': response.data._id }
           } else {
-            console.log(type);
             finalUser['client'] = { '_id': response.data._id }
           }
-          console.log(JSON.stringify(finalUser));
+
           axios.post('/users', finalUser).then((response) => {
-            console.log('eee');
-            console.log(response);
-            if (response.status == 200) {
+            if (response.status == 201) {
               // will be impleneted a redirect 
               console.log('Grafitkes lagii');
             } else {

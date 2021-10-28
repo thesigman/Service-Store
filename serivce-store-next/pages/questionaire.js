@@ -8,7 +8,7 @@ import MultiStepForm from "../components/MultiStepForm/MultiStepForm";
 export default function Questionaire(props) {
   return (
     <Layout user={props}>
-      {!props.isAuthenticated && <p>You have to login First</p> ||
+      {/* {!props.isAuthenticated && <p>You have to login First</p> || */}
         <div className={['pagecenter'].join(' ')}>
           <div className={styles.container}>
             <div>
@@ -26,7 +26,7 @@ export default function Questionaire(props) {
             </div>
           </div>
         </div>
-      }
+      {/* } */}
     </Layout>
   )
 }

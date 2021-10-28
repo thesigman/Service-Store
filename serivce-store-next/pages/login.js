@@ -2,17 +2,24 @@ import { useState } from 'react';
 import Image from 'next/dist/client/image';
 import styles from './login.module.scss';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
-import {loginUser} from "../libs/auth";
+import { loginUser } from "../libs/auth";
+import { useEffect } from 'react';
 
 export default function login(props) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [messageText, setMessageText] = useState();
-  console.log(props);
+
+  // Κάθε φορά που γυρίζουμε στο Login καθαρίζουμε το session storage 
+  // ώστε να αλλάζει ο ενεργός χρήστης
+  useEffect(() => {
+    window.sessionStorage.clear();
+    props.setIsAuthenticated(false);
+  }, [])
+
   return (
 
     <div className={['pagecenter'].join(' ')}>
- 
       <div>
         <div>
           <div className={[styles.login].join(' ')}>
@@ -26,18 +33,18 @@ export default function login(props) {
                 <div className={[styles.formcontent].join(' ')}>
                   <div>
                     <h4>Username</h4>
-                    <input onChange={event=>setUsername(event.target.value)} type="text"  placeholder="Username" />
+                    <input onChange={event => setUsername(event.target.value)} type="text" placeholder="Username" />
                   </div>
                   <div className="mt-4 mb-4">
                     <h4>Password</h4>
-                    <input onChange={event=>setPassword(event.target.value)} type="password" placeholder="Password" />
-                  </div> 
+                    <input onChange={event => setPassword(event.target.value)} type="password" placeholder="Password" />
+                  </div>
                   <p className={[styles.contentmiddle, 'text-danger'].join(' ')} value={messageText}>{messageText}</p>
                   <div className="mt-4">
-                    <button onClick={()=>loginUser(username, password, props)} className="btn btn-small bg-primary btn-100" >Σύνδεση</button>
+                    <button onClick={() => loginUser(username, password, props)} className="btn btn-small bg-primary btn-100" >Σύνδεση</button>
                   </div>
                   <a href='/register'>
-                    <a className={[styles.contentmiddle , 'text-primary', 'mt-2'].join(' ')}>Εγγραφή στην πλατφόρμα</a>
+                    <a className={[styles.contentmiddle, 'text-primary', 'mt-2'].join(' ')}>Εγγραφή στην πλατφόρμα</a>
                   </a>
                   <div className={['separator', 'mb-2', 'mt-2'].join(' ')}> or </div>
                   <div className={[styles.contentmiddled].join(' ')}>

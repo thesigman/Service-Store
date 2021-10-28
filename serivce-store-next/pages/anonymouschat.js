@@ -7,6 +7,7 @@ import AnonymousChatTitle from "../components/Title/anonymousChatTitle.jsx";
 import QuestionSideCard from "../components/Card/questionSideCard.jsx";
 import axios from "axios";
 import socket from "socket.io-client";
+
 const sock = socket.io("http://localhost:5550");
 
 class AnonymousChat extends Component {
@@ -27,6 +28,11 @@ class AnonymousChat extends Component {
   }
 
   componentDidMount() {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+    const requestId = params.requestId ?? "";
+    if(requestId == "") { return; }
+
     axios
       .post("http://localhost:5550/api/anonymousmessages/", {
         id: "611a7981fd554e07fc12fc4a",
@@ -187,59 +193,59 @@ class AnonymousChat extends Component {
           <title>Chatroom</title>
         </Head>
         <Layout user={this.props}>
-        <div className="row mt-2">
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item">
-                <a href="#">Αρχική</a>
-              </li>
-              <li className="breadcrumb-item active" aria-current="page">
-                Project Name
-              </li>
-            </ol>
-          </nav>
-        </div>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-sm-3">
-              <h1>Project Name</h1>
-              <Filters />
-            </div>
-            <div className="col-sm-9">
-              <AnonymousChatTitle
-                created={this.state.created}
-                index={this.state.index}
-                description={this.state.description}
-                answered={this.state.answered}
-                created={this.state.created}
-                nextQuestion={this.nextQuestion}
-                handleOffer={this.handleOffer}
-              />
+          <div className="row mt-2">
+            <nav aria-label="breadcrumb">
+              <ol className="breadcrumb">
+                <li className="breadcrumb-item">
+                  <a href="#">Αρχική</a>
+                </li>
+                <li className="breadcrumb-item active" aria-current="page">
+                  Project Name
+                </li>
+              </ol>
+            </nav>
+          </div>
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-sm-3">
+                <h1>Project Name</h1>
+                <Filters />
+              </div>
+              <div className="col-sm-9">
+                <AnonymousChatTitle
+                  created={this.state.created}
+                  index={this.state.index}
+                  description={this.state.description}
+                  answered={this.state.answered}
+                  created={this.state.created}
+                  nextQuestion={this.nextQuestion}
+                  handleOffer={this.handleOffer}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-sm-3 bg-primary">
-              {this.state.questions.map((question) => (
-                <QuestionSideCard
-                  onCardSelect={this.handleQuestion}
-                  key={question._id}
-                  question={question}
-                  index={this.state.questions.indexOf(question)}
-                  answers={question.answers.length}
-                ></QuestionSideCard>
-              ))}
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-sm-3 bg-primary">
+                {this.state.questions.map((question) => (
+                  <QuestionSideCard
+                    onCardSelect={this.handleQuestion}
+                    key={question._id}
+                    question={question}
+                    index={this.state.questions.indexOf(question)}
+                    answers={question.answers.length}
+                  ></QuestionSideCard>
+                ))}
+              </div>
+              <div className="col-sm-9 overflow-auto">
+                <AnonymousChatRoom
+                  messages={this.state.messages}
+                  handleMessage={this.handleMessage}
+                />
+              </div>
+              {/* </div> */}
             </div>
-            <div className="col-sm-9 overflow-auto">
-              <AnonymousChatRoom
-                messages={this.state.messages}
-                handleMessage={this.handleMessage}
-              />
-            </div>
-            {/* </div> */}
           </div>
-        </div>
 
         </Layout>
       </>

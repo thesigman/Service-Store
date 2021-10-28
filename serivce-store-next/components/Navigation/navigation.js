@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export default function NavigationBar() {
   return (
     <nav className={[styles.navbarcustom, 'navbar', 'navbar-expand-lg', 'navbar-static-top'].join(' ')}>
-      <div className="container">
+      <div className="container-fluid">
         <div className="navbar-header">
           <Image
             src='/logo.png'

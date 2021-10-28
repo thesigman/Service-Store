@@ -22,7 +22,14 @@ function MyApp({ Component, pageProps }) {
 
   }, []);
 
-  return <Component user={user} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} setRawUser={setRawUser} setUser={setUser} {...pageProps} />
+  return <Component
+    user={user}
+    isAuthenticated={isAuthenticated}
+    setIsAuthenticated={setIsAuthenticated}
+    setRawUser={setRawUser} 
+    setUser={setUser}
+    {...pageProps}
+  />
 }
 
 export default MyApp;

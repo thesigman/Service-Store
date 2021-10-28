@@ -17,7 +17,7 @@ const OfferForm = (props) => {
 
     let offer = {
       Summary: summary.current.value,
-      Descpritpion: description.current.value,
+      Description: description.current.value,
       DateOfDelivery: startDate,
       Cost: cost.current.value,
       Status: "open",

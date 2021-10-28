@@ -1,9 +1,6 @@
-import { Component, useState } from "react";
-import MessageCard from "../Card/messageCard";
+import { useState } from "react";
+import MessageCard from "../Card/messageCard.jsx";
 import styles from "./chatroom.module.scss";
-
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const AnonymousChatRoom = (props) => {
   const [message, setMessage] = useState();
@@ -27,15 +24,6 @@ const AnonymousChatRoom = (props) => {
       ))}
 
       <div className="row m-2 p-2">
-        {/* <button type="button" className={[styles.btnSmall, "m-1"].join(" ")}> */}
-        <div className="col-2">
-          <FontAwesomeIcon
-            icon={faPaperPlane}
-            className="text-primary"
-          ></FontAwesomeIcon>
-        </div>
-        {/* Τα πιο πρόσφατα */}
-        {/* </button> */}
         <input
           className={[styles.faIcon, styles.search].join(" ")}
           type="text"
@@ -49,49 +37,3 @@ const AnonymousChatRoom = (props) => {
 };
 
 export default AnonymousChatRoom;
-
-// class ChatRoom extends Component {
-//   state = {
-//     messages: [],
-//   };
-//   constructor(props) {
-//     super(props);
-//     // this.state.providers = this.props.providers;
-//   }
-//   componentDidMount() {
-//     this.setState({ messages: this.props.messages });
-//   }
-//   render() {
-//     const { messages } = this.props;
-//     const inputRef = useRef();
-
-//     return (
-//       <div className={styles.container}>
-//         {messages.map((message) => (
-//           <MessageCard key={message._id} message={message}></MessageCard>
-//         ))}
-//         <div className="row m-2 p-2">
-//           {/* <button type="button" className={[styles.btnSmall, "m-1"].join(" ")}> */}
-//           <div className="col-2">
-//             <FontAwesomeIcon
-//               icon={faPaperPlane}
-//               className="text-primary"
-//             ></FontAwesomeIcon>
-//           </div>
-
-//           {/* Τα πιο πρόσφατα */}
-//           {/* </button> */}
-
-//           <input
-//             className={[styles.faIcon, styles.search].join(" ")}
-//             type="text"
-//             placeholder="&#xf1d8; Πληκτρολογείστε το μήνυμά σας εδώ..."
-//             onKeyDown={this.handleKeyDown}
-//             ref={inputRef}
-//           ></input>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
-// export default ChatRoom;

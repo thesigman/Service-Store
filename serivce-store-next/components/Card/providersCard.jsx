@@ -4,13 +4,14 @@ import styles from "./card.module.scss";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Modal from "react-modal";
+import moment from "moment";
 
 const ProvidersCard = (props) => {
   const { index, provider } = props;
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const [offer, setOffer] = useState(props.offer);
-
+  moment.locale("el");
   useEffect(() => {
     setOffer(props.offer);
   }, [props.offer]);
@@ -18,7 +19,6 @@ const ProvidersCard = (props) => {
   //   setOffer(o);
   // });
   console.log("offer", offer);
-
   const customStyles = {
     content: {
       top: "50%",
@@ -57,6 +57,16 @@ const ProvidersCard = (props) => {
         : " m-2";
     return classes;
   }
+
+  function getPremiumUser() {
+    if (provider.rate > 4) {
+      return (
+        <div className="col-2 m-2">
+          <span className="badge badge-success">Premium User</span>
+        </div>
+      );
+    }
+  }
   function getAcceptButton() {
     // const { rate } = this.state.highRate;
     // <button
@@ -93,17 +103,17 @@ const ProvidersCard = (props) => {
   }
   function getRejectButton() {
     // const { rate } = this.state.highRate;
-    <button className="btn bg-warning" onClick={closeModal}>
+    <button className="btn bg-danger" onClick={closeModal}>
       Απόρριψη
     </button>;
     if (offer.Status == "rejected") {
-      return <button className="btn bg-warning disabled">Απόρριψη</button>;
+      return <button className="btn bg-danger disabled">Απόρριψη</button>;
     } else if (offer.Status == "accepted") {
-      return <button className="btn bg-warning disabled">Απόρριψη</button>;
+      return <button className="btn bg-danger disabled">Απόρριψη</button>;
     } else {
       return (
         <button
-          className="btn bg-warning"
+          className="btn bg-danger"
           onClick={() => (closeModal, props.rejectOffer(offer))}
         >
           Απόρριψη
@@ -123,9 +133,10 @@ const ProvidersCard = (props) => {
             </div>
             <div className="card-body">
               <div className="row justify-content-start">
-                <div className="col-2 m-2">
-                  <span className="badge badge-success">Premium User</span>
-                </div>
+                {/* <div className="col-2 m-2"> */}
+                {/* <span className="badge badge-success">Premium User</span> */}
+                {getPremiumUser()}
+                {/* </div> */}
                 <div className="col-2 m-2">
                   <span className="badge badge-primary">Web Expert</span>
                 </div>
@@ -138,7 +149,7 @@ const ProvidersCard = (props) => {
                   Phone: {provider.Phone}
                   Type of Requested Jobs: {provider.TypeOfRequestedJobs}{" "} */}
                   {offer.Summary}
-                  {offer.Status}
+                  {/* {offer.Status} */}
                 </p>
               </div>
             </div>
@@ -180,25 +191,28 @@ const ProvidersCard = (props) => {
    closeModal={closeModal}
    handleOffer={handleOffer}
  /> */}
-          <p>{offer.Description}</p>
           <p>
+            <strong>Αναλυτική Περιγραφή: </strong>
+            {offer.Description}
+          </p>
+          {/* <p>
             <strong>Απαραίτητες υπηρεσίες:</strong>
-            {offer.Cost}
+            {offer.domain}
+          </p> */}
+          <p>
+            <strong>Ημερομηνία Παράδοσης: </strong>
+            {moment(offer.DateOfDelivery).format("LLLL")}
           </p>
           <p>
-            <strong>Ημερομηνία Παράδοσης:</strong>
-            {offer.DateOfDelivery.toString()}
-          </p>
-          <p>
-            <strong>Προϋπολογισμός:</strong>
-            {offer.Cost}
+            <strong>Προϋπολογισμός: </strong>
+            {offer.Cost} €
           </p>
 
           <div className="row align-self-end justify-content-between m-2">
             {getRejectButton()}
 
             {/* <p>DATE OF {props.offer.Description}</p> */}
-            <button className="btn bg-danger">Επανεξέταση</button>
+            <button className="btn bg-warning">Επανεξέταση</button>
             {/* <button className="btn bg-success">
               Οριστική αποδοχή πρότασης
             </button> */}

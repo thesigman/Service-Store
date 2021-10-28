@@ -10,16 +10,14 @@ const ArticleSideCard = (props) => {
       return;
     }
   }
-
   return (
     <div
       className={[styles.card, "m-2"].join(" ")}
-      //   onClick={() => onCardSelect(request)}
+      onClick={() => onCardSelect(article.number)}
       style={{ cursor: "pointer" }}
     >
       <div className="p-2">
         <div className="row">
-          {/* <div className={styles.title}>Titlos project</div> */}
           <h5>{article.name}</h5>
         </div>
         <span>{article.title}</span>

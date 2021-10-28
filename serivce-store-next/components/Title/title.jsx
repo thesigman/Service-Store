@@ -1,18 +1,12 @@
-import { Component } from "react";
+const Title = (props) => {
+  const { title } = props;
 
-class Title extends Component {
-  // state = { };
-
-  render() {
-    const { title } = this.props;
-
-    return (
-      <div className="row">
-        <h2>{title}</h2>
-        <p>Διαθέσιμες προτάσεις</p>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="row">
+      <h2>{title}</h2>
+      <p>Διαθέσιμες προτάσεις</p>
+    </div>
+  );
+};
 
 export default Title;

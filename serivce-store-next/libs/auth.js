@@ -28,6 +28,7 @@ export const loginUser = (username, password, props) => {
         // Set the authentication token as cookie on browser
         Cookie.set("token", response.data.jwt);
         try {
+          
           // Parse των πληροφοριών του χρήστη σε μια απλούστερη μορφή ώστε να αποθηκευτούν τα στοιχεία που θέλουμε 
           const application_user = {
             "id" : (typeof response.data.user.userprovider == "undefined") ? response.data.user.client.id :  response.data.user.userprovider.id,

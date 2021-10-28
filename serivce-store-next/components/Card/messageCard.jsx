@@ -41,16 +41,16 @@ const MessageCard = (props) => {
   function getCardClass() {
     let classes = `card w-auto d-inline-block text-light`;
     classes +=
-      message.senderId == "client"
+      message.senderId == "provider"
         ? " bg-primary140"
-        : " text-end bg-secondary";
+        : " text-end bg-secondaryGreenColor";
     return classes;
   }
   function getTime() {}
 
   function getRowClass() {
     let classes = "d-flex flex-row";
-    classes += message.senderId == "client" ? "" : "-reverse";
+    classes += message.senderId == "provider" ? "" : "-reverse";
     return classes;
   }
 };

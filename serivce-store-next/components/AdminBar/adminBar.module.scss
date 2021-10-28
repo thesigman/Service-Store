@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import "../../styles/variables/colors";
 .adminBar {
   background-color: $secondaryGreenColor !important;
@@ -19,3 +20,24 @@
   box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 6px;
 }
+=======
+@import "../../styles/variables/colors";
+.adminBar {
+  background-color: $secondaryGreenColor !important;
+  min-height: 100%;
+  max-width: 80%;
+}
+
+.adminButton {
+  background-color: inherit;
+  border-radius: 6px;
+  text-align: center;
+  border-style: none;
+}
+
+.adminInfo {
+  background-color: #fff !important;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+}
+>>>>>>> 67139ef19c634399848badf1e194938498cefea0

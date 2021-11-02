@@ -288,7 +288,7 @@ function StepThree(props) {
 function StepFour(props) {
   const user = JSON.parse(window.sessionStorage.getItem('application_user'))
   let jsonData = {};
-  jsonData['requester'] = '6171b5c606201326fe288744';
+  jsonData['requester'] = user.id;
   jsonData['domain'] = props.data.find((element) => element.question == 'domain').answer;
   jsonData['service_1'] = props.data.find((element) => element.question == 'service_1').answer;
   jsonData['service_2'] = props.data.find((element) => element.question == 'service_2').answer;

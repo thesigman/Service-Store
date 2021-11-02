@@ -34,18 +34,17 @@ class Providers extends Component {
     this.setState({
       user: JSON.parse(window.sessionStorage.getItem("application_user")),
     });
-
     devteam2
       .post("/requests/cid/", {
         //cid: "61017675b47117629c1a8b67",
-         cid: this.state.user.id,
+         cid: JSON.parse(window.sessionStorage.getItem("application_user")).id
       })
       .then(
         (response) => {
           this.setState({ requests: response.data });
           this.setState({ currenrequestid: response.data[0]._id });
           this.setState({ titles: response.data[0].name });
-
+          console.log(this.state.requests[0]._id);
           devteam2
             .post("/offers/id/", {
               // id: "611a7981fd554e07fc12fc4a",

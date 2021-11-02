@@ -47,8 +47,7 @@ class Providers extends Component {
           console.log(this.state.requests[0]._id);
           devteam2
             .post("/offers/id/", {
-              // id: "611a7981fd554e07fc12fc4a",
-              id: this.state.requests[0]._id,
+              cid: this.state.requests[0]._id,
             })
             .then(
               (response) => {

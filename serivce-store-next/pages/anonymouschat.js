@@ -61,9 +61,12 @@ class AnonymousChat extends Component {
   }
 
   handleOffer = (offer) => {
+     //plain javascript
+     const urlSearchParams = new URLSearchParams(window.location.search);
+     const params = Object.fromEntries(urlSearchParams.entries());
     // offer["requestid"] = "6102af2b7b7e6aee3e1922ac";
-    offer["requestid"] = "617ae6ec4f8b86975ff5d96c";
-    offer["provider"] = this.state.user.id;
+    offer["requestid"] =  params.requestId;
+    offer["provider"] =  JSON.parse(window.sessionStorage.getItem('application_user')).id;
 
     devteam2.post("/offers/", { offer: offer }).then(
       (response) => {
@@ -121,11 +124,13 @@ class AnonymousChat extends Component {
 
   handleQuestion = (question) => {
     console.log("eimai sto anonymous chat222", question);
-
+     //plain javascript
+     const urlSearchParams = new URLSearchParams(window.location.search);
+     const params = Object.fromEntries(urlSearchParams.entries());
     axios
       .post("http://islab-thesis.aegean.gr:82/trans/api/anonymousmessages/id/", {
         id: question._id,
-        requestid: this.state.requestid,
+        requestid: params.requestId,
       })
       .then(
         (response) => {

@@ -1,0 +1,139 @@
+
+
+.landrow{
+  display: inline-flex;
+  margin: auto;
+  width:100%;
+  padding-top: 5%;
+  background-image: url('../../bg-image.jpeg');
+  background-size:     cover;                      
+  background-repeat:   no-repeat; 
+}
+
+.firsthalf{
+  display: table-caption;
+  padding: 5%;
+  text-align: start;
+}
+
+.titletext {
+  font-size: 50px;
+  
+  font-weight:bold;
+  
+}
+
+.btnrounded{
+  border-radius: 16px;
+}
+
+.colorprimary {
+  background-color : #3c8dbc !important
+}
+
+.colorwhite {
+  background-color : #fff !important
+}
+
+.textwhite{
+  color: #fff
+}
+
+.textprimary{
+  color: #403F4C !important
+}
+
+.textsecondary {
+  color: #737373 !important; 
+}
+
+.secondhalf {
+  display: table-caption;
+  padding: 5%;
+}
+
+.modalwrapper {
+ 
+  text-align: start;
+  width: 380px;
+  height: 450px;
+  background-color:#ffff;
+  border-radius: 4%;
+}
+
+.modalwrapper-sm {
+ 
+  text-align: start;
+  width: 30px;
+  height: 200px;
+  background-color:#ffff;
+  border-radius: 4%;
+  border: 0.5px solid  gray;
+}
+
+.circle {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+.modaltitle {
+  text-align: center;
+  FONT-SIZE: 24px;
+  font-weight: bold;
+  display: block;
+  margin: auto;
+  padding-top: 6%;
+}
+
+.searcharea{
+  padding: 5%;
+  display: block;
+}
+
+.startbtn{
+  margin-top:15%
+}
+
+
+.titleicon{
+  display: block;
+  padding-top: 50px;
+}
+.icon{
+  font-size: 45px !important;
+  display: block;
+  margin: auto;
+  /* vertical-align: middle; */
+  line-height: inherit;
+  margin-top: 28%;
+}
+
+.info { 
+  margin: 0px 1px 1px 1px;
+  height: 74%;
+  border-radius: 4%;
+}
+
+.backgsecondary {
+  background-color: #f3f3f3;
+}
+
+.backgsecondarygradient {
+  background: linear-gradient(180deg, #f3f3f3 60%, #ffcc8c 60%);
+}
+
+.comments{
+  padding-left: 20%;
+  padding-right: 20%;
+  border: 0  !important
+}
+
+.profile{
+  width:100%;
+  height:auto;
+}
+
+.commentwrapper {
+  padding: 6%
+}

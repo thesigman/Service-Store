@@ -1,0 +1,50 @@
+.card {
+  background-color: #ffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+
+  .cardFooter {
+    text-align: end;
+  }
+}
+
+.taskCard {
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+}
+.projectCustomerCard {
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  // width: 350px;
+  // height: 95px;
+
+  .created {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 140%;
+    /* or 22px */
+
+    display: flex;
+    align-items: center;
+
+    /* Grey 100 */
+
+    color: #666666;
+  }
+  .cardFooter {
+    text-align: start;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 120%;
+    /* Dark Gray / Dark Gray 2 */
+
+    color: #252c32;
+  }
+}
+.style {
+  border: 10px solid sienna;
+}

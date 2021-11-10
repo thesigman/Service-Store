@@ -7,6 +7,11 @@ import Link from 'next/link';
 import { faCog, faPaperPlane, faHome, faEdit, faUserCircle, faProjectDiagram, faSignOutAlt, faWallet } from '@fortawesome/free-solid-svg-icons';
 
 export default function AdminBar(props) {
+  const [role, setRole] = useState();
+  useEffect(() => {
+    setRole(JSON.parse(window.sessionStorage.getItem('application_user')).role);
+  }, []);
+
   return (
     <div className={[styles.adminBar, 'p-2'].join(' ')}>
       <AdminInfo user={props.user}></AdminInfo>
@@ -27,20 +32,22 @@ export default function AdminBar(props) {
             <FontAwesomeIcon icon={faProjectDiagram} className="text-white" ></FontAwesomeIcon>
           </div>
           <div className="col-8">
-            <b className="text-white"> <Link href="/questionaire"><a className="text-white">Projects</a></Link></b>
+            <b className="text-white"> <Link href="/questionaire"><a className="text-white">Κατάθεση Πρότασης</a></Link></b>
           </div>
         </div>
       </button>
-      <button className={[styles.adminButton, 'm-2'].join(' ')}>
-        <div className="row ">
-          <div className="col-2">
-            <FontAwesomeIcon icon={faEdit} className="text-white" ></FontAwesomeIcon>
+      {role == "client" &&
+        <button className={[styles.adminButton, 'm-2'].join(' ')}>
+          <div className="row ">
+            <div className="col-2">
+              <FontAwesomeIcon icon={faEdit} className="text-white" ></FontAwesomeIcon>
+            </div>
+            <div className="col-10">
+              <b className="text-white"> <Link href="/providers"><a className="text-white">Προτάσεις Υπο επεξεργασία</a></Link></b>
+            </div>
           </div>
-          <div className="col-10">
-            <b className="text-white"> <Link href="/"><a className="text-white">Υπο επεξεργασία</a></Link></b>
-          </div>
-        </div>
-      </button>
+        </button>
+      }
       <hr className="bg-white b-2 bd-white" />
       <button className={[styles.adminButton, 'm-2'].join(' ')}>
         <div className="row ">

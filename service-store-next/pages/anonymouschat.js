@@ -7,7 +7,7 @@ import AnonymousChatTitle from "../components/Title/anonymousChatTitle.jsx";
 import QuestionSideCard from "../components/Card/questionSideCard.jsx";
 import { devteam2 } from "./api/axiosConfiguration";
 import socket from "socket.io-client";
-const sock = socket.io.connect("http://localhost:5550");
+const sock = socket.io.connect("islab-thesis.aegean.gr:5550");
 import style from "../components/LeftBar/box.module.scss";
 import axios from 'axios';
 

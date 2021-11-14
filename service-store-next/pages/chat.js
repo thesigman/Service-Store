@@ -36,8 +36,9 @@ class Chat extends Component {
     //   })
     devteam2
       .post("/offers/uid", {
-        id: this.state.user.id,
-        role: this.state.user.role,
+        id: JSON.parse(window.sessionStorage.getItem("application_user")).id,
+        role: JSON.parse(window.sessionStorage.getItem("application_user"))
+          .role,
       })
       .then(
         (response) => {

@@ -9,7 +9,7 @@ import { devteam2 } from "./api/axiosConfiguration";
 import socket from "socket.io-client";
 const sock = socket.io.connect("islab-thesis.aegean.gr:5550");
 import style from "../components/LeftBar/box.module.scss";
-import axios from 'axios';
+import axios from "axios";
 import Question from "../components/Question/Question";
 
 class AnonymousChat extends Component {
@@ -33,7 +33,7 @@ class AnonymousChat extends Component {
     //plain javascript
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
-    this.setState({requestid: params.requestId});
+    this.setState({ requestid: params.requestId });
     this.setState({
       user: JSON.parse(window.sessionStorage.getItem("application_user")),
     });
@@ -62,12 +62,14 @@ class AnonymousChat extends Component {
   }
 
   handleOffer = (offer) => {
-     //plain javascript
-     const urlSearchParams = new URLSearchParams(window.location.search);
-     const params = Object.fromEntries(urlSearchParams.entries());
+    //plain javascript
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
     // offer["requestid"] = "6102af2b7b7e6aee3e1922ac";
-    offer["requestid"] =  params.requestId;
-    offer["provider"] =  JSON.parse(window.sessionStorage.getItem('application_user')).id;
+    offer["requestid"] = params.requestId;
+    offer["provider"] = JSON.parse(
+      window.sessionStorage.getItem("application_user")
+    ).id;
 
     devteam2.post("/offers/", { offer: offer }).then(
       (response) => {
@@ -94,7 +96,6 @@ class AnonymousChat extends Component {
   }
 
   handleMessage = (m) => {
-
     try {
       let o = {
         msg: m,
@@ -107,7 +108,7 @@ class AnonymousChat extends Component {
     } catch (error) {
       console.log(error);
     }
-    
+
     // sock.on("message", (m) => {
     //   console.log(m);
     //   // appendMessages(`${data.message} created: ${data.created}`);
@@ -125,14 +126,17 @@ class AnonymousChat extends Component {
 
   handleQuestion = (question) => {
     console.log("eimai sto anonymous chat222", question);
-     //plain javascript
-     const urlSearchParams = new URLSearchParams(window.location.search);
-     const params = Object.fromEntries(urlSearchParams.entries());
+    //plain javascript
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
     axios
-      .post("http://islab-thesis.aegean.gr:82/trans/api/anonymousmessages/id/", {
-        id: question._id,
-        requestid: params.requestId,
-      })
+      .post(
+        "http://islab-thesis.aegean.gr:82/trans/api/anonymousmessages/id/",
+        {
+          id: question._id,
+          requestid: params.requestId,
+        }
+      )
       .then(
         (response) => {
           response.data.forEach((element) => {
@@ -186,10 +190,13 @@ class AnonymousChat extends Component {
 
   handleAnswered = () => {
     axios
-      .post("http://islab-thesis.aegean.gr:82/trans/api/anonymousmessages/answered", {
-        questionId: this.state.currentid,
-        requestid: this.state.requestid,
-      })
+      .post(
+        "http://islab-thesis.aegean.gr:82/trans/api/anonymousmessages/answered",
+        {
+          questionId: this.state.currentid,
+          requestid: this.state.requestid,
+        }
+      )
       .then(
         (response) => {
           const newQuestions = [...this.state.questions];
@@ -226,7 +233,7 @@ class AnonymousChat extends Component {
                       <a href="#">Αρχική</a>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
-                      trivago.gr
+                      KOSTAS.GR
                     </li>
                   </ol>
                 </nav>
@@ -234,7 +241,7 @@ class AnonymousChat extends Component {
               <div className="container-fluid">
                 <div className="row">
                   <div className="col-sm-3">
-                    <h1>trivago.gr</h1>
+                    <h1>KOSTAS.GR</h1>
                     <Filters
                       filterByName={this.filterByName}
                       filterByDate={this.filterByDate}
@@ -259,15 +266,14 @@ class AnonymousChat extends Component {
               <div className="container-fluid">
                 <div className="row">
                   <div className={[style.box, "col-sm-3 bg-primary"].join(" ")}>
-                  {"provider" == "provider" && (
-                    <Question sendNewQuestion={this.sendNewQuestion} />
-                  )}
+                    {"provider" == "provider" && (
+                      <Question sendNewQuestion={this.sendNewQuestion} />
+                    )}
                     {this.state.questions.map((question) => (
                       <QuestionSideCard
                         onCardSelect={this.handleQuestion}
                         key={question._id}
                         question={question}
-                        
                         index={this.state.questions.indexOf(question)}
                         answers={question.answers.length}
                       ></QuestionSideCard>

@@ -4,10 +4,26 @@ import styles from '../Card/card.module.scss'
 import axios from 'axios';
 import Router from "next/router";
 import { useState, useEffect, Children } from "react";
-
+import Modal from "react-modal";
 
 export default function Kanban(props) {
   const [data, setData] = useState([]);
+  const [modalIsOpen, setModalStatus] = useState(false);
+  const [activeRequest, setActiveRequest] = useState({});
+
+  const modalStyle = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      background: "#FFFFFF",
+      width: "70%",
+      height: "auto",
+    },
+  }
 
   // Κατασκευή του board με βάση τα δεδομένα που θέλουμε να φαίνονται
   let taskCard = {
@@ -39,7 +55,18 @@ export default function Kanban(props) {
         },
         cards: data,
         onCardClick(cardId, metadata, laneId) {
-          Router.push({ pathname: '/anonymouschat', query: { requestId: cardId } });
+          // Με το click μιας κάρτας ανοίγει ένα modal με μερικές πληορφορίες 
+          // για το έργο που πρόκειται να μπεί στο chat
+
+          // Εύρεση του αντικειμένου που αφορά το event και φόρτωση του
+          // στο acticeRequest για την εμφάνιση του στο modal
+          const selectedRequest = data.filter(obj => {
+            return obj.id === cardId;
+          });
+
+          // Ενημέρωση του state
+          setActiveRequest(selectedRequest[0]);
+          setModalStatus(true);
         }
       },
       {
@@ -98,20 +125,64 @@ export default function Kanban(props) {
 
     // Κατασεκευή των καρτών 
     let cards = [];
+
+
     response.data.forEach(request => {
 
       cards.push({
         'id': request._id,
-        'title': request.domain,
+        'title': request.name,
         'description': request.service_1,
-        'label': request.status,
+        'label': request.created,
       });
     });
     setData(cards);
 
   }, [])
 
+  /**
+   * Κλείνει το ενεργό modal 
+   */
+  const closeModal = () => {
+    setModalStatus(false);
+  }
 
+  /**
+   * Αποστέλλει το ενεργό request 
+   * στο anonymoys chat 
+   */
+  const navigateToAnonymoysChat = () => {
+    Router.push({ pathname: '/anonymouschat', query: { requestId: activeRequest.id, name: activeRequest.title } });
+  }
 
-  return (<Board style={{ 'backgroundColor': 'transparent' }} data={data2}></Board>);
+  return (
+    <>
+      <Board style={{ 'backgroundColor': 'transparent' }} data={data2}></Board>
+      <Modal isOpen={modalIsOpen} style={modalStyle} ariaHideApp={false}>
+        <div className="container-fluid">
+          <div className="row justify-content-end">
+            <div className="col">
+              <h5>{activeRequest.title}</h5>
+            </div>
+            <button className="btn-close" onClick={closeModal}></button>
+          </div>
+        </div>
+        <div className="row p-2">
+          <div className="col-2">
+            <strong>Απαραίτητες Υπηρεσίες : </strong>
+          </div>
+          {activeRequest.description}
+        </div>
+        <div className="row p-2">
+          <div className="col-2">
+            <strong> Ημερομηνία Πρότασης : </strong>
+          </div>
+          {activeRequest.label}
+        </div>
+        <div className="d-flex float-end">
+          <button onClick={navigateToAnonymoysChat} className=" mt-2 btn bg-primary btn-small">Εμφάνιση Ερωτήσεων</button>
+        </div>
+      </Modal>
+    </>
+  );
 }

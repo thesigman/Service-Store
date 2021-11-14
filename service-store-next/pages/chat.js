@@ -36,7 +36,7 @@ class Chat extends Component {
     //   })
     devteam2
       .post("/offers/uid", {
-        id: "61017675b47117629c1a8b67",
+        id: this.state.user.id,
       })
       .then(
         (response) => {

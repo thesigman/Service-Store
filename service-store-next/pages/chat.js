@@ -37,6 +37,7 @@ class Chat extends Component {
     devteam2
       .post("/offers/uid", {
         id: this.state.user.id,
+        role: this.state.user.role,
       })
       .then(
         (response) => {
@@ -118,7 +119,8 @@ class Chat extends Component {
     console.log("eimai sto chat", m);
     let msg = {
       message: m,
-      senderId: "client",
+      // senderId: "client",
+      senderId: this.state.user.id,
       coll: this.state.currentofferid,
     };
     sock.emit("chatmessage", msg);

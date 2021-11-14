@@ -8,7 +8,7 @@ import ChatTitle from "../components/Title/ChatTitle";
 import { devteam2 } from "./api/axiosConfiguration";
 import socket from "socket.io-client";
 import MessageSideCard from "../components/Card/messageSideCard.jsx";
-const sock = socket.io("http://localhost:5550");
+const sock = socket.io("islab-thesis.aegean.gr:5550");
 import style from "../components/LeftBar/box.module.scss";
 
 class Chat extends Component {

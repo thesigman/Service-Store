@@ -10,6 +10,7 @@ import socket from "socket.io-client";
 const sock = socket.io.connect("islab-thesis.aegean.gr:5550");
 import style from "../components/LeftBar/box.module.scss";
 import axios from 'axios';
+import Question from "../components/Question/Question";
 
 class AnonymousChat extends Component {
   state = {
@@ -204,6 +205,9 @@ class AnonymousChat extends Component {
         }
       );
   };
+  sendNewQuestion = (question) => {
+    console.log("eimai anonymouschat", question);
+  };
   render() {
     return (
       <>
@@ -255,6 +259,9 @@ class AnonymousChat extends Component {
               <div className="container-fluid">
                 <div className="row">
                   <div className={[style.box, "col-sm-3 bg-primary"].join(" ")}>
+                  {"provider" == "provider" && (
+                    <Question sendNewQuestion={this.sendNewQuestion} />
+                  )}
                     {this.state.questions.map((question) => (
                       <QuestionSideCard
                         onCardSelect={this.handleQuestion}

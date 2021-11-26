@@ -34,7 +34,9 @@ class Agreement extends Component {
     });
     devteam2
       .post("/articles/offerid", {
-        offerid: "6123c934172d021ef07070ee",
+//        offerid: "6123c934172d021ef07070ee",
+//offerid:"6185383f84f27ed4b9d9765f",
+offerid: JSON.parse(window.sessionStorage.getItem("offerid")),
       })
       .then(
         (response) => {
@@ -134,7 +136,8 @@ class Agreement extends Component {
     devteam2
       .post("/articles/accepted", {
         number: this.state.article.number,
-        offerid: "6123c934172d021ef07070ee",
+//        offerid: "6123c934172d021ef07070ee",
+offerid: JSON.parse(window.sessionStorage.getItem("offerid")),
         userid:
           this.state.user.role === "client" ? "clientAccept" : "providerAccept",
       })

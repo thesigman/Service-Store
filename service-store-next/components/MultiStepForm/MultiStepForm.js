@@ -1,33 +1,73 @@
-import { useState, useEffect, Children } from "react";
-import styles from "./form.module.scss";
-import Selector from "../Selector/selector";
-import { instance } from '../../pages/api/axiosConfiguration';
 import axios from 'axios';
+import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import Modal from 'react-modal';
 import { v4 as uuidv4 } from 'uuid';
+import { instance } from '../../pages/api/axiosConfiguration';
+import Selector from "../Selector/selector";
 
 
-export default function MultiStepForm() {
+
+export default function MultiStepForm(props) {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([])
   const [name, setName] = useState(0)
   const [dependQuest, setDependQuest] = useState([]);
+  const [modalIsOpen, setModalStatus] = useState(false);
+
+  const modalStyle = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      background: "#FFFFFF",
+      width: "70%",
+      height: "auto",
+      overflow: "visible",
+    },
+  }
+
+  useEffect(() => {
+    setModalStatus(!modalIsOpen);
+  }, [props]);
+
 
   const newPage = () => {
     setPage(page => page + 1);
   }
 
+  /**
+  * Κλείνει το ενεργό modal 
+  */
+  const closeModal = () => {
+    setModalStatus(false);
+  }
+
+
   return (
-    <div className={[styles.formCard, 'p-4'].join(' ')}>
-      {page < 4 && <p>Βήμα {page} από 3</p>}
-      <div>
-        {page === 1 && <StepOne name={setName} data={data} newPage={newPage} update={setData} />}
-        {page === 2 && <StepTwo name={name} dependencies={dependQuest} updateQuest={setDependQuest} newPage={newPage} data={data} update={setData} />}
-        {page === 3 && <StepThree name={name} dependencies={dependQuest} newPage={newPage} updateQuest={setDependQuest} data={data} update={setData} />}
-        {page === 4 && <StepFour data={data} />}
+    <Modal isOpen={modalIsOpen} style={modalStyle} ariaHideApp={false}>
+      <div className="container-fluid">
+        <div className="row justify-content-end">
+          <button className="btn-close" onClick={closeModal}></button>
+        </div>
       </div>
-      <Button onClick={newPage}>NExt</Button>
-    </div>
+      <div className="row p-2">
+        <div className={['p-4'].join(' ')}>
+          {page < 4 && <p>Βήμα {page} από 3</p>}
+          <div>
+            {page === 1 && <StepOne name={setName} data={data} newPage={newPage} update={setData} />}
+            {page === 2 && <StepTwo name={name} dependencies={dependQuest} updateQuest={setDependQuest} newPage={newPage} data={data} update={setData} />}
+            {page === 3 && <StepThree name={name} dependencies={dependQuest} newPage={newPage} updateQuest={setDependQuest} data={data} update={setData} />}
+            {page === 4 && <StepFour data={data} />}
+          </div>
+          <Button onClick={newPage}>NExt</Button>
+        </div>
+      </div>
+    </Modal>
+
   )
 }
 
@@ -150,6 +190,7 @@ function StepTwo(props) {
   useEffect(() => {
     let step = 2;
     instance.get(`characteristics?name=${props.name}`).then((response) => {
+      console.log(response.data);
       let tempQuestions = []
       let chunk = []
       response.data.forEach((element, index) => {
@@ -160,11 +201,16 @@ function StepTwo(props) {
           const multiple = element.multiple;
           if (multiple.depend != 0) { setDependQuest({ 'name': multiple.depend, 'question': multiple.multiple_quest }) }
           item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} multiple={true} placeholder={multiple.multiple_quest} id={element.id} values={multiple.multiple_ans}></Selector></div></div>;
-        } else {
+        } else if (element.single != null) {
           const single = element.single;
+          console.log(single);
           if (single.depend != 0) { setDependQuest({ 'name': single.depend, 'question': single.single_quest }) }
           item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} placeholder={single.single_quest} id={element.id} values={single.single_ans}></Selector></div></div>;
+        } else {
+          item = <span><label for={element.id} >{element.text[0]}</label>
+            <div key={uuidv4()} className="row"><div className="col mt-2"><input className="form-input" key={index} id={element.id} onChange={updateDom}></input></div></div></span>
         }
+
         chunk = [...chunk, item];
         if (index % step == 0) {
           tempQuestions = [...tempQuestions, chunk];
@@ -172,6 +218,27 @@ function StepTwo(props) {
         }
 
       })
+
+
+      // Σε περίτπωση που τελειώσουμε με ζυγό αριθμό ερωτήσεων και δεν περαστεί η τελευταία ερώτηση
+      if (response.data.length % step == 0) {
+        const index = response.data.length - 1;
+        const element = response.data[response.data.length - 1];
+        console.log(element);
+        let item;
+        if (element.multiple != null) {
+          const multiple = element.multiple;
+          if (multiple.depend != 0) { setDependQuest({ 'name': multiple.depend, 'question': multiple.multiple_quest }) }
+          item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} multiple={true} placeholder={multiple.multiple_quest} id={element.id} values={multiple.multiple_ans}></Selector></div></div>;
+        } else {
+          const single = element.single;
+          if (single.depend != 0) { setDependQuest({ 'name': single.depend, 'question': single.single_quest }) }
+          item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} placeholder={single.single_quest} id={element.id} values={single.single_ans}></Selector></div></div>;
+        }
+
+        tempQuestions = [...tempQuestions, [item]];
+      }
+      console.log(tempQuestions);
       setDomQuestions(tempQuestions);
     })
   }, [])

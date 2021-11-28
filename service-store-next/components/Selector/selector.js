@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import Select from 'react-select';
 import { v4 as uuidv4 } from 'uuid';
-import Select from 'react-select'
 
 export default function Selector(props) {
   const [values, setValues] = useState([]);
@@ -30,8 +30,8 @@ export default function Selector(props) {
   return (
     <span>
       <label for={props.id} >{props.placeholder}</label>
-      {props.multiple && <Select id={props.id} menuPosition={'fixed'} options={options} isMulti onChange={change} class="form-select" aria-label="Default select example" />}
-      {!props.multiple && <Select id={props.id} menuPosition={'fixed'} options={options} onChange={change} class="form-select" aria-label="Default select example" />}
+      {props.multiple && <Select menuPlacement="bottom" id={props.id} menuPosition={'fixed'} options={options} isMulti onChange={change} aria-label="Default select example" />}
+      {!props.multiple && <Select menuPlacement="bottom" id={props.id} menuPosition={'fixed'} options={options} onChange={change}  aria-label="Default select example" />}
 
     </span>
 

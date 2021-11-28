@@ -10,9 +10,9 @@ export default function Card(props) {
         <div>
           <span>{props.description}</span>
         </div>
-        <div>
-          <span className="badge badge-primary m-2">badge 1</span>
-          <span className="badge badge-success m-2">badge 2</span>
+        <div className="p-2">
+          <span className="badge badge-primary m-2">{props.badge1}</span>
+          <span className="badge badge-success m-2">{props.badge2}</span>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import AdminInfo from './adminInfo';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import { faCog, faPaperPlane, faHome, faEdit, faUserCircle, faProjectDiagram, faSignOutAlt, faWallet } from '@fortawesome/free-solid-svg-icons';
+import { faCog, faPaperPlane, faHome, faEdit, faUserCircle, faProjectDiagram, faSignOutAlt, faWallet, faHandsHelping } from '@fortawesome/free-solid-svg-icons';
 
 export default function AdminBar(props) {
   const [role, setRole] = useState();
@@ -32,7 +32,17 @@ export default function AdminBar(props) {
             <FontAwesomeIcon icon={faProjectDiagram} className="text-white" ></FontAwesomeIcon>
           </div>
           <div className="col-8">
-            <b className="text-white"> <Link href="/questionaire"><a className="text-white">Κατάθεση Πρότασης</a></Link></b>
+            <b className="text-white"> <Link href="/questionaire"><a className="text-white">Projects</a></Link></b>
+          </div>
+        </div>
+      </button>
+      <button className={[styles.adminButton, 'm-2'].join(' ')}>
+        <div className="row">
+          <div className="col-2">
+            <FontAwesomeIcon icon={faPaperPlane} className="text-white" ></FontAwesomeIcon>
+          </div>
+          <div className="col-8">
+            <b className="text-white"> <Link href="/chat"><a className="text-white">Εισερχόμενα</a></Link></b>
           </div>
         </div>
       </button>
@@ -40,10 +50,10 @@ export default function AdminBar(props) {
         <button className={[styles.adminButton, 'm-2'].join(' ')}>
           <div className="row ">
             <div className="col-2">
-              <FontAwesomeIcon icon={faEdit} className="text-white" ></FontAwesomeIcon>
+              <FontAwesomeIcon icon={faHandsHelping} className="text-white" ></FontAwesomeIcon>
             </div>
             <div className="col-10">
-              <b className="text-white"> <Link href="/providers"><a className="text-white">Προτάσεις Υπο επεξεργασία</a></Link></b>
+              <b className="text-white"> <Link href="/providers"><a className="text-white">Προτάσεις</a></Link></b>
             </div>
           </div>
         </button>

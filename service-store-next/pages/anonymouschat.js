@@ -1,16 +1,16 @@
-import { React, Component } from "react";
-import Head from "next/head";
-import Layout from "../components/Layout/layout";
-import Filters from "../components/Filters/filters.jsx";
-import AnonymousChatRoom from "../components/ChatRoom/AnonymousChatRoom.jsx";
-import AnonymousChatTitle from "../components/Title/anonymousChatTitle.jsx";
-import QuestionSideCard from "../components/Card/questionSideCard.jsx";
-import { devteam2 } from "./api/axiosConfiguration";
-import socket from "socket.io-client";
-const sock = socket.io.connect("islab-thesis.aegean.gr:5550");
-import style from "../components/LeftBar/box.module.scss";
 import axios from "axios";
+import Head from "next/head";
+import { Component, React } from "react";
+import socket from "socket.io-client";
+import QuestionSideCard from "../components/Card/questionSideCard.jsx";
+import AnonymousChatRoom from "../components/ChatRoom/AnonymousChatRoom.jsx";
+import Filters from "../components/Filters/filters.jsx";
+import Layout from "../components/Layout/layout";
+import style from "../components/LeftBar/box.module.scss";
 import Question from "../components/Question/Question";
+import AnonymousChatTitle from "../components/Title/anonymousChatTitle.jsx";
+import { devteam2 } from "./api/axiosConfiguration";
+const sock = socket.io.connect("islab-thesis.aegean.gr:5550");
 
 class AnonymousChat extends Component {
   state = {
@@ -293,7 +293,7 @@ class AnonymousChat extends Component {
               <div className="container-fluid">
                 <div className="row">
                   <div className={[style.box, "col-sm-3 bg-primary"].join(" ")}>
-                    {"provider" == "provider" && (
+                    {this.state.user.role == "provider" && (
                       <Question sendNewQuestion={this.sendNewQuestion} />
                     )}
                     {this.state.questions.map((question) => (

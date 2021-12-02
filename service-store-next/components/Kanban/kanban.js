@@ -131,7 +131,7 @@ export default function Kanban(props) {
         'id': request._id,
         'title': request.name,
         'description': request.service_1,
-        'label': request.createdAt,
+        'label': request.created,
       });
     });
     setData(cards);

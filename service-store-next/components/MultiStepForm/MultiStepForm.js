@@ -379,6 +379,7 @@ function StepFour(props) {
   jsonData['updatedAt'] = new Date();
   jsonData['status'] = 'Open';
   jsonData['name'] = props.name;
+  jsonData['created'] = new Date();
 
   axios.post('http://islab-thesis.aegean.gr:82/trans/api/requests', jsonData).then((response) => {
     if (response.status = 200) {

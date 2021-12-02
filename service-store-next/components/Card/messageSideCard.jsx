@@ -1,10 +1,10 @@
-import styles from "./card.module.scss";
 import moment from "moment";
+import styles from "./card.module.scss";
 const MessageSideCard = (props) => {
   console.log("props", props);
   // const { offer, messages, provider, request, onCardSelect } = props;
   console.log("messagesidecard", props.offer);
-  console.log(props.provider);
+  console.log(props.user);
   // console.log(request);
   // console.log(messages);
   moment.locale("el");
@@ -16,7 +16,7 @@ const MessageSideCard = (props) => {
     >
       <div className="p-2">
         <div className="row">
-          <div className="col-7">{props.provider.NameOfCompany}</div>
+          <div className="col-7">{props.user.NameOfCompany}</div>
           <div className="col-5">
             <small className="text-muted">
               {moment(

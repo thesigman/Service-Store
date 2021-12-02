@@ -15,7 +15,7 @@ class Chat extends Component {
   state = {
     chatroommessages: [],
     offers: [],
-    providers: [],
+    users: [],
     requests: [],
     messages: [],
     currentofferid: "",
@@ -48,13 +48,13 @@ class Chat extends Component {
           console.log(response.statusText);
           // console.log(response.data[2][0][0]);
 
-          let p = [];
+          let u = [];
           response.data[2].forEach((item) => {
             // console.log(item[0]);
-            p.push(item[0]);
+            u.push(item[0]);
           });
           // console.log("P", p);
-          this.setState({ providers: p });
+          this.setState({ users: u });
           let r = [];
           response.data[3].forEach((item) => {
             // console.log(item[0]);
@@ -64,10 +64,10 @@ class Chat extends Component {
           this.setState({ requests: r });
           let o = [];
           response.data[0].forEach((item) => {
-            // console.log(item[0]);
-            o.push(item[0]);
+            console.log("ITEM", item);
+            o.push(item);
           });
-          // console.log("O", o);
+          console.log("O", o);
 
           let m = [];
           response.data[1].forEach((item) => {
@@ -91,7 +91,7 @@ class Chat extends Component {
           this.setState({ requestname: response.data[3][0][0].name });
 
           console.log("stateMessages", this.state.messages);
-          console.log(this.state.providers);
+          console.log(this.state.users);
         },
         (error) => {
           console.log(error);
@@ -134,22 +134,23 @@ class Chat extends Component {
     console.log(offer._id);
     this.setState({ currentofferid: offer._id });
 
-    // let p;
-    // let r;
+    let u;
+    let r;
 
-    // this.state.providers.forEach((array) => {
-    //   console.log("ARRAY", array);
-    //   p = array.filter((provider) => provider._id === offer.provider);
-    //   console.log("phanlde", p);
-    // });
-
-    let p = this.state.providers.find(
-      (provider) => provider._id.toString() === offer.provider.toString()
-    );
-
-    let r = this.state.requests.find(
-      (request) => request._id.toString() === offer.requestid.toString()
-    );
+    JSON.parse(window.sessionStorage.getItem("application_user")).role ==
+    "client"
+      ? ((u = this.state.users.find(
+          (user) => user._id.toString() === offer.provider.toString()
+        )),
+        (r = this.state.requests.find(
+          (request) => request._id.toString() === offer.requestid.toString()
+        )))
+      : ((r = this.state.requests.find(
+          (request) => request._id.toString() === offer.requestid.toString()
+        )),
+        (u = this.state.users.find(
+          (user) => user._id.toString() === r.requester.toString()
+        )));
 
     // this.state.requests.forEach((array) => {
     //   r = array.filter((request) => request._id === offer.requestid);
@@ -160,7 +161,7 @@ class Chat extends Component {
     // this.setState({ requestname: r[0]?.name });
     // this.setState({ title: p[0]?.NameOfCompany });
     this.setState({ requestname: r.name });
-    this.setState({ title: p.NameOfCompany });
+    this.setState({ title: u.NameOfCompany });
     devteam2
       .post("/messages/offerid", {
         id: offer._id,
@@ -254,14 +255,24 @@ class Chat extends Component {
                       <MessageSideCard
                         key={this.state.offers.indexOf(offer)}
                         messages={this.state.messages[index]}
-                        provider={
-                          // this.state.providers[index]
-                          this.state.providers.find(
-                            (provider) => provider._id === offer.provider
-                          )
+                        user={
+                          JSON.parse(
+                            window.sessionStorage.getItem("application_user")
+                          ).role == "client"
+                            ? this.state.users.find(
+                                (user) => user._id === offer.provider
+                              )
+                            : this.state.users.find((user) => {
+                                let req = this.state.requests.find(
+                                  (request) => request._id === offer.requestid
+                                );
+                                return user._id === req.requester;
+                              })
                         }
                         offer={offer}
-                        request={this.state.requests[index]}
+                        request={this.state.requests.find(
+                          (request) => request._id == offer.requestid
+                        )}
                         onCardSelect={this.handleOffer}
                       ></MessageSideCard>
                     ))}

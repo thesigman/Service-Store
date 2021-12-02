@@ -23,6 +23,7 @@ class AnonymousChat extends Component {
     currentid: "",
     user: {},
     requestid: "",
+    name: "",
   };
 
   constructor(props) {
@@ -37,6 +38,7 @@ class AnonymousChat extends Component {
     this.setState({
       user: JSON.parse(window.sessionStorage.getItem("application_user")),
     });
+    this.setState({ name: params.name });
     devteam2
       .post("/anonymousmessages/", {
         id: params.requestId,
@@ -214,6 +216,31 @@ class AnonymousChat extends Component {
   };
   sendNewQuestion = (question) => {
     console.log("eimai anonymouschat", question);
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+    let obj = {
+      question: question,
+      answers: [],
+      created: new Date(),
+      answered: false,
+    };
+
+    devteam2
+      .post("/anonymousmessages/question", {
+        obj,
+        requestid: params.requestId,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+          const newQuestions = [...this.state.questions];
+          newQuestions.push(response.data);
+          this.setState({ questions: newQuestions });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
   render() {
     return (
@@ -233,7 +260,7 @@ class AnonymousChat extends Component {
                       <a href="#">Αρχική</a>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
-                      KOSTAS.GR
+                      {this.state.name}
                     </li>
                   </ol>
                 </nav>
@@ -241,7 +268,7 @@ class AnonymousChat extends Component {
               <div className="container-fluid">
                 <div className="row">
                   <div className="col-sm-3">
-                    <h1>KOSTAS.GR</h1>
+                    <h1>{this.state.name}</h1>
                     <Filters
                       filterByName={this.filterByName}
                       filterByDate={this.filterByDate}

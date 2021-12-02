@@ -1,10 +1,8 @@
-import React from "react";
-import Board from 'react-trello';
-import styles from '../Card/card.module.scss'
 import axios from 'axios';
 import Router from "next/router";
-import { useState, useEffect, Children } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import Board from 'react-trello';
 
 export default function Kanban(props) {
   const [data, setData] = useState([]);
@@ -133,7 +131,7 @@ export default function Kanban(props) {
         'id': request._id,
         'title': request.name,
         'description': request.service_1,
-        'label': request.created,
+        'label': request.createdAt,
       });
     });
     setData(cards);

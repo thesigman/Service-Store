@@ -1,21 +1,22 @@
-import { Component, Fragment } from "react";
-import Head from "next/head";
 // import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css";
-import Cards from "../components/Cards/providercards";
-import ProvidersCard from "../components/Card/providersCard.jsx";
-import Layout from "../components/Layout/layout";
-import Filter from "../components/Filters/filters";
-import Title from "../components/Title/title";
+import Head from "next/head";
+import { Component, Fragment } from "react";
 import ProjectCustomerCard from "../components/Card/ProjectCustomerCard.jsx";
-import "bootstrap/dist/css/bootstrap.css";
+import ProvidersCard from "../components/Card/providersCard.jsx";
 import styles from "../components/Cards/cards.module.scss";
+import Filter from "../components/Filters/filters";
+import Layout from "../components/Layout/layout";
 import style from "../components/LeftBar/box.module.scss";
+import MultiStepForm from "../components/MultiStepForm/MultiStepForm";
+import Title from "../components/Title/title";
 import { devteam2 } from "./api/axiosConfiguration";
+
 
 class Providers extends Component {
   // user = JSON.parse(window.sessionStorage.getItem("application_user"));
   state = {
+    modalIsOpen: false,
     providers: [],
     requests: [],
     titles: [],
@@ -37,7 +38,7 @@ class Providers extends Component {
     devteam2
       .post("/requests/cid/", {
         //cid: "61017675b47117629c1a8b67",
-         cid: JSON.parse(window.sessionStorage.getItem("application_user")).id
+        cid: JSON.parse(window.sessionStorage.getItem("application_user")).id
       })
       .then(
         (response) => {
@@ -153,6 +154,10 @@ class Providers extends Component {
     this.setState({ requests: NewArray });
   };
 
+  setModalStatus = () => {
+    this.setState({ modalIsOpen: !this.state.modalIsOpen });
+  }
+
   filterByDate = () => {
     console.log("filterbydate");
 
@@ -208,7 +213,7 @@ class Providers extends Component {
             <div className="container-fluid">
               <div className="row">
                 <div className={[style.box, "col-sm-3 bg-primary"].join(" ")}>
-                  <button className="btn btn-primary btn-lg m-2 bg-light text-dark">
+                  <button className="btn btn-primary btn-lg m-2 bg-light text-dark" onClick={this.setModalStatus}>
                     + Δημιουργία project
                   </button>
                   {this.state.requests.map((request) => (
@@ -246,7 +251,11 @@ class Providers extends Component {
               </div>
             </div>
           </Fragment>
+
         )}
+        {!this.state.modalIsOpen ||
+          <MultiStepForm modalstatus={this.state.modalIsOpen} />
+        }
       </Layout>
     );
   }

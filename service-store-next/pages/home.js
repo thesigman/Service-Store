@@ -41,7 +41,10 @@ export default function Home(props) {
           <Kanban view={view}></Kanban>
         </div>
       }
-      <MultiStepForm modalstatus={modalIsOpen}></MultiStepForm>
+      {!modalIsOpen ||
+        <MultiStepForm modalstatus={modalIsOpen}></MultiStepForm>
+      }
+
     </Layout>
 
   )

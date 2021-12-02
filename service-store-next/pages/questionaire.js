@@ -9,20 +9,6 @@ export default function Questionaire(props) {
   const [finalCards, setFinalCards] = useState([]);
   const [modalIsOpen, setModalStatus] = useState(false);
 
-  const modalStyle = {
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-      background: "#FFFFFF",
-      width: "70%",
-      height: "auto",
-      overflow: "visible",
-    },
-  }
 
   useEffect(() => {
     let finalCards = [];
@@ -84,7 +70,9 @@ export default function Questionaire(props) {
           </div>
         </div>
       }
-      <MultiStepForm modalstatus={modalIsOpen} />
+      {!modalIsOpen ||
+        <MultiStepForm modalstatus={modalIsOpen} />
+      }
     </Layout>
   )
 }

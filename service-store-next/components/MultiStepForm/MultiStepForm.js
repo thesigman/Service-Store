@@ -1,32 +1,36 @@
 import axios from 'axios';
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import Modal from 'react-modal';
 import { v4 as uuidv4 } from 'uuid';
 import { instance } from '../../pages/api/axiosConfiguration';
 import Selector from "../Selector/selector";
+import styles from './form.module.scss';
 
+/**
+ * MultiStepForm
+ * Για την διαχείσιση της φόρμας υπάρχει ένα κεντρικό state που είναι αυτό του function
+ * Oποιαδοίποτε ενέργεια / προσθήκη πρέπει να γίνετααι μέσα απο το κεντρικό state 
+ * 
+ * Τα state μέσα σε κάθε step ειναι υπεύθυνα για την διαχείριση της πληροφορίας στο εκάστωτε βήμα
+ * και για να κάνουμε submit πρέπει να υποβάλουν το αποτέλεσμά του στο κεντρικό state 
+ */
 
 
 export default function MultiStepForm(props) {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([])
-  const [name, setName] = useState(0)
+  const [name, setName] = useState('');
+  const [activeService, setActiveService] = useState('');
   const [dependQuest, setDependQuest] = useState([]);
   const [modalIsOpen, setModalStatus] = useState(false);
 
   const modalStyle = {
     content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
       background: "#FFFFFF",
-      width: "70%",
-      height: "auto",
       overflow: "visible",
+      margin: 'auto',
+      width: '50%',
+      height: '50vh'
     },
   }
 
@@ -48,22 +52,22 @@ export default function MultiStepForm(props) {
 
 
   return (
-    <Modal isOpen={modalIsOpen} style={modalStyle} ariaHideApp={false}>
+    <Modal isOpen={modalIsOpen} style={modalStyle} ariaHideApp={false} size="sm" >
       <div className="container-fluid">
         <div className="row justify-content-end">
           <button className="btn-close" onClick={closeModal}></button>
         </div>
       </div>
       <div className="row p-2">
-        <div className={['p-4'].join(' ')}>
+        <div className={['p-4', styles.formRow].join(' ')}>
           {page < 4 && <p>Βήμα {page} από 3</p>}
           <div>
-            {page === 1 && <StepOne name={setName} data={data} newPage={newPage} update={setData} />}
-            {page === 2 && <StepTwo name={name} dependencies={dependQuest} updateQuest={setDependQuest} newPage={newPage} data={data} update={setData} />}
-            {page === 3 && <StepThree name={name} dependencies={dependQuest} newPage={newPage} updateQuest={setDependQuest} data={data} update={setData} />}
-            {page === 4 && <StepFour data={data} />}
+            {page === 1 && <StepOne setActiveService={setActiveService} data={data} newPage={newPage} update={setData} setName={setName} />}
+            {page === 2 && <StepTwo name={activeService} dependencies={dependQuest} updateQuest={setDependQuest} newPage={newPage} data={data} update={setData} />}
+            {page === 3 && <StepThree name={activeService} dependencies={dependQuest} newPage={newPage} updateQuest={setDependQuest} data={data} update={setData} />}
+            {page === 4 && <StepFour name={name} data={data} />}
           </div>
-          <Button onClick={newPage}>NExt</Button>
+          <button onClick={newPage}>NExt</button>
         </div>
       </div>
     </Modal>
@@ -78,9 +82,11 @@ function StepOne(props) {
   const [service2, setService2] = useState([]);
   const [service1Active, setService1Active] = useState([]);
   const [service2Active, setService2Active] = useState([]);
-  const [serviceName, setServiceName] = useState([])
+  const [serviceName, setServiceName] = useState([]);
+  const [name, setName] = useState('');
   const [boldtext, setBoldText] = useState('Καλώς Ορίσατε')
   const [serviceText, setServiceText] = useState('Επιλέξτε για να ξεκινήσετε')
+  
   useEffect(() => {
     instance.get('/services').then(
       (response) => {
@@ -128,10 +134,15 @@ function StepOne(props) {
         break;
       case 'service_2':
         const name = Object.keys(serviceName).find(key => serviceName[key] === answer);
-        props.name(name);
+        props.setActiveService(name);
         found = props.data.find((item) => item.question == triggerElement);
         if (typeof found != "undefined") { props.data.splice(found, 1); }
         props.update([...props.data, { 'question': triggerElement, 'answer': answer }]);
+        break;
+      default:
+        // Δεν ειναι απόλυτα σωστ΄ή προσσέγγιση αλλά λειτουργεί μιας και το default case δεν πορόκεται ποτέ 
+        // να είναι κατι διαφορετικό απο το όνομα του request
+        props.setName(question.target.value);
         break;
     }
   }
@@ -141,13 +152,19 @@ function StepOne(props) {
       <p className="text-center">{serviceText}</p>
       <div className="row">
         <div className="col">
-          <Selector placeholder="Domain" id="domain" onChange={updateDom} values={[...new Set(domains.values())]}></Selector>
+          <label for="requestName" >Όνομα Πρότασης</label>
+          <input placeholder="Όνομα πρότασης" id="requestName" onChange={updateDom}></input>
         </div>
+      </div>
+      <div className="row">
         <div className="col">
-          <Selector placeholder="Service 1" id="service_1" onChange={updateDom} values={[...new Set(service1Active)]}></Selector>
+          <Selector placeholder="Domain" id="domain" onChange={updateDom} values={[...new Set(domains.values())]}></Selector>
         </div>
       </div>
       <div className="row mt-2">
+        <div className="col">
+          <Selector placeholder="Service 1" id="service_1" onChange={updateDom} values={[...new Set(service1Active)]}></Selector>
+        </div>
         <div className="col">
           <Selector placeholder="Service 2" id="service_2" onChange={updateDom} values={[...new Set(service2Active)]}></Selector>
         </div>
@@ -171,7 +188,7 @@ function StepTwo(props) {
 
   useEffect(() => {
     if (question) {
-      // Εαν υπάρχει ήδη η ερώτηση θα πρέπει να αντικατασταθεί με την καινούρια απάντησ 
+      // Εαν υπάρχει ήδη η ερώτηση θα πρέπει να αντικατασταθεί με την καινούρια απάντηση
       const found = props.data.find((item) => item.question == question.question);
       if (typeof found != "undefined") { props.data.splice(found, 1); }
       props.update([...props.data, { 'question': question.question, 'answer': question.answer }]);
@@ -189,8 +206,8 @@ function StepTwo(props) {
 
   useEffect(() => {
     let step = 2;
+    console.log(props.name);
     instance.get(`characteristics?name=${props.name}`).then((response) => {
-      console.log(response.data);
       let tempQuestions = []
       let chunk = []
       response.data.forEach((element, index) => {
@@ -203,7 +220,6 @@ function StepTwo(props) {
           item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} multiple={true} placeholder={multiple.multiple_quest} id={element.id} values={multiple.multiple_ans}></Selector></div></div>;
         } else if (element.single != null) {
           const single = element.single;
-          console.log(single);
           if (single.depend != 0) { setDependQuest({ 'name': single.depend, 'question': single.single_quest }) }
           item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} placeholder={single.single_quest} id={element.id} values={single.single_ans}></Selector></div></div>;
         } else {
@@ -224,7 +240,6 @@ function StepTwo(props) {
       if (response.data.length % step == 0) {
         const index = response.data.length - 1;
         const element = response.data[response.data.length - 1];
-        console.log(element);
         let item;
         if (element.multiple != null) {
           const multiple = element.multiple;
@@ -238,7 +253,6 @@ function StepTwo(props) {
 
         tempQuestions = [...tempQuestions, [item]];
       }
-      console.log(tempQuestions);
       setDomQuestions(tempQuestions);
     })
   }, [])
@@ -313,6 +327,7 @@ function StepThree(props) {
             const single = element.single;
             item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} placeholder={single.single_quest} id={element.id} values={single.single_ans}></Selector></div></div>;
           }
+          // To be added if its text
           chunk = [...chunk, item];
           if (index % step == 0) {
             tempQuestions = [...tempQuestions, chunk];
@@ -363,11 +378,12 @@ function StepFour(props) {
   jsonData['published_at'] = new Date();
   jsonData['updatedAt'] = new Date();
   jsonData['status'] = 'Open';
-  jsonData['name'] = uuidv4();
+  jsonData['name'] = props.name;
 
   axios.post('http://islab-thesis.aegean.gr:82/trans/api/requests', jsonData).then((response) => {
     if (response.status = 200) {
       console.log('Successfully Sent')
+      setModalStatus(!modalIsOpen);
     }
   }
 

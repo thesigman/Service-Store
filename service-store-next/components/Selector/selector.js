@@ -8,6 +8,7 @@ export default function Selector(props) {
   let options = [];
   const id = uuidv4();
 
+
   useEffect(() => {
     setValues(props.values)
   }, [props]);
@@ -31,7 +32,7 @@ export default function Selector(props) {
     <span>
       <label for={props.id} >{props.placeholder}</label>
       {props.multiple && <Select menuPlacement="bottom" id={props.id} menuPosition={'fixed'} options={options} isMulti onChange={change} aria-label="Default select example" />}
-      {!props.multiple && <Select menuPlacement="bottom" id={props.id} menuPosition={'fixed'} options={options} onChange={change}  aria-label="Default select example" />}
+      {!props.multiple && <Select menuPlacement="bottom" id={props.id} menuPosition={'fixed'} options={options} onChange={change} aria-label="Default select example" />}
 
     </span>
 

@@ -41,7 +41,7 @@ const MessageCard = (props) => {
   function getCardClass() {
     let classes = `card w-auto d-inline-block text-light`;
     classes +=
-      message.senderId == "provider"
+      message.senderId == JSON.parse(window.sessionStorage.getItem("application_user")).id
         ? " bg-primary140"
         : " text-end bg-secondaryGreenColor";
     return classes;
@@ -50,7 +50,7 @@ const MessageCard = (props) => {
 
   function getRowClass() {
     let classes = "d-flex flex-row";
-    classes += message.senderId == "provider" ? "" : "-reverse";
+    classes += message.senderId == JSON.parse(window.sessionStorage.getItem("application_user")).id ? "" : "-reverse";
     return classes;
   }
 };

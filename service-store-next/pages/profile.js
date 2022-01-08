@@ -1,25 +1,21 @@
-import Card from "../components/Card/card";
-import Layout from "../components/Layout/layout";
-import Image from "next/image";
-import Rate from "../components/Rate/rate";
-import Innercontainer from "../components/container/innerContainer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { instance } from "./api/axiosConfiguration";
-import { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
 import {
   faGlobe,
-  faMapMarker,
-  faPhone,
-  faPhoneAlt,
+  faMapMarker, faPhoneAlt
 } from "@fortawesome/free-solid-svg-icons";
-import Router from "next/router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import Card from "../components/Card/card";
+import Innercontainer from "../components/container/innerContainer";
+import Layout from "../components/Layout/layout";
+import { instance } from "./api/axiosConfiguration";
 export default function Profile(props) {
   const [nameOfCompany, setNameOfCOmpany] = useState();
   const [phone, setPhone] = useState();
   const [activity, setActivity] = useState();
   const [rating, setRating] = useState();
-
+// needs fix
   useEffect(() => {
     instance
       .get("/providers")

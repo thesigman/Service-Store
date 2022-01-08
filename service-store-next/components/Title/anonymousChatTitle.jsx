@@ -88,16 +88,20 @@ const AnonymousChatTitle = (props) => {
         <div className="col-3">
           <h2>Ερώτηση {index + 1}</h2>
         </div>
-        {props.userrole === "provider" && (
+        {props.user.role === "provider" && (
           <>
             <div className="col align-self-center">
-              <Toggle
-                id={(index + 1).toString()}
-                checked={answered}
-                value="yes"
-                onChange={handleAnswered}
-              />
-              <label htmlFor={(index + 1).toString()}>απαντήθηκε</label>
+              {props.user.id === props.question.senderId && (
+                <>
+                  <Toggle
+                    id={(index + 1).toString()}
+                    checked={answered}
+                    value="yes"
+                    onChange={handleAnswered}
+                  />
+                  <label htmlFor={(index + 1).toString()}>απαντήθηκε</label>
+                </>
+              )}
             </div>
             <div className="col-5 align-self-center">
               <Countdown
@@ -128,8 +132,8 @@ const AnonymousChatTitle = (props) => {
         <div className="container-fluid">
           <div className="row justify-content-end">
             <div className="col">
-              <h5>Aquila</h5>
-              <span>SoftBiz</span>
+              <h5>{props.projectName}</h5>
+              {/* <span>SoftBiz</span> */}
             </div>
             <button className="btn-close" onClick={closeModal}></button>
           </div>

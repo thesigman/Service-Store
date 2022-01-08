@@ -3,18 +3,15 @@ import "react-toggle/style.css";
 
 const AgreementTitle = (props) => {
   // console.log(typeof props.accepted);
-  const { title, description, saveAgreement, handleAccepted, accepted, index } =
+  const { title, description, signAgreement, handleAccepted, accepted, index } =
     props;
   return (
     <>
       <div className="row justify-content-end">
-        <button className="btn bg-success m-2">
+        <button className="btn bg-success m-2" onClick={signAgreement}>
           Αποθήκευση πρότασης και υπογραφή
         </button>
-        <button
-          className="btn bg-secondaryGreenColor m-2"
-          onClick={saveAgreement}
-        >
+        <button className="btn bg-secondaryGreenColor m-2">
           Προσωρινή Αποθήκευση
         </button>
       </div>

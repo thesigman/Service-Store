@@ -216,8 +216,8 @@ class Chat extends Component {
         <Layout user={this.props}>
           {(!this.props.isAuthenticated && <p>You have to login First</p>) || (
             <>
-              {this.state.user.id}
-              {this.state.user.role}
+              {/* {this.state.user.id}
+              {this.state.user.role} */}
               <div className="row mt-2">
                 <nav aria-label="breadcrumb">
                   <ol className="breadcrumb">

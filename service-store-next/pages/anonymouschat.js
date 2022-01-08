@@ -219,6 +219,7 @@ class AnonymousChat extends Component {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
     let obj = {
+      // senderId : this.state.user.id,
       question: question,
       answers: [],
       created: new Date(),
@@ -251,8 +252,8 @@ class AnonymousChat extends Component {
         <Layout user={this.props}>
           {(!this.props.isAuthenticated && <p>You have to login First</p>) || (
             <>
-              {this.state.user.id}
-              {this.state.user.role}
+              {/* {this.state.user.id}
+              {this.state.user.role} */}
               <div className="row mt-2">
                 <nav aria-label="breadcrumb">
                   <ol className="breadcrumb">
@@ -276,16 +277,19 @@ class AnonymousChat extends Component {
                   </div>
                   <div className="col-sm-9">
                     <AnonymousChatTitle
+                      projectName={this.state.name}
                       created={this.state.created}
                       index={this.state.index}
                       description={this.state.description}
                       answered={this.state.answered}
-                      created={this.state.created}
                       currentid={this.state.currentid}
                       nextQuestion={this.nextQuestion}
                       handleOffer={this.handleOffer}
                       handleAnswered={this.handleAnswered}
-                      userrole={this.state.user.role}
+                      question={this.state.questions.find(
+                        (question) => question.id === this.state.currentid
+                      )}
+                      user={this.state.user}
                     />
                   </div>
                 </div>
@@ -294,7 +298,10 @@ class AnonymousChat extends Component {
                 <div className="row">
                   <div className={[style.box, "col-sm-3 bg-primary"].join(" ")}>
                     {this.state.user.role == "provider" && (
-                      <Question sendNewQuestion={this.sendNewQuestion} />
+                      <Question
+                        projectName={this.state.name}
+                        sendNewQuestion={this.sendNewQuestion}
+                      />
                     )}
                     {this.state.questions.map((question) => (
                       <QuestionSideCard

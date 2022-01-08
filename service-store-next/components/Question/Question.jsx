@@ -40,7 +40,7 @@ const Question = (props) => {
         <div className="container-fluid">
           <div className="row justify-content-end">
             <div className="col">
-              <h5>Δημιουργία ερωτήσεων για Project Title</h5>
+              <h5>Δημιουργία ερωτήσεων για {props.projectName}</h5>
               <span>Customers company name</span>
             </div>
             <button className="btn-close" onClick={closeModal}></button>

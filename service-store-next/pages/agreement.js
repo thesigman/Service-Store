@@ -6,8 +6,8 @@ import styles from "../components/ChatRoom/chatroom.module.scss";
 import style from "../components/LeftBar/box.module.scss";
 import ArticleSideCard from "../components/Card/articleSideCard";
 import AgreementTitle from "../components/Title/agreementTitle";
-import { EditText, EditTextarea } from "react-edit-text";
 import Layout from "../components/Layout/layout";
+import Text from "../components/EditText/Text";
 import moment from "moment";
 
 class Agreement extends Component {
@@ -20,6 +20,7 @@ class Agreement extends Component {
     splitted: [],
     accepted: Boolean,
     keywords: [],
+    values: {},
     user: {},
   };
 
@@ -34,15 +35,17 @@ class Agreement extends Component {
     });
     devteam2
       .post("/articles/offerid", {
-//        offerid: "6123c934172d021ef07070ee",
-//offerid:"6185383f84f27ed4b9d9765f",
-offerid: JSON.parse(window.sessionStorage.getItem("offerid")),
+        //        offerid: "6123c934172d021ef07070ee",
+        //offerid:"6185383f84f27ed4b9d9765f",
+        offerid: JSON.parse(window.sessionStorage.getItem("offerid")),
       })
       .then(
         (response) => {
           console.log(response.data);
           let articles = [];
           let article = [];
+          let v = {};
+
           for (let a in response.data[0].articles) {
             articles.push(response.data[0].articles[a]);
             response.data[0].articles[a].keywords.forEach((keyword) =>
@@ -55,6 +58,17 @@ offerid: JSON.parse(window.sessionStorage.getItem("offerid")),
           //   article.push(response.data[0].articles["article0"][element]);
           // }
           // console.log(article);
+
+          console.log(response.data[0].articles[a]?.values);
+          if (
+            response.data[0].articles[a].values &&
+            response.data[0].articles[a].values != null
+          ) {
+            v = { ...v, ...response.data[0].articles[a].values };
+          }
+          console.log(v);
+
+          this.setState({ values: v });
           this.setState({ articles });
 
           let parts = this.state.articles[0].text.split(/(\bergolavia+\b)/gi);
@@ -121,23 +135,59 @@ offerid: JSON.parse(window.sessionStorage.getItem("offerid")),
     // }
   };
 
+  signAgreement = () => {
+    console.log("sign agreement");
+    devteam2
+      .post(
+        "/articles/download"
+        // {
+        //   offerid: "6123c934172d021ef07070ee",
+        // }
+        // { responseType: "blob" }
+      )
+      .then(
+        (response) => {
+          console.log(response.data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
   handleSave = (value) => {
-    this.setState({ [value.name]: value.value });
-    console.log([value.name], value.value);
-    // console.log(value.previousValue);
+    console.log("save");
+    console.log("values", value);
+
+    let name = value.name;
+    console.log(name);
+
+    devteam2
+      .post("/articles/edit", {
+        value,
+        offerid: JSON.parse(window.sessionStorage.getItem("offerid")),
+        number: this.state.article.number,
+      })
+      .then(
+        (response) => {
+          let newValues = { ...this.state.values };
+          newValues[value.name] = response.data["values"][value.name];
+          this.setState({
+            values: newValues,
+          });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
-  saveAgreement = () => {
-    console.log("services", this.state.services);
-    console.log("duration", this.state.duration);
-    console.log("dur", this.state.dur);
-    console.log("numofservices", this.state.numofservices);
-  };
+
   handleAccepted = () => {
     devteam2
       .post("/articles/accepted", {
         number: this.state.article.number,
-//        offerid: "6123c934172d021ef07070ee",
-offerid: JSON.parse(window.sessionStorage.getItem("offerid")),
+        //        offerid: "6123c934172d021ef07070ee",
+        offerid: JSON.parse(window.sessionStorage.getItem("offerid")),
         userid:
           this.state.user.role === "client" ? "clientAccept" : "providerAccept",
       })
@@ -187,7 +237,7 @@ offerid: JSON.parse(window.sessionStorage.getItem("offerid")),
                     <AgreementTitle
                       title={this.state.title}
                       description={this.state.description}
-                      saveAgreement={this.saveAgreement}
+                      signAgreement={this.signAgreement}
                       accepted={this.state.accepted}
                       handleAccepted={this.handleAccepted}
                       index={this.state.article["number"]}
@@ -226,20 +276,55 @@ offerid: JSON.parse(window.sessionStorage.getItem("offerid")),
                             </h5>
                           );
                         } else {
-                          if (part === "date") {
-                            ph = "διαρκεια";
+                          switch (part) {
+                            case "providerServices":
+                              ph = "υπηρεσίες παρόχου";
+                              break;
+                            case "duration":
+                              ph = "διάρκεια";
+                              break;
+                            case "ergolavia":
+                              ph = "εργασίες";
+                              break;
+                            case "days":
+                              ph = "μέρες/μήνες";
+                              break;
+                            case "date":
+                              ph = "ημερομηνία";
+                              break;
+                            case "ammount":
+                              ph = "ποσό";
+                              break;
+                            case "payment1":
+                              ph = "1η πληρωμή";
+                              break;
+                            case "payment2":
+                              ph = "2η πληρωμή";
+                              break;
+                            case "iban":
+                              ph = "iban λογαριασμού";
+                              break;
+                            case "bank":
+                              ph = "τράπεζα";
+                              break;
+                            case "team":
+                              ph = "στελέχη";
+                              break;
+                            case "representative":
+                              ph = "εκπρόσωπος";
+                              break;
+                            default:
+                              ph = "συμπληρώστε εδώ";
+                              break;
                           }
                           return (
-                            <div style={{ whiteSpace: "wrap" }}>
-                              <EditText
-                                id={part}
-                                name={part}
-                                placeholder={"sumplhrwste"}
-                                inline
-                                style={{ width: "500px" }}
-                                onSave={this.handleSave}
-                              />
-                            </div>
+                            <Text
+                              part={part}
+                              value={this.state.values[`${part}`]}
+                              defaultValue={this.state.values[`${part}`]}
+                              ph={ph}
+                              onSave={this.handleSave}
+                            />
                           );
                         }
                       })}

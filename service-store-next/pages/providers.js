@@ -12,7 +12,6 @@ import MultiStepForm from "../components/MultiStepForm/MultiStepForm";
 import Title from "../components/Title/title";
 import { devteam2 } from "./api/axiosConfiguration";
 
-
 class Providers extends Component {
   // user = JSON.parse(window.sessionStorage.getItem("application_user"));
   state = {
@@ -38,7 +37,7 @@ class Providers extends Component {
     devteam2
       .post("/requests/cid/", {
         //cid: "61017675b47117629c1a8b67",
-        cid: JSON.parse(window.sessionStorage.getItem("application_user")).id
+        cid: JSON.parse(window.sessionStorage.getItem("application_user")).id,
       })
       .then(
         (response) => {
@@ -156,7 +155,7 @@ class Providers extends Component {
 
   setModalStatus = () => {
     this.setState({ modalIsOpen: !this.state.modalIsOpen });
-  }
+  };
 
   filterByDate = () => {
     console.log("filterbydate");
@@ -180,8 +179,8 @@ class Providers extends Component {
       <Layout user={this.props}>
         {(!this.props.isAuthenticated && <p>You have to login First</p>) || (
           <Fragment>
-            {this.state.user.id}
-            {this.state.user.role}
+            {/* {this.state.user.id}
+            {this.state.user.role} */}
             <div className="row">
               <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
@@ -213,7 +212,10 @@ class Providers extends Component {
             <div className="container-fluid">
               <div className="row">
                 <div className={[style.box, "col-sm-3 bg-primary"].join(" ")}>
-                  <button className="btn btn-primary btn-lg m-2 bg-light text-dark" onClick={this.setModalStatus}>
+                  <button
+                    className="btn btn-primary btn-lg m-2 bg-light text-dark"
+                    onClick={this.setModalStatus}
+                  >
                     + Δημιουργία project
                   </button>
                   {this.state.requests.map((request) => (
@@ -251,11 +253,10 @@ class Providers extends Component {
               </div>
             </div>
           </Fragment>
-
         )}
-        {!this.state.modalIsOpen ||
+        {!this.state.modalIsOpen || (
           <MultiStepForm modalstatus={this.state.modalIsOpen} />
-        }
+        )}
       </Layout>
     );
   }

@@ -1,14 +1,14 @@
-import { Component, Fragment } from "react";
-import Head from "next/head";
-import { devteam2 } from "./api/axiosConfiguration";
 import "bootstrap/dist/css/bootstrap.css";
-import styles from "../components/ChatRoom/chatroom.module.scss";
-import style from "../components/LeftBar/box.module.scss";
-import ArticleSideCard from "../components/Card/articleSideCard";
-import AgreementTitle from "../components/Title/agreementTitle";
-import Layout from "../components/Layout/layout";
-import Text from "../components/EditText/Text";
 import moment from "moment";
+import Head from "next/head";
+import { Component } from "react";
+import ArticleSideCard from "../components/Card/articleSideCard";
+import styles from "../components/ChatRoom/chatroom.module.scss";
+import Text from "../components/EditText/Text";
+import Layout from "../components/Layout/layout";
+import style from "../components/LeftBar/box.module.scss";
+import AgreementTitle from "../components/Title/agreementTitle";
+import { devteam2 } from "./api/axiosConfiguration";
 
 class Agreement extends Component {
   state = {
@@ -53,19 +53,19 @@ class Agreement extends Component {
             );
             // this.state.keywords?.push(response.data[0].articles[a].keywords);
             // console.log("response", response.data[0].articles[a].keywords);
+            console.log(response.data[0].articles[a]?.values);
+            if (
+              response.data[0].articles[a].values &&
+              response.data[0].articles[a].values != null
+            ) {
+              v = { ...v, ...response.data[0].articles[a].values };
+            }
           }
           // for (let element in response.data[0].articles["article0"]) {
           //   article.push(response.data[0].articles["article0"][element]);
           // }
           // console.log(article);
 
-          console.log(response.data[0].articles[a]?.values);
-          if (
-            response.data[0].articles[a].values &&
-            response.data[0].articles[a].values != null
-          ) {
-            v = { ...v, ...response.data[0].articles[a].values };
-          }
           console.log(v);
 
           this.setState({ values: v });

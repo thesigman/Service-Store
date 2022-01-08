@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Countdown, { zeroPad } from "react-countdown";
 import Modal from "react-modal";
-import Countdown from "react-countdown";
-import OfferForm from "../Forms/offerForm";
 import Toggle from "react-toggle";
 import "react-toggle/style.css";
-import { zeroPad } from "react-countdown";
+import OfferForm from "../Forms/offerForm";
 
 const AnonymousChatTitle = (props) => {
   function handleChange() {
@@ -91,7 +90,7 @@ const AnonymousChatTitle = (props) => {
         {props.user.role === "provider" && (
           <>
             <div className="col align-self-center">
-              {props.user.id === props.question.senderId && (
+              {/* {props.user.id === props.question.senderId && ( */}
                 <>
                   <Toggle
                     id={(index + 1).toString()}
@@ -101,7 +100,7 @@ const AnonymousChatTitle = (props) => {
                   />
                   <label htmlFor={(index + 1).toString()}>απαντήθηκε</label>
                 </>
-              )}
+              {/* )} */}
             </div>
             <div className="col-5 align-self-center">
               <Countdown

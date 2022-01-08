@@ -287,7 +287,7 @@ class AnonymousChat extends Component {
                       handleOffer={this.handleOffer}
                       handleAnswered={this.handleAnswered}
                       question={this.state.questions.find(
-                        (question) => question.id === this.state.currentid
+                        (question) => question._id == this.state.currentid
                       )}
                       user={this.state.user}
                     />

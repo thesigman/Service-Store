@@ -1,7 +1,6 @@
-import { useEffect } from "react";
-import Router from "next/router";
 import Cookie from "js-cookie";
-import {instance} from "../pages/api/axiosConfiguration";
+import Router from "next/router";
+import { instance } from "../pages/api/axiosConfiguration";
 
 /**
  * Υπεύθνο για την σύνδεση του χρήστη στην εφαρμογή.
@@ -13,8 +12,9 @@ import {instance} from "../pages/api/axiosConfiguration";
  *
  * @param {string} username
  * @param {string} password
+ * @param {array} props (μπορεί  και να μην περαστούν)
  */
-export const loginUser = (username, password, props) => {
+export const loginUser = (username, password, props = null) => {
 
   const credentials = {
     identifier: username,

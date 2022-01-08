@@ -86,7 +86,7 @@ function StepOne(props) {
   const [name, setName] = useState('');
   const [boldtext, setBoldText] = useState('Καλώς Ορίσατε')
   const [serviceText, setServiceText] = useState('Επιλέξτε για να ξεκινήσετε')
-  
+
   useEffect(() => {
     instance.get('/services').then(
       (response) => {
@@ -217,14 +217,30 @@ function StepTwo(props) {
         if (element.multiple != null) {
           const multiple = element.multiple;
           if (multiple.depend != 0) { setDependQuest({ 'name': multiple.depend, 'question': multiple.multiple_quest }) }
-          item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} multiple={true} placeholder={multiple.multiple_quest} id={element.id} values={multiple.multiple_ans}></Selector></div></div>;
+          item =
+            <div key={uuidv4()} className="row">
+              <div className="col mt-2">
+                <Selector selectedValue={{id:'test', value:'ts'}} key={index} onChange={updateDom} multiple={true} placeholder={multiple.multiple_quest} id={element.id} values={multiple.multiple_ans}></Selector>
+              </div>
+            </div>;
         } else if (element.single != null) {
           const single = element.single;
           if (single.depend != 0) { setDependQuest({ 'name': single.depend, 'question': single.single_quest }) }
-          item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} placeholder={single.single_quest} id={element.id} values={single.single_ans}></Selector></div></div>;
+          item =
+            <div key={uuidv4()} className="row">
+              <div className="col mt-2">
+                <Selector key={index} onChange={updateDom} placeholder={single.single_quest} id={element.id} values={single.single_ans}></Selector>
+              </div>
+            </div>;
         } else {
-          item = <span><label for={element.id} >{element.text[0]}</label>
-            <div key={uuidv4()} className="row"><div className="col mt-2"><input className="form-input" key={index} id={element.id} onChange={updateDom}></input></div></div></span>
+          item =
+            <span>
+              <label for={element.id} >{element.text[0]}</label>
+              <div key={uuidv4()} className="row">
+                <div className="col mt-2"><input className="form-input" key={index} id={element.id} onChange={updateDom}></input>
+                </div>
+              </div>
+            </span>
         }
 
         chunk = [...chunk, item];

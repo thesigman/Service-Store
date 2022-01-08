@@ -1,15 +1,21 @@
-import { useState, useEffect } from 'react';
 import Image from 'next/dist/client/image';
-import styles from './login.module.scss';
+import { useEffect, useState } from 'react';
+import { toast, ToastContainer } from 'react-nextjs-toast';
+import Selector from '../components/Selector/selector';
+import { loginUser } from '../libs/auth';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
-import { loginUser } from "../libs/auth";
-import Selector from '../components/Selector/selector'
 import { instance } from '../pages/api/axiosConfiguration';
+import styles from './login.module.scss';
 
-export default function login(props) {
+
+export default function register(props) {
   const [typosEtaireias, setTyposEtaireias] = useState();
   const [username, setUsername] = useState();
-  const [pasword, setPassword] = useState();
+  const [password, setPassword] = useState();
+  const [passwordConfirm, setPasswordConfirm] = useState();
+  const [buttonStatus, setButtonStatus] = useState(true);
+  const [policiesSatatisfied, setPoliciesSatisfied] = useState(false);
+  const [termsAggreed, setTermsAggreed] = useState(false);
   const [doy, setDoy] = useState();
   const [activity, setActivity] = useState();
   const [vat, setVat] = useState();
@@ -20,7 +26,6 @@ export default function login(props) {
   const [TypeOfRequestedJobs, setTypeOfRequestedJobs] = useState();
   const [type, setType] = useState();
   const [service2, setService2] = useState([]);
-  const [test, setTest] = useState('thanos');
 
   useEffect(() => {
 
@@ -32,19 +37,30 @@ export default function login(props) {
           tempService2 = [...tempService2, { 'question': value.service_1, 'answer': value.service_2 }];
         });
         setService2([...new Set(tempService2.values())]);
-        if( service2.length > 0) {
+        if (service2.length > 0) {
           setService2(service2.map(a => a.answer))
         }
 
       }, error => { console.log('test') });
 
-  },[service2.length])
+  }, [service2.length])
+
+  useEffect(() => {
+    if (policiesSatatisfied && termsAggreed) {
+      setButtonStatus(false);
+    } else {
+      setButtonStatus(true);
+    }
+
+  }, [policiesSatatisfied, termsAggreed])
 
   const updateRequestedJob = (question, answer, triggerElement) => {
     setTypeOfRequestedJobs(answer);
   }
 
+
   const registerUser = () => {
+
     let path = '/clients';
     const newUser = {
       'Emploeeys': 4,
@@ -65,18 +81,17 @@ export default function login(props) {
       newUser['TypeOfRequestedJobs'] = TypeOfRequestedJobs;
       path = '/providers';
     }
+
     instance
       .post(path, newUser)
       .then(function (response) {
         if (response.status == 200) {
-          // If the user saved successfully in the database then create a strapi user to log in
-          console.log('test')
           let finalUser = {
             "confirmed": true,
             "blocked": false,
             "username": username,
             "email": email,
-            "password": pasword,
+            "password": password,
             "provider": "local",
             "createdAt": new Date().toISOString(),
             "updatedAt": new Date().toISOString(),
@@ -98,11 +113,13 @@ export default function login(props) {
 
           instance.post('/users', finalUser).then((response) => {
             if (response.status == 201) {
-              // will be impleneted a redirect 
-              console.log('Grafitkes');
+              toast.notify('Η εγγραφή στην πλατφόρμα ήταν επιτυχής θα συνδεθείτε αυτόματα', { duration: 5, type: "success", title: "Service Store" });
+              loginUser(username, password, props)
             } else {
               console.log(response);
             }
+          }).catch((error) => {
+            toast.notify('Υπήρξε ένα πρόβλημα με την εγγραφή σας. Ελέγξτε τα στοιχεία ξανά', { duration: 5, type: "error", title: "Service Store" });
           })
         }
       })
@@ -122,85 +139,163 @@ export default function login(props) {
     setType(s2);
   }
 
+  // Αποθηκευέι τον κωδικό στο State και παράλληλα περνάει τους κωδικούς απο ένα 
+  // σύνολο passwordPolicies που θέλουμε πριν 
+  const handlePasswordManager = (currentPassword, mode) => {
+
+    // Αποθήκευση των κωδικών στο state
+    if (mode == 'main') {
+      if (!checkPolicies(currentPassword)) {
+        setPassword(currentPassword);
+        console.log(password);
+      }
+    } else {
+      /**
+       * Ελέγχουμε εαν
+       * 1ον Υπάρχει κωδικός στο πεδίο του βασικού κωδικού
+       * 2ον Έχει περάσει τα password Policies
+       * 3ον Είναι ίδιος με τον βασικό κωδικό 
+       * 
+       * Εαν ισχύουν οι παραπάνω συνθήκες τότε τον θέτουμε στο πεδίο επιβεβαίωση και θέτουμε ότι 
+       * μπορεί ο χρήστης να συνεχίσει στην εγγραφή
+       */
+      if (typeof password != 'undefined' && !checkPolicies(password) && currentPassword == password) {
+        setPasswordConfirm(currentPassword);
+        setPoliciesSatisfied(true);
+      } else {
+        setPoliciesSatisfied(false);
+      }
+
+    }
+  }
+
+  // Περνάει τον κωδικό απο τους απαραίτητουε ελέγχους
+  const checkPolicies = (currentPassword) => {
+
+    let hasViolation = false;
+    // Εφαρμογή των Password Policies
+    if (currentPassword.length < 6) {
+      console.log('Passowrd < 6 characters');
+      hasViolation = true;
+    }
+
+    if (!currentPassword.match(/[A-Z]/)) {
+      console.log('Not Containing Uppercase');
+      hasViolation = true;
+    }
+
+    if (!currentPassword.match(/[a-z]/)) {
+      console.log('Not Containing LowerCase');
+      hasViolation = true;
+    }
+
+    return hasViolation;
+  }
+
   return (
 
     <div className={['pagecenter'].join(' ')}>
-
+      <ToastContainer align={"left"} position={"bottom"} />
       <div>
         <div>
-          <div className={[styles.login].join(' ')}>
+          <div className={[styles.register].join(' ')}>
             <div className="container-fluid">
               <div className={[styles.formcontentwrapper, 'bg-white', 'col'].join(' ')}>
                 <Image
                   src='/logo_dark.png'
-                  width={2000}
-                  height={412}
+                  width={1000}
+                  height={206}
                   loading="eager" />
                 <div className={[styles.formcontent].join(' ')}>
-                  <div>
-                    <h4>Όνομα Χρήστη</h4>
-                    <input onChange={(event) => setUsername(event.target.value)} type="text" placeholder="Username" />
+                  <div className="row">
+                    <div className="col mr-2">
+                      <b>Στοιχεία Λογαριασμού</b>
+                      <div>
+                        <label>Όνομα Χρήστη</label>
+                        <input onChange={(event) => setUsername(event.target.value)} type="text" placeholder="Username" />
+                      </div>
+                      <div>
+                        <label>Κωδικός Πρόσβασης</label>
+                        <input onChange={(event) => handlePasswordManager(event.target.value, 'main')} type="password" placeholder="Password" />
+                      </div>
+                      <div>
+                        <label>Επιβεβαίωση Κωδικού</label>
+                        <input onChange={(event) => handlePasswordManager(event.target.value, 'confirm')} type="password" placeholder="Password" />
+                      </div>
+                      <div>
+                        <label>Τύπος Λογαριασμού</label>
+                        <Selector
+                          onChange={setUserType}
+                          values={[
+                            "Πάροχος",
+                            "Πελάτης"
+                          ]} />
+                      </div>
+                    </div>
+                    <div className="col mr-2">
+                      <b>Επαγγελματικά</b>
+                      <div>
+                        <label>Όνομα Εταιρείας</label>
+                        <input onChange={(event) => setNameOfCompany(event.target.value)} placeholder="Όνομα Εταιρείας" />
+                      </div>
+                      <div>
+                        <Selector
+                          placeholder='Τύπος Εταιρείας'
+                          onChange={setCompany}
+                          values={[
+                            "Ανώνυμη Εταιρεία Α.Ε",
+                            "Εταιρεία Περιορισμένης Ευθύνσης Ε.Π.Ε",
+                            'Ομόρρυθμες Εταιρείες Ο.Ε',
+                            'Ετερόρρυθμες Εταιρείες Ε.Ε ',
+                            'Ιδιωτικές Κεφαλαιουχικές Εταιρείες Ι.Κ.Ε'
+                          ]} />
+                      </div>
+                      <div>
+                        <label>Α.Φ.Μ Υπόχρεου</label>
+                        <input onChange={(event) => setVat(event.target.value)} placeholder="v.a.t number" />
+                      </div>
+                      <div>
+                        <label>Δ.Ο.Υ</label>
+                        <input onChange={(event) => setDoy(event.target.value)} placeholder="ΔΟΥ" />
+                      </div>
+
+                      <div>
+                        <Selector
+                          placeholder="Δραστηριότητα Εταιρείας"
+                          id="service_2"
+                          onChange={updateRequestedJob}
+                          multiple = {true}
+                          values={[...new Set(service2)]}></Selector>
+                      </div>
+                    </div>
+                    <div className="col">
+                      <b>Στοιχεία Επικοινωνίας</b>
+                      <div>
+                        <label>Τηλέφωνο</label>
+                        <input onChange={(event) => setPhone(event.target.value)} type="" placeholder="Τηλέφωνο" />
+                      </div>
+                      <div>
+                        <label>E-mail</label>
+                        <input onChange={(event) => setEmail(event.target.value)} type="text" placeholder="E-mail" />
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4>E-mail</h4>
-                    <input onChange={(event) => setEmail(event.target.value)} type="text" placeholder="Username" />
+                  <div className="row">
+                    <div className="col">
+                      <button onClick={() => registerUser()} className="btn btn-small bg-primary btn-100" disabled={buttonStatus} >Εγγραφή</button>
+                    </div>
+                    <div className="col">
+                      <a href='/login'>
+                        <a className={[styles.contentmiddle, 'text-primary', 'mt-2'].join(' ')}>Σύνδεση στην πλατφόρμα</a>
+                      </a>
+                    </div>
+                    <div className="col">
+                      <div className="row">
+                        <small>Συμφωνώ στους όρους και τις άδειες χρήσης του ServiceStore</small>
+                        <input type="checkbox" onChange={(event) => setTermsAggreed(event.target.value)}></input>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4>Κωδικός Πρόσβασης</h4>
-                    <input onChange={(event) => setPassword(event.target.value)} type="password" placeholder="Password" />
-                  </div>
-                  <div>
-                    <h4>Α.Φ.Μ</h4>
-                    <input onChange={(event) => setVat(event.target.value)} placeholder="v.a.t number" />
-                  </div>
-                  <div>
-                    <h4>Τύπος Εταιρείας</h4>
-                    <Selector
-                      onChange={setCompany}
-                      values={[
-                        "Ανώνυμη Εταιρεία Α.Ε",
-                        "Εταιρεία Περιορισμένης Ευθύνσης Ε.Π.Ε",
-                        'Ομόρρυθμες Εταιρείες Ο.Ε',
-                        'Ετερόρρυθμες Εταιρείες Ε.Ε ',
-                        'Ιδιωτικές Κεφαλαιουχικές Εταιρείες Ι.Κ.Ε'
-                      ]} />
-                  </div>
-                  <div>
-                    <h4>Τύπος Λογαριασμού</h4>
-                    <Selector
-                      onChange={setUserType}
-                      values={[
-                        "Πάροχος",
-                        "Πελάτης"
-                      ]} />
-                  </div>
-                  <div>
-                    <h4>Δ.Ο.Υ</h4>
-                    <input onChange={(event) => setDoy(event.target.value)} placeholder="ΔΟΥ" />
-                  </div>
-                  <div>
-                    <h4>Τηλέφωνο</h4>
-                    <input onChange={(event) => setPhone(event.target.value)} type="" placeholder="Τηλέφωνο" />
-                  </div>
-                  <div>
-                    <h4>Δραστηριότητα</h4>
-                    <Selector
-                      placeholder="Δραστηριότητα"
-                      id="service_2"
-                      onChange={updateRequestedJob}
-                      values={[...new Set(service2)]}></Selector>
-                  </div>
-                  <div>
-                    <h4>Όνομα Εταιρείας</h4>
-                    <input onChange={(event) => setNameOfCompany(event.target.value)} placeholder="Όνομα Εταιρείας" />
-                  </div>
-                  <p className={[styles.contentmiddle, 'text-danger'].join(' ')} value={messageText}>{messageText}</p>
-                  <div className="mt-4">
-                    <button onClick={() => registerUser()} className="btn btn-small bg-primary btn-100" >Εγγραφή</button>
-                  </div>
-                  <a href='/reset'>
-                    <a className={[styles.contentmiddle, 'text-primary', 'mt-2'].join(' ')}>Already have an account ?</a>
-                  </a>
                 </div>
               </div>
             </div>

@@ -137,22 +137,22 @@ class Agreement extends Component {
 
   signAgreement = () => {
     console.log("sign agreement");
-    devteam2
-      .post(
-        "/articles/download"
-        // {
-        //   offerid: "6123c934172d021ef07070ee",
-        // }
-        // { responseType: "blob" }
-      )
-      .then(
-        (response) => {
-          console.log(response.data);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    // devteam2
+    //   .post(
+    //     "/articles/download"
+    //     // {
+    //     //   offerid: "6123c934172d021ef07070ee",
+    //     // }
+    //     // { responseType: "blob" }
+    //   )
+    //   .then(
+    //     (response) => {
+    //       console.log(response.data);
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     }
+    //   );
   };
 
   handleSave = (value) => {
@@ -226,8 +226,8 @@ class Agreement extends Component {
         <Layout user={this.props}>
           {(!this.props.isAuthenticated && <p>You have to login First</p>) || (
             <>
-              {this.state.user.id}
-              {this.state.user.role}
+              {/* {this.state.user.id}
+              {this.state.user.role} */}
               <div className="container-fluid">
                 <div className="row">
                   <div className="col-sm-3 align-self-center">
@@ -241,6 +241,9 @@ class Agreement extends Component {
                       accepted={this.state.accepted}
                       handleAccepted={this.handleAccepted}
                       index={this.state.article["number"]}
+                      offerid={JSON.parse(
+                        window.sessionStorage.getItem("offerid")
+                      )}
                     />
                   </div>
                 </div>

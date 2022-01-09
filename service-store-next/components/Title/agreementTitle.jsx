@@ -5,12 +5,20 @@ const AgreementTitle = (props) => {
   // console.log(typeof props.accepted);
   const { title, description, signAgreement, handleAccepted, accepted, index } =
     props;
+
+  let baseURL = "http://localhost:5550/api";
+  let url = `${baseURL}/articles/download?offerid=${props.offerid}`;
   return (
     <>
       <div className="row justify-content-end">
-        <button className="btn bg-success m-2" onClick={signAgreement}>
+        <a
+          href={url}
+          className="btn bg-success m-2"
+          onClick={signAgreement}
+          target="_blank"
+        >
           Αποθήκευση πρότασης και υπογραφή
-        </button>
+        </a>
         <button className="btn bg-secondaryGreenColor m-2">
           Προσωρινή Αποθήκευση
         </button>

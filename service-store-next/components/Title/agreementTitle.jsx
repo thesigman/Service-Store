@@ -6,7 +6,7 @@ const AgreementTitle = (props) => {
   const { title, description, signAgreement, handleAccepted, accepted, index } =
     props;
 
-  let baseURL = "http://localhost:5550/api";
+  let baseURL = "http://islab-thesis.aegean.gr:5550/api";
   let url = `${baseURL}/articles/download?offerid=${props.offerid}`;
   return (
     <>

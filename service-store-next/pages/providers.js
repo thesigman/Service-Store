@@ -218,13 +218,16 @@ class Providers extends Component {
                   >
                     + Δημιουργία project
                   </button>
-                  {this.state.requests.map((request) => (
-                    <ProjectCustomerCard
-                      onCardSelect={this.handleRequest}
-                      key={request._id}
-                      request={request}
-                    ></ProjectCustomerCard>
-                  ))}
+                  <div style={{'overflow-y':'scroll' , height:'70vh'}}>
+                    {this.state.requests.map((request) => (
+                      <ProjectCustomerCard
+                        onCardSelect={this.handleRequest}
+                        key={request._id}
+                        request={request}
+                      ></ProjectCustomerCard>
+                    ))}
+                  </div>
+
                 </div>
                 <div className="col-sm-9">
                   <div className={styles.container}>

@@ -13,7 +13,7 @@ const AgreementTitle = (props) => {
       <div className="row justify-content-end">
         <a
           href={url}
-          className="btn bg-success m-2"
+          className="btn bg-success d-flex align-items-center m-2"
           onClick={signAgreement}
           target="_blank"
         >

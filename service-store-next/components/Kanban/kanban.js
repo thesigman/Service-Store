@@ -19,7 +19,6 @@ export default function Kanban(props) {
       transform: "translate(-50%, -50%)",
       background: "#FFFFFF",
       width: "70%",
-      height: "auto",
     },
   }
 
@@ -41,7 +40,7 @@ export default function Kanban(props) {
     lanes: [
       {
         id: (active_user.role == "provider") ? 'Provider Requests' : 'Requests',
-        title: (active_user.role == "provider") ? 'Πρότάσεις που σας αφορούν' : 'Εκκρεμείς Προτάσεις',
+        title: (active_user.role == "provider") ? 'Αιτήματα που σας αφορούν' : 'Εκκρεμείς Προτάσεις',
         cardStyle: cardStyle,
         style: {
           'border-radius': '6px',
@@ -50,6 +49,7 @@ export default function Kanban(props) {
           'color': 'white',
           'font-size': '28px',
           'width': '25%',
+          'height' : '600px'
         },
         cards: data,
         onCardClick(cardId, metadata, laneId) {
@@ -77,6 +77,7 @@ export default function Kanban(props) {
           'color': '#666666',
           'font-size': '28px',
           'width': '25%',
+          'height' : '600px'
         },
         title: 'Σε εκρεμμότητα',
         cards: []
@@ -91,6 +92,7 @@ export default function Kanban(props) {
           'color': 'white',
           'font-size': '28px',
           'width': '25%',
+          'height' : '600px'
         },
         title: 'Ολοκληρωμένες',
         cards: []
@@ -103,7 +105,8 @@ export default function Kanban(props) {
           'box-shadow': 'inset 0px 4px 4px rgba(0, 0, 0, 0.25)',
           'backgroundColor': '#666666',
           'color': 'white',
-          'font-size': '58px'
+          'font-size': '58px',
+          'height' : '600px'
         },
         title: 'Μηνύματα',
         label: '0/0',
@@ -120,10 +123,16 @@ export default function Kanban(props) {
 
     if (active_user == null) { return; }
     const response = await axios.post(`http://islab-thesis.aegean.gr:82/trans/api/requests/uid`, { uid: active_user.id, role: active_user.role });
+    // const responseMessages = await axios.get(`http://islab-thesis.aegean.gr:82/trans/api/messages`, {id: active_user.id});
 
     // Κατασεκευή των καρτών 
     let cards = [];
 
+    // let messageCards = [];
+
+    // responseMessages.data.forEach(request => {
+
+    // });
 
     response.data.forEach(request => {
 
@@ -173,7 +182,7 @@ export default function Kanban(props) {
         </div>
         <div className="row p-2">
           <div className="col-2">
-            <strong> Ημερομηνία Πρότασης : </strong>
+            <strong> Ημερομηνία Δημιουργίας : </strong>
           </div>
           {activeRequest.label}
         </div>

@@ -19,7 +19,7 @@ const MessageSideCard = (props) => {
           <div className="col-7">{props.user.NameOfCompany}</div>
           <div className="col-5">
             <small className="text-muted">
-              {props.messages
+              {props.messages.length
                 ? moment(
                     props.messages[props.messages.length - 1]?.created,
                     "YYYYMMDD"

@@ -19,10 +19,12 @@ const MessageSideCard = (props) => {
           <div className="col-7">{props.user.NameOfCompany}</div>
           <div className="col-5">
             <small className="text-muted">
-              {moment(
-                props.messages[props.messages.length - 1]?.created,
-                "YYYYMMDD"
-              ).fromNow()}
+              {props.messages
+                ? moment(
+                    props.messages[props.messages.length - 1]?.created,
+                    "YYYYMMDD"
+                  ).fromNow()
+                : "-"}
             </small>
           </div>
         </div>

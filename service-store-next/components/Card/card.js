@@ -2,7 +2,7 @@ import styles from './card.module.scss';
 
 export default function Card(props) {
   return (
-    <div className={[styles.card , 'm-2'].join(' ')}>
+    <div className={[styles.card, 'm-2'].join(' ')}>
       <div className="p-2">
         <div className="row">
           <h5>{props.name}</h5>

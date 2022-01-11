@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-nextjs-toast';
 import Selector from '../components/Selector/selector';
 import { loginUser } from '../libs/auth';
+import { doys } from '../libs/doy';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 import { instance } from '../pages/api/axiosConfiguration';
 import styles from './login.module.scss';
@@ -28,7 +29,6 @@ export default function register(props) {
   const [service2, setService2] = useState([]);
 
   useEffect(() => {
-
     instance.get('/services').then(
       (response) => {
         const res = response.data;
@@ -54,8 +54,12 @@ export default function register(props) {
 
   }, [policiesSatatisfied, termsAggreed])
 
-  const updateRequestedJob = (question, answer, triggerElement) => {
-    setTypeOfRequestedJobs(answer);
+  const updateRequestedJob = (placeholder, value, label) => {
+    setTypeOfRequestedJobs(value);
+  }
+
+  const setSelectedDoy = (placeholder, value, label) => {
+    setDoy(label);
   }
 
 
@@ -255,8 +259,12 @@ export default function register(props) {
                         <input onChange={(event) => setVat(event.target.value)} placeholder="v.a.t number" />
                       </div>
                       <div>
-                        <label>Δ.Ο.Υ</label>
-                        <input onChange={(event) => setDoy(event.target.value)} placeholder="ΔΟΥ" />
+                        <Selector
+                          select2ready={true}
+                          placeholder="ΔΟΥ"
+                          id="doy"
+                          onChange={setSelectedDoy}
+                          values={doys}></Selector>
                       </div>
 
                       <div>
@@ -264,7 +272,7 @@ export default function register(props) {
                           placeholder="Δραστηριότητα Εταιρείας"
                           id="service_2"
                           onChange={updateRequestedJob}
-                          multiple = {true}
+                          multiple={true}
                           values={[...new Set(service2)]}></Selector>
                       </div>
                     </div>

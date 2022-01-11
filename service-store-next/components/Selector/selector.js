@@ -13,11 +13,15 @@ export default function Selector(props) {
     setValues(props.values)
   }, [props]);
 
-  values.forEach(element => {
-    options = [...options, { 'value': element, 'label': element, 'id': props.id }]
-  })
-
+  if (!props.select2ready) {
+    values.forEach(element => {
+      options = [...options, { 'value': element, 'label': element, 'id': props.id }]
+    })
+  } else {
+    options = props.values;
+  }
   const change = (event) => {
+    console.log(event);
     let value = ""
     if (typeof event.value == "undefined") {
       value = Array.from(event, option => option.value);
@@ -25,7 +29,7 @@ export default function Selector(props) {
     } else {
       value = event.value;
     }
-    props.onChange(props.placeholder, value, event.id)
+    props.onChange(props.placeholder, value, event.label)
   }
 
   return (

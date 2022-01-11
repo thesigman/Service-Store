@@ -3,7 +3,7 @@ import styles from "./card.module.scss";
 const ProjectCustomerCard = (props) => {
   const { request, onCardSelect } = props;
   // const date = new Date(request.created);
-  const date = new Date(request.createdAt);
+  const date = new Date(request.created);
   // function onCardSelect() {
   //   console.log("hi");
   // }

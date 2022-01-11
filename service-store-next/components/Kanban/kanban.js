@@ -1,11 +1,15 @@
 import axios from 'axios';
+import moment from 'moment';
 import Router from "next/router";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Board from 'react-trello';
+import { instance } from '../../pages/api/axiosConfiguration';
 
 export default function Kanban(props) {
   const [data, setData] = useState([]);
+  const [messageData, setMessageData] = useState([]);
+  const [totalMessagesNum, setTotalMessagesNum] = useState(0)
   const [modalIsOpen, setModalStatus] = useState(false);
   const [activeRequest, setActiveRequest] = useState({});
 
@@ -41,6 +45,7 @@ export default function Kanban(props) {
       {
         id: (active_user.role == "provider") ? 'Provider Requests' : 'Requests',
         title: (active_user.role == "provider") ? 'Αιτήματα που σας αφορούν' : 'Εκκρεμείς Προτάσεις',
+        label: 'Αρ.Προτάσεων: ' + data.length, 
         cardStyle: cardStyle,
         style: {
           'border-radius': '6px',
@@ -49,7 +54,7 @@ export default function Kanban(props) {
           'color': 'white',
           'font-size': '28px',
           'width': '25%',
-          'height' : '600px'
+          'max-height': '600px'
         },
         cards: data,
         onCardClick(cardId, metadata, laneId) {
@@ -77,7 +82,7 @@ export default function Kanban(props) {
           'color': '#666666',
           'font-size': '28px',
           'width': '25%',
-          'height' : '600px'
+          'max-height': '600px'
         },
         title: 'Σε εκρεμμότητα',
         cards: []
@@ -92,7 +97,7 @@ export default function Kanban(props) {
           'color': 'white',
           'font-size': '28px',
           'width': '25%',
-          'height' : '600px'
+          'max-height': '600px'
         },
         title: 'Ολοκληρωμένες',
         cards: []
@@ -106,15 +111,11 @@ export default function Kanban(props) {
           'backgroundColor': '#666666',
           'color': 'white',
           'font-size': '58px',
-          'height' : '600px'
+          'max-height': '600px'
         },
         title: 'Μηνύματα',
-        label: '0/0',
-        cards: [
-          { id: 'Card6', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' } },
-          { id: 'Card7', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' } },
-          { id: 'Card8', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' } },
-        ]
+        label: `${messageData.length} / ${totalMessagesNum}`,
+        cards: messageData
       },
     ]
   }
@@ -123,24 +124,35 @@ export default function Kanban(props) {
 
     if (active_user == null) { return; }
     const response = await axios.post(`http://islab-thesis.aegean.gr:82/trans/api/requests/uid`, { uid: active_user.id, role: active_user.role });
-    // const responseMessages = await axios.get(`http://islab-thesis.aegean.gr:82/trans/api/messages`, {id: active_user.id});
-
+    const responseMessages = await axios.post(`http://islab-thesis.aegean.gr:82/trans/api/messages`, { id: active_user.id });
+    setTotalMessagesNum(responseMessages.data.length);
     // Κατασεκευή των καρτών 
     let cards = [];
 
-    // let messageCards = [];
+    let messageCards = [];
 
-    // responseMessages.data.forEach(request => {
-
-    // });
+    for (const chat of responseMessages.data) {
+      // Απο τα μηνύματα που φορτώνουμε παίρνουμε το τελευταίο μήνυμα
+      // εαν το μήνυμα είναι απο διαφορετικό χρήστη απο τον συνδεμένο, τότε το εμφανίζουμε στις κάρτες
+      const lastMessage = chat.at(-1);
+      if (typeof lastMessage != 'undefined' && lastMessage.senderId != active_user.id) {
+        const sender = await instance.get(`/providers/${lastMessage.senderId}`);
+        messageCards.push({
+          'id': lastMessage._id,
+          'title': sender.data.NameOfCompany,
+          'description': lastMessage.message,
+          'label': moment(lastMessage.created, "YYYYMMDD").fromNow()
+        })
+      }
+    }
+    setMessageData(messageCards);
 
     response.data.forEach(request => {
-
       cards.push({
         'id': request._id,
-        'title': request.name,
+        'title': request.name.substr(0, 12) + '...',
         'description': request.service_1,
-        'label': request.created,
+        'label': (request.created) ? moment(request.created, "YYYYMMDD").fromNow() : '',
       });
     });
     setData(cards);

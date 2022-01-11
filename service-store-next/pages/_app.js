@@ -1,11 +1,11 @@
-import '../styles/globals.scss'
-import 'bootstrap/dist/css/bootstrap.css'
-import { useEffect, useState } from 'react';
-import React from 'react'
+import 'bootstrap/dist/css/bootstrap.css';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import "react-edit-text/dist/index.css";
-import Cookie from "js-cookie";
+import '../styles/globals.scss';
 
 function MyApp({ Component, pageProps }) {
+  moment.locale('el')
   const [token, setToken] = useState();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState({});

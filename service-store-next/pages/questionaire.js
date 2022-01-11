@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Card from "../components/Card/card";
@@ -5,30 +6,57 @@ import Layout from "../components/Layout/layout";
 import MultiStepForm from "../components/MultiStepForm/MultiStepForm";
 
 
+
 export default function Questionaire(props) {
   const [finalCards, setFinalCards] = useState([]);
   const [modalIsOpen, setModalStatus] = useState(false);
 
 
-  useEffect(() => {
+  useEffect(async () => {
     let finalCards = [];
-    // Θα φορτώνουμε τις προτάσεις απο τον server
-    const data = [
-      { name: 'Δημιουργία Ψηφιακού Ιστοτόπου Portal', description: 'Τομέας Ψηφιακού Marketing', badge1: 'Ψηφιακό Marketing', badge2: 'Δημιουργέια Εταιρεικής Εικόνας' },
-      { name: 'Δημιουργία Ψηφιακού Ιστοτόπου Portal', description: 'Τομέας Ψηφιακού Marketing', badge1: 'Ψηφιακό Marketing', badge2: 'Δημιουργέια Εταιρεικής Εικόνας' },
-      { name: 'Δημιουργία Ψηφιακού Ιστοτόπου Portal', description: 'Τομέας Ψηφιακού Marketing', badge1: 'Ψηφιακό Marketing', badge2: 'Δημιουργέια Εταιρεικής Εικόνας' },
-      { name: 'Δημιουργία Ψηφιακού Ιστοτόπου Portal', description: 'Τομέας Ψηφιακού Marketing', badge1: 'Ψηφιακό Marketing', badge2: 'Δημιουργέια Εταιρεικής Εικόνας' },
-    ]
-    data.forEach((item) => {
-      finalCards.push(
+    // Φόρτωστη των request που έχει πραγματοποιήσει ο χρήσητς ως πελάτης
+    const active_user = JSON.parse(window.sessionStorage.getItem("application_user"));
+    const response = await axios.post(`http://islab-thesis.aegean.gr:82/trans/api/requests/uid`, { uid: active_user.id, role: active_user.role });
+    const itemsPerRow = 5;
+    let itemsParsed = 0;
+    const totalItemNum = response.data.length;
+    const renderedCards = [];
+
+    response.data.forEach((item) => {
+      renderedCards.push(
         <Card
           name={item.name}
-          description={item.description}
-          badge1={item.badge1}
-          badge2={item.badge2}
+          description={item.service_2}
+          badge1={item.service_1}
+          badge2={item.status}
+          fixedWitdth={true}
         ></Card>
       );
     })
+    let tempCards = [];
+
+    // Μορφοποίηση των καρτών ώστε να εμφανίζονται σε στήλες
+    for (let i = 0; i < response.data.length; i++) {
+      tempCards.push(renderedCards.at(i));
+      if (tempCards.length == itemsPerRow) {
+        finalCards.push(
+          <div className="col-3 mr-0">
+            {tempCards}
+          </div>
+        )
+        tempCards = [];
+      }
+    }
+
+    // Παει να πει ότι έχουν περισσέψει κάρτες που δεν έχουν
+    // συμπληρώσει τον αριθμό per Row. Τις προσθέτουμε και αυτές
+    if (tempCards.length > 0) {
+      finalCards.push(<div className="col-3">
+        {tempCards}
+      </div>
+      )
+    }
+
     setFinalCards(finalCards);
   }, [])
 
@@ -53,7 +81,7 @@ export default function Questionaire(props) {
               </li>
             </ol>
           </nav>
-          <div className="row">
+          <div className="row" >
             <div className="col-10">
               <h2> Projects </h2>
             </div>
@@ -61,18 +89,21 @@ export default function Questionaire(props) {
               <Button onClick={() => setModalStatus(!modalIsOpen)} className="btn bg-primary">Προσθήκη Πρότασης</Button>
             </div>
           </div>
-          <p>Παρακάτω φαίνονται οι προτάσεις που έχουν κατατεθεί</p>
+          <p>Παρακάτω φαίνονται τα Project που σας αφορούν</p>
 
-          <div className="row">
-            <div className="col-3">
-              {finalCards}
-            </div>
+          <div className="d-flex" style={{
+            "overflow-y": "scroll",
+            "box-shadow": "inset 0px 4px 4px rgb(0 0 0 / 25%)",
+            "border-radius": "6px"
+          }}>
+            {finalCards}
           </div>
         </div>
       }
-      {!modalIsOpen ||
+      {
+        !modalIsOpen ||
         <MultiStepForm modalstatus={modalIsOpen} />
       }
-    </Layout>
+    </Layout >
   )
 }

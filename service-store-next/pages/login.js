@@ -1,14 +1,15 @@
-import { useState } from 'react';
 import Image from 'next/dist/client/image';
-import styles from './login.module.scss';
+import Router from 'next/router';
+import { useEffect, useState } from 'react';
+import { toast, ToastContainer } from 'react-nextjs-toast';
+import { loginUser } from '../libs/auth';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
-import { loginUser } from "../libs/auth";
-import { useEffect } from 'react';
+import styles from './login.module.scss';
+
 
 export default function login(props) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const [messageText, setMessageText] = useState();
 
   // Κάθε φορά που γυρίζουμε στο Login καθαρίζουμε το session storage 
   // ώστε να αλλάζει ο ενεργός χρήστης
@@ -17,9 +18,22 @@ export default function login(props) {
     props.setIsAuthenticated(false);
   }, [])
 
-  return (
 
+  // Σύνδεση του χρήστη στην εφαρμογή
+  const checkUserLogin = async (username, password) => {
+    if (await loginUser(username, password, props)) {
+      Router.push("/home");
+    } else {
+      toast.notify(
+        'Λάθος Συνδιασμός Ονόματος / Κωδικού Πρόσβασης',
+        { duration: 5, type: "error", title: "Service Store" }
+      );
+    }
+  }
+
+  return (
     <div className={['pagecenter'].join(' ')}>
+      <ToastContainer align={"left"} position={"bottom"} />
       <div>
         <div>
           <div className={[styles.login].join(' ')}>
@@ -39,9 +53,8 @@ export default function login(props) {
                     <h4>Password</h4>
                     <input onChange={event => setPassword(event.target.value)} type="password" placeholder="Password" />
                   </div>
-                  <p className={[styles.contentmiddle, 'text-danger'].join(' ')} value={messageText}>{messageText}</p>
                   <div className="mt-4">
-                    <button onClick={() => loginUser(username, password, props)} className="btn btn-small bg-primary btn-100" >Σύνδεση</button>
+                    <button onClick={() => checkUserLogin(username, password)} className="btn btn-small bg-primary btn-100" >Σύνδεση</button>
                   </div>
                   <a href='/register'>
                     <a className={[styles.contentmiddle, 'text-primary', 'mt-2'].join(' ')}>Εγγραφή στην πλατφόρμα</a>

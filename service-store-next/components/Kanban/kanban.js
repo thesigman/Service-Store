@@ -67,6 +67,8 @@ export default function Kanban(props) {
             return obj.id === cardId;
           });
 
+          console.log(selectedRequest[0]);
+
           // Ενημέρωση του state
           setActiveRequest(selectedRequest[0]);
           setModalStatus(true);
@@ -153,6 +155,7 @@ export default function Kanban(props) {
         'title': request.name.substr(0, 12) + '...',
         'description': request.service_1,
         'label': (request.created) ? moment(request.created, "YYYYMMDD").fromNow() : '',
+        'created' : request.created
       });
     });
     setData(cards);
@@ -171,7 +174,7 @@ export default function Kanban(props) {
    * στο anonymoys chat 
    */
   const navigateToAnonymoysChat = () => {
-    Router.push({ pathname: '/anonymouschat', query: { requestId: activeRequest.id, name: activeRequest.title } });
+    Router.push({ pathname: '/anonymouschat', query: { requestId: activeRequest.id, name: activeRequest.title, created:activeRequest.created } });
   }
 
   return (

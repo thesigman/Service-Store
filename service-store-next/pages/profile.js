@@ -112,31 +112,31 @@ export default function Profile(props) {
                   <div className="row mb-2">
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Όνομα Εταιρείας</b></div>
-                      <div className="col-6">{nameOfCompany}</div>
+                      <div className="col-6"><input value={nameOfCompany}></input></div>
                     </div>
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Τύπος Εταιρείας</b></div>
-                      <div className="col-6">{typeOfCompany}</div>
+                      <div className="col-6"><input value={typeOfCompany}></input></div>
                     </div>
                   </div>
                   <div className="row mb-2">
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Α.Φ.Μ</b></div>
-                      <div className="col-6">{afm}</div>
+                      <div className="col-6"><input value={afm}></input></div>
                     </div>
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Δ.Ο.Υ</b></div>
-                      <div className="col-6">{doy}</div>
+                      <div className="col-6"><input value={doy}></input></div>
                     </div>
                   </div>
                   <div className="row mb-2">
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Χρόνια Λειτουργίας</b></div>
-                      <div className="col-6">{yearsOfOperation}</div>
+                      <div className="col-6"><input value={yearsOfOperation}></input></div>
                     </div>
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Αρ. Εργαζομένων</b></div>
-                      <div className="col-6">{employees}</div>
+                      <div className="col-6"><input value={employees}></input></div>
                     </div>
                   </div>
                 </div>
@@ -149,7 +149,7 @@ export default function Profile(props) {
                   <div className="row mb-2">
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Τηλέφωνο</b></div>
-                      <div className="col-6">{phone}</div>
+                      <div className="col-6"><input value={phone}></input></div>
                     </div>
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Εγγραφή</b></div>

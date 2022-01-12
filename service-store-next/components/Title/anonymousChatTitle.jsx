@@ -91,15 +91,15 @@ const AnonymousChatTitle = (props) => {
           <>
             <div className="col align-self-center">
               {/* {props.user.id === props.question.senderId && ( */}
-                <>
-                  <Toggle
-                    id={(index + 1).toString()}
-                    checked={answered}
-                    value="yes"
-                    onChange={handleAnswered}
-                  />
-                  <label htmlFor={(index + 1).toString()}>απαντήθηκε</label>
-                </>
+              <>
+                <Toggle
+                  id={(index + 1).toString()}
+                  checked={answered}
+                  value="yes"
+                  onChange={handleAnswered}
+                />
+                <label htmlFor={(index + 1).toString()}>απαντήθηκε</label>
+              </>
               {/* )} */}
             </div>
             <div className="col-5 align-self-center">
@@ -137,7 +137,7 @@ const AnonymousChatTitle = (props) => {
             <button className="btn-close" onClick={closeModal}></button>
           </div>
 
-          <div className="row justify-content-end">Χρόνος που απομένει</div>
+          {/* <div className="row justify-content-end">Χρόνος που απομένει</div> */}
           <OfferForm
             openModal={openModal}
             closeModal={closeModal}

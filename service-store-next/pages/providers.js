@@ -218,7 +218,7 @@ class Providers extends Component {
                   >
                     + Δημιουργία project
                   </button>
-                  <div style={{'overflow-y':'scroll' , height:'70vh'}}>
+                  <div style={{ overflow: "auto", height: "70vh" }}>
                     {this.state.requests.map((request) => (
                       <ProjectCustomerCard
                         onCardSelect={this.handleRequest}
@@ -227,7 +227,6 @@ class Providers extends Component {
                       ></ProjectCustomerCard>
                     ))}
                   </div>
-
                 </div>
                 <div className="col-sm-9">
                   <div className={styles.container}>
@@ -247,6 +246,7 @@ class Providers extends Component {
                             acceptOffer={this.acceptOffer}
                             rejectOffer={this.rejectOffer}
                             index={this.state.providers.indexOf(provider)}
+                            projectTitle={this.state.titles}
                           ></ProvidersCard>
                         ))
                       )}

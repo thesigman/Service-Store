@@ -251,31 +251,33 @@ class Chat extends Component {
               <div className="container-fluid">
                 <div className="row">
                   <div className={[style.box, "col-sm-3 bg-primary"].join(" ")}>
-                    {this.state.offers.map((offer, index) => (
-                      <MessageSideCard
-                        key={this.state.offers.indexOf(offer)}
-                        messages={this.state.messages[index]}
-                        user={
-                          JSON.parse(
-                            window.sessionStorage.getItem("application_user")
-                          ).role == "client"
-                            ? this.state.users.find(
-                                (user) => user._id === offer.provider
-                              )
-                            : this.state.users.find((user) => {
-                                let req = this.state.requests.find(
-                                  (request) => request._id === offer.requestid
-                                );
-                                return user._id === req.requester;
-                              })
-                        }
-                        offer={offer}
-                        request={this.state.requests.find(
-                          (request) => request._id == offer.requestid
-                        )}
-                        onCardSelect={this.handleOffer}
-                      ></MessageSideCard>
-                    ))}
+                    <div style={{ overflow: "auto", height: "70vh" }}>
+                      {this.state.offers.map((offer, index) => (
+                        <MessageSideCard
+                          key={this.state.offers.indexOf(offer)}
+                          messages={this.state.messages[index]}
+                          user={
+                            JSON.parse(
+                              window.sessionStorage.getItem("application_user")
+                            ).role == "client"
+                              ? this.state.users.find(
+                                  (user) => user._id === offer.provider
+                                )
+                              : this.state.users.find((user) => {
+                                  let req = this.state.requests.find(
+                                    (request) => request._id === offer.requestid
+                                  );
+                                  return user._id === req.requester;
+                                })
+                          }
+                          offer={offer}
+                          request={this.state.requests.find(
+                            (request) => request._id == offer.requestid
+                          )}
+                          onCardSelect={this.handleOffer}
+                        ></MessageSideCard>
+                      ))}
+                    </div>
                   </div>
                   <div className="col-sm-9 overflow-auto">
                     <ChatRoom

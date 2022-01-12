@@ -7,11 +7,11 @@ import Modal from "react-modal";
 import moment from "moment";
 
 const ProvidersCard = (props) => {
-  const { index, provider } = props;
+  const { index, provider, projectTitle } = props;
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const [offer, setOffer] = useState(props.offer);
-  moment.locale("el");
+
   useEffect(() => {
     setOffer(props.offer);
   }, [props.offer]);
@@ -179,7 +179,7 @@ const ProvidersCard = (props) => {
         <div className="container-fluid">
           <div className="row justify-content-end">
             <div className="col">
-              <h5>Project title </h5>
+              <h5>{projectTitle}</h5>
               <span>{provider.NameOfCompany}</span>
             </div>
             <button className="btn-close" onClick={closeModal}></button>

@@ -34,6 +34,7 @@ class AnonymousChat extends Component {
     //plain javascript
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
+    console.log(Object.fromEntries(urlSearchParams.entries()));
     this.setState({ requestid: params.requestId });
     this.setState({
       user: JSON.parse(window.sessionStorage.getItem("application_user")),
@@ -303,15 +304,17 @@ class AnonymousChat extends Component {
                         sendNewQuestion={this.sendNewQuestion}
                       />
                     )}
-                    {this.state.questions.map((question) => (
-                      <QuestionSideCard
-                        onCardSelect={this.handleQuestion}
-                        key={question._id}
-                        question={question}
-                        index={this.state.questions.indexOf(question)}
-                        answers={question.answers.length}
-                      ></QuestionSideCard>
-                    ))}
+                    <div style={{ overflow: "auto", height: "70vh" }}>
+                      {this.state.questions.map((question) => (
+                        <QuestionSideCard
+                          onCardSelect={this.handleQuestion}
+                          key={question._id}
+                          question={question}
+                          index={this.state.questions.indexOf(question)}
+                          answers={question.answers.length}
+                        ></QuestionSideCard>
+                      ))}
+                    </div>
                   </div>
                   <div className="col-sm-9 overflow-auto">
                     <AnonymousChatRoom

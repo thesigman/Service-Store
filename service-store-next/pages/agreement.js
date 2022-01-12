@@ -216,7 +216,6 @@ class Agreement extends Component {
   };
   render() {
     let ph = "";
-    moment.locale("el");
 
     return (
       <>

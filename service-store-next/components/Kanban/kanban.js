@@ -155,7 +155,8 @@ export default function Kanban(props) {
         'title': request.name.substr(0, 12) + '...',
         'description': request.service_1,
         'label': (request.created) ? moment(request.created, "YYYYMMDD").fromNow() : '',
-        'created' : request.created
+        'created' : request.created,
+        'fullName' : request.name
       });
     });
     setData(cards);
@@ -174,7 +175,7 @@ export default function Kanban(props) {
    * στο anonymoys chat 
    */
   const navigateToAnonymoysChat = () => {
-    Router.push({ pathname: '/anonymouschat', query: { requestId: activeRequest.id, name: activeRequest.title, created:activeRequest.created } });
+    Router.push({ pathname: '/anonymouschat', query: { requestId: activeRequest.id, name: activeRequest.fullName, created:activeRequest.created } });
   }
 
   return (
@@ -184,7 +185,7 @@ export default function Kanban(props) {
         <div className="container-fluid">
           <div className="row justify-content-end">
             <div className="col">
-              <h5>{activeRequest.title}</h5>
+              <h5>{activeRequest.fullName}</h5>
             </div>
             <button className="btn-close" onClick={closeModal}></button>
           </div>

@@ -7,6 +7,7 @@ import moment from 'moment';
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { toast, ToastContainer } from 'react-nextjs-toast';
 import Card from "../components/Card/card";
 import Innercontainer from "../components/container/innerContainer";
 import Layout from "../components/Layout/layout";
@@ -28,17 +29,19 @@ export default function Profile(props) {
   const [username, setUsername] = useState();
   const [afm, setAfm] = useState();
   const [email, setEmail] = useState();
+  const [activeUser, setActiveUser] = useState();
+  const [type, setType] = useState();
   // needs fix
   useEffect(async () => {
     const active_user = JSON.parse(window.sessionStorage.getItem("application_user"));
     const endpointName = (active_user.role == 'provider') ? 'providers' : 'clients';
+    setActiveUser(active_user);
+    setType(endpointName);
     setUsername(active_user.username);
     setEmail(active_user.email);
     await instance
       .get(`/${endpointName}/${active_user.id}`)
       .then(function (response) {
-
-        console.log(response.data);
         setNameOfCOmpany(response.data.NameOfCompany);
         setActivity(response.data.Activity);
         setRating(response.data.Rating);
@@ -55,8 +58,30 @@ export default function Profile(props) {
         // Σε περίπτωση που δεν έχει πρόσβαση η υπάρχει error θα προστεθεί εδώ
       })
   }, []);
+
+  const updateProfileInfo = async () => {
+    const changedProfile = {
+      _id: activeUser.id,
+      Emploeeys: employees,
+      AFM: afm,
+      TypeOfCompany: typeOfCompany,
+      DOY: doy,
+      Phone: phone,
+      YearsOperation: yearsOfOperation,
+      NameOfCompany: nameOfCompany,
+    }
+
+    const response = await instance.put(`/${type}/${activeUser.id}`, changedProfile );
+    if (response.status == 200) {
+      toast.notify('Η ενημέρωση του Προφίλ ολοκληρώθηκε με επιτυχία', { duration: 5, type: "success", title: "Service Store" });
+
+    }
+
+
+  }
   return (
     <Layout user={props}>
+      <ToastContainer></ToastContainer>
       {(!props.isAuthenticated && <p>You have to login First</p>) || (
         <div className="row mt-4">
           <div className="col-4">
@@ -112,31 +137,31 @@ export default function Profile(props) {
                   <div className="row mb-2">
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Όνομα Εταιρείας</b></div>
-                      <div className="col-6"><input value={nameOfCompany}></input></div>
+                      <div className="col-6"><input onChange={(event) => setNameOfCOmpany(event.target.value)} value={nameOfCompany}></input></div>
                     </div>
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Τύπος Εταιρείας</b></div>
-                      <div className="col-6"><input value={typeOfCompany}></input></div>
+                      <div className="col-6"><input onChange={(event) => setTypeOfComapny(event.target.value)} value={typeOfCompany}></input></div>
                     </div>
                   </div>
                   <div className="row mb-2">
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Α.Φ.Μ</b></div>
-                      <div className="col-6"><input value={afm}></input></div>
+                      <div className="col-6"><input onChange={(event) => setAfm(event.target.value)} value={afm}></input></div>
                     </div>
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Δ.Ο.Υ</b></div>
-                      <div className="col-6"><input value={doy}></input></div>
+                      <div className="col-6"><input onChange={(event) => setDoy(event.target.value)} value={doy}></input></div>
                     </div>
                   </div>
                   <div className="row mb-2">
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Χρόνια Λειτουργίας</b></div>
-                      <div className="col-6"><input value={yearsOfOperation}></input></div>
+                      <div className="col-6"><input onChange={(event) => setYearsOfOperation(event.target.value)} value={yearsOfOperation}></input></div>
                     </div>
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Αρ. Εργαζομένων</b></div>
-                      <div className="col-6"><input value={employees}></input></div>
+                      <div className="col-6"><input onChange={(event) => setEmployess(event.target.value)} value={employees}></input></div>
                     </div>
                   </div>
                 </div>
@@ -149,7 +174,7 @@ export default function Profile(props) {
                   <div className="row mb-2">
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Τηλέφωνο</b></div>
-                      <div className="col-6"><input value={phone}></input></div>
+                      <div className="col-6"><input onChange={(event) => setPhone(event.target.value)} value={phone}></input></div>
                     </div>
                     <div className="col-6 row">
                       <div className="col-6"><b className="font-24">Εγγραφή</b></div>
@@ -174,6 +199,7 @@ export default function Profile(props) {
                 </div>
               </div>
             </Innercontainer>
+            <button type="button" className="btn bg-primary btn-small" onClick={updateProfileInfo}>Ενημέρωση Πληροφοριών</button>
           </div>
         </div>
       )}

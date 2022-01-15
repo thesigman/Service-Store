@@ -34,7 +34,7 @@ class AnonymousChat extends Component {
     //plain javascript
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
-    console.log(Object.fromEntries(urlSearchParams.entries()));
+    // console.log(Object.fromEntries(urlSearchParams.entries()).created);
     this.setState({ requestid: params.requestId });
     this.setState({
       user: JSON.parse(window.sessionStorage.getItem("application_user")),
@@ -50,8 +50,13 @@ class AnonymousChat extends Component {
           this.setState({
             messages: response.data[0].answers,
           });
+          // this.setState({
+          //   created: Date.parse(response.data[0].created.toString()),
+          // });
           this.setState({
-            created: Date.parse(response.data[0].created.toString()),
+            created: Date.parse(
+              Object.fromEntries(urlSearchParams.entries()).created
+            ),
           });
           this.setState({ description: response.data[0].question });
           this.setState({ index: 0 });
@@ -152,9 +157,9 @@ class AnonymousChat extends Component {
                 this.setState({ index: this.state.questions.indexOf(q) });
               }
               this.setState({ answered: element.answered });
-              this.setState({
-                created: Date.parse(element.created.toString()),
-              });
+              // this.setState({
+              //   created: Date.parse(element.created.toString()),
+              // });
             });
           });
         },
@@ -220,7 +225,7 @@ class AnonymousChat extends Component {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
     let obj = {
-      // senderId : this.state.user.id,
+      senderId: this.state.user.id,
       question: question,
       answers: [],
       created: new Date(),
@@ -299,10 +304,13 @@ class AnonymousChat extends Component {
                 <div className="row">
                   <div className={[style.box, "col-sm-3 bg-primary"].join(" ")}>
                     {this.state.user.role == "provider" && (
-                      <Question
-                        projectName={this.state.name}
-                        sendNewQuestion={this.sendNewQuestion}
-                      />
+                      <div className="d-flex justify-content-center">
+                        <Question
+                          projectName={this.state.name}
+                          sendNewQuestion={this.sendNewQuestion}
+                          created={this.state.created}
+                        />
+                      </div>
                     )}
                     <div style={{ overflow: "auto", height: "70vh" }}>
                       {this.state.questions.map((question) => (
@@ -320,6 +328,8 @@ class AnonymousChat extends Component {
                     <AnonymousChatRoom
                       messages={this.state.messages}
                       handleMessage={this.handleMessage}
+                      userrole={this.state.user.role}
+                      created={this.state.created}
                     />
                   </div>
                 </div>

@@ -1,4 +1,5 @@
 import styles from "./card.module.scss";
+import moment from "moment";
 
 const ProjectCustomerCard = (props) => {
   const { request, onCardSelect } = props;
@@ -19,7 +20,7 @@ const ProjectCustomerCard = (props) => {
           <h5>{request.name}</h5>
         </div>
         <small className="text-muted">
-          Δημιουργήθηκε {date.getUTCDate()}/{date.getUTCMonth() + 1}
+          Δημιουργήθηκε {moment(request.created).format("DD MMM YYYY")}
         </small>
         <div className={styles.cardFooter}>{request.domain}</div>
       </div>

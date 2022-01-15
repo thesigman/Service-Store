@@ -7,7 +7,7 @@ const MessageSideCard = (props) => {
   console.log(props.user);
   // console.log(request);
   // console.log(messages);
-  moment.locale("el");
+
   return (
     <div
       className={[styles.card, "m-2"].join(" ")}

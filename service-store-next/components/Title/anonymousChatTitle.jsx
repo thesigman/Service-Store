@@ -6,6 +6,7 @@ import "react-toggle/style.css";
 import OfferForm from "../Forms/offerForm";
 
 const AnonymousChatTitle = (props) => {
+  console.log(props);
   function handleChange() {
     console.log("hi Change");
   }
@@ -18,8 +19,10 @@ const AnonymousChatTitle = (props) => {
     handleOffer,
     handleAnswered,
   } = props;
-  //const delay = 172800000;
-  const delay = 1000000;
+  const threeDaysdelay = 259200000;
+  // const delay = 1000000;
+  const twoDaysdelay = 172800000;
+
   const [modalIsOpen, setIsOpen] = useState(false);
   const customStyles = {
     content: {
@@ -61,17 +64,22 @@ const AnonymousChatTitle = (props) => {
 
   // Renderer callback with condition
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
-    if (completed) {
+    //ean exoune perasei oi duo arxikes meres kai den exoun perasei 2 + 1 meres tote emfanise to kata8esh protashs
+    if (completed && Date.now() < created + threeDaysdelay + twoDaysdelay) {
       // Render a completed state
       return <Completionist htmlFor={index} />;
+    }
+    //ean exoun perasei oi treis meres mhn emfaniseis tipota
+    else if (Date.now() > created + threeDaysdelay + twoDaysdelay) {
+      return "";
     } else {
-      // Render a countdown
+      //alliws Render a countdown
       return (
         <h3>
           Χρόνος που απομένει:{" "}
           <strong>
-            {days} μέρες {zeroPad(hours, 2)}:{zeroPad(minutes, 2)}':
-            {zeroPad(seconds, 2)}"
+            {days} μέρες {zeroPad(hours, 2)}ώρες {zeroPad(minutes, 2)}λεπτά{" "}
+            {zeroPad(seconds, 2)}δευτερόλεπτα
           </strong>
         </h3>
       );
@@ -90,21 +98,21 @@ const AnonymousChatTitle = (props) => {
         {props.user.role === "provider" && (
           <>
             <div className="col align-self-center">
-              {/* {props.user.id === props.question.senderId && ( */}
-              <>
-                <Toggle
-                  id={(index + 1).toString()}
-                  checked={answered}
-                  value="yes"
-                  onChange={handleAnswered}
-                />
-                <label htmlFor={(index + 1).toString()}>απαντήθηκε</label>
-              </>
-              {/* )} */}
+              {props.user.id === props.question?.senderId && (
+                <>
+                  <Toggle
+                    id={(index + 1).toString()}
+                    checked={answered}
+                    value="yes"
+                    onChange={handleAnswered}
+                  />
+                  <label htmlFor={(index + 1).toString()}>απαντήθηκε</label>
+                </>
+              )}
             </div>
             <div className="col-5 align-self-center">
               <Countdown
-                date={created + delay}
+                date={created + threeDaysdelay}
                 onComplete={isCompleted}
                 id={index}
                 renderer={renderer}

@@ -27,12 +27,14 @@ const Question = (props) => {
   function closeModal() {
     setIsOpen(false);
   }
+  const twoDaysdelay = 172800000;
 
   return (
     <>
       <button
         className="btn btn-primary btn-lg m-2 bg-light text-dark"
         onClick={openModal}
+        disabled={Date.now() > props.created + twoDaysdelay}
       >
         + Δημιουργία νέας ερώτησης
       </button>

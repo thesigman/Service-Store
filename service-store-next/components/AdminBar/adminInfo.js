@@ -1,8 +1,7 @@
-import styles from './adminBar.module.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAt } from '@fortawesome/free-solid-svg-icons';
-import axios from '../../pages/api/axiosConfiguration'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
+import styles from './adminBar.module.scss';
 export default function AdminInfo(props) {
   const [username, setUserName] = useState('username');
   const [orgname, setOrgName] = useState('orgName');

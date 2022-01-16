@@ -33,8 +33,8 @@ export default function Layout(props) {
               to="http://localhost:3001"
             />
           </a>
-          <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+          <button className="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
           </button>
         </header>
         <div className="containter-fluid">
@@ -48,26 +48,26 @@ export default function Layout(props) {
                   <li className='nav-item'>
                     <a className='nav-link'>
                       <FontAwesomeIcon icon={faHome} className="text-white" ></FontAwesomeIcon>
-                      <b className="text-white"> <Link href="/home"><a className="text-white">Αρχική</a></Link></b>
+                      <b className="text-white"> <Link href="/home"><span style={{ cursor: "pointer" }} className="text-white">Αρχική</span></Link></b>
                     </a>
                   </li>
                   <li className='nav-item'>
                     <a className='nav-link'>
                       <FontAwesomeIcon icon={faProjectDiagram} className="text-white" ></FontAwesomeIcon>
-                      <b className="text-white"> <Link href="/questionaire"><a className="text-white">Projects</a></Link></b>
+                      <b className="text-white"> <Link href="/questionaire"><span style={{ cursor: "pointer" }} className="text-white">Projects</span></Link></b>
                     </a>
                   </li>
                   <li className='nav-item'>
                     <a className='nav-link'>
                       <FontAwesomeIcon icon={faPaperPlane} className="text-white" ></FontAwesomeIcon>
-                      <b className="text-white"> <Link href="/chat"><a className="text-white">Εισερχόμενα</a></Link></b>
+                      <b className="text-white"> <Link href="/chat"><span style={{ cursor: "pointer" }} className="text-white">Εισερχόμενα</span></Link></b>
                     </a>
                   </li>
                   {role == "client" &&
                     <li className='nav-item'>
                       <a className='nav-link'>
                         <FontAwesomeIcon icon={faHandsHelping} className="text-white" ></FontAwesomeIcon>
-                        <b className="text-white"> <Link href="/providers"><a className="text-white">Προτάσεις</a></Link></b>
+                        <b className="text-white"> <Link href="/providers"><span style={{ cursor: "pointer" }} className="text-white">Προτάσεις</span></Link></b>
                       </a>
                     </li>
                   }
@@ -77,25 +77,25 @@ export default function Layout(props) {
                   <li className='nav-item'>
                     <a className='nav-link'>
                       <FontAwesomeIcon icon={faUserCircle} className="text-white" ></FontAwesomeIcon>
-                      <b className="text-white"> <Link href="/profile"><a className="text-white">Προφιλ</a></Link></b>
+                      <b className="text-white"> <Link href="/profile"><span style={{ cursor: "pointer" }} className="text-white">Προφιλ</span></Link></b>
                     </a>
                   </li>
                   <li className='nav-item'>
                     <a className='nav-link'>
                       <FontAwesomeIcon icon={faWallet} className="text-white" ></FontAwesomeIcon>
-                      <b className="text-white"> <Link href="/ewallet"><a className="text-white">E-πορτοφόλι</a></Link></b>
+                      <b className="text-white"> <Link href="/ewallet"><span style={{ cursor: "pointer" }} className="text-white">E-πορτοφόλι</span></Link></b>
                     </a>
                   </li>
                   <li className='nav-item'>
                     <a className='nav-link'>
                       <FontAwesomeIcon icon={faCog} className="text-white" ></FontAwesomeIcon>
-                      <b className="text-white"> <Link href="/ewallet"><a className="text-white">Ρυθμίσεις</a></Link></b>
+                      <b className="text-white"> <Link href="/ewallet"><span style={{ cursor: "pointer" }} className="text-white">Ρυθμίσεις</span></Link></b>
                     </a>
                   </li>
                   <li className='nav-item'>
                     <a className='nav-link'>
                       <FontAwesomeIcon icon={faSignOutAlt} className="text-white" ></FontAwesomeIcon>
-                      <b className="text-white"> <Link href="/login"><a className="text-white">Αποσύνδεση</a></Link></b>
+                      <b className="text-white"> <Link href="/login"><span style={{ cursor: "pointer" }} className="text-white">Αποσύνδεση</span></Link></b>
                     </a>
                   </li>
                 </ul>

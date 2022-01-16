@@ -126,7 +126,7 @@ export default function Profile(props) {
               </div>
             </Innercontainer>
           </div>
-          <div className="col">
+          <div className="col-8">
             <h2> Αναλυτικό Προφιλ </h2>
             <Innercontainer>
               <div className="p-2">
@@ -187,7 +187,7 @@ export default function Profile(props) {
             <h2> Αξιλογήσεις Παρόχου </h2>
             <Innercontainer>
               <div className="row">
-                <div className="col">
+                <div className="col-8">
                   <Card
                     name="Card 1"
                     description="Description for card 1"

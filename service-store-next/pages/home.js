@@ -4,7 +4,6 @@ import Kanban from '../components/Kanban/kanban'
 import Layout from '../components/Layout/layout'
 import MultiStepForm from '../components/MultiStepForm/MultiStepForm'
 import Search from '../components/Search/search'
-import Selector from '../components/Selector/selector'
 export default function Home(props) {
 
   const changeDefaultView = (event, event2, event3) => {
@@ -28,13 +27,13 @@ export default function Home(props) {
                 </li>
               </ol>
             </nav>
-            <div className="col-2 mt-4">
+            <div className="col-md-2 col-sm-12 mt-4">
               <Search></Search>
             </div>
-            <div className="col-2 mb-4">
+            {/* <div className="col-2 mb-4">
               <Selector onChange={changeDefaultView} placeholder="Προεπιλεγμένη εμφάνιση" values={["Καρτέλες ως πελάτης", "Καρτέλες ώς πάροχος"]} ></Selector>
-            </div>
-            <div className="col-2 mt-2 mb-4">
+            </div> */}
+            <div className="col-md-2 col-sm-12 mt-2 mb-4">
               <Button onClick={() => setModalStatus(!modalIsOpen)} className="btn bg-primary">Προσθήκη Πρότασης</Button>
             </div>
           </div>

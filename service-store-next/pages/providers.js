@@ -212,12 +212,14 @@ class Providers extends Component {
             <div className="container-fluid">
               <div className="row">
                 <div className={[style.box, "col-sm-3 bg-primary"].join(" ")}>
-                  <button
-                    className="btn btn-primary btn-lg m-2 bg-light text-dark"
-                    onClick={this.setModalStatus}
-                  >
-                    + Δημιουργία project
-                  </button>
+                  <div className="d-flex justify-content-center">
+                    <button
+                      className="btn btn-primary btn-lg m-2 bg-light text-dark"
+                      onClick={this.setModalStatus}
+                    >
+                      + Δημιουργία project
+                    </button>
+                  </div>
                   <div style={{ overflow: "auto", height: "70vh" }}>
                     {this.state.requests.map((request) => (
                       <ProjectCustomerCard
@@ -256,11 +258,14 @@ class Providers extends Component {
               </div>
             </div>
           </Fragment>
-        )}
-        {!this.state.modalIsOpen || (
-          <MultiStepForm modalstatus={this.state.modalIsOpen} />
-        )}
-      </Layout>
+        )
+        }
+        {
+          !this.state.modalIsOpen || (
+            <MultiStepForm modalstatus={this.state.modalIsOpen} />
+          )
+        }
+      </Layout >
     );
   }
 }

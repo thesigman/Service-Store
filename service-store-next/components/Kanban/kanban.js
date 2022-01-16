@@ -50,7 +50,7 @@ export default function Kanban(props) {
         style: {
           'border-radius': '6px',
           'box-shadow': 'inset 0px 4px 4px rgba(0, 0, 0, 0.25)',
-          'backgroundColor': '#607890',
+          'backgroundColor': '#1c5a8a',
           'color': 'white',
           'font-size': '28px',
           'width': '25%',
@@ -95,7 +95,7 @@ export default function Kanban(props) {
         style: {
           'border-radius': '6px',
           'box-shadow': 'inset 0px 4px 4px rgba(0, 0, 0, 0.25)',
-          'backgroundColor': '#5FA052',
+          'backgroundColor': '#1f6100',
           'color': 'white',
           'font-size': '28px',
           'width': '25%',
@@ -110,7 +110,7 @@ export default function Kanban(props) {
         style: {
           'border-radius': '6px',
           'box-shadow': 'inset 0px 4px 4px rgba(0, 0, 0, 0.25)',
-          'backgroundColor': '#666666',
+          'backgroundColor': '#343A40',
           'color': 'white',
           'font-size': '58px',
           'max-height': '600px'

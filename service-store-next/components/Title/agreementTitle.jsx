@@ -19,22 +19,24 @@ const AgreementTitle = (props) => {
         >
           Αποθήκευση πρότασης και υπογραφή
         </a>
-        <button className="btn bg-secondaryGreenColor m-2">
+        {/* <button className="btn bg-secondaryGreenColor m-2">
           Προσωρινή Αποθήκευση
-        </button>
+        </button> */}
       </div>
-      <div className="row justify-content-between">
-        <div className="col-2">
+      <div className="row justify-content-start">
+        <div className="col-xl-3">
           <h2> {title}</h2>
         </div>
-        <div className="col align-self-center">
+        <div className="col-xl-9 align-self-center">
           <Toggle
             id={index}
             checked={accepted}
             value="yes"
             onChange={handleAccepted}
           />
-          <label htmlFor={index}>αποδεκτό</label>
+          <label className="fw-bold" htmlFor={index}>
+            αποδεκτό
+          </label>
         </div>
       </div>
       <div className="row justify-content-between">
@@ -44,6 +46,7 @@ const AgreementTitle = (props) => {
         <button className="btn btn-small m-2 bg-secondaryGreenColor">
           Προηγούμενος τομέας
         </button>
+
         <button className="btn btn-small m-2 bg-primary">
           Επόμενος τομέας
         </button>

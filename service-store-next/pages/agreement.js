@@ -229,10 +229,10 @@ class Agreement extends Component {
               {this.state.user.role} */}
               <div className="container-fluid">
                 <div className="row">
-                  <div className="col-sm-3 align-self-center">
+                  <div className="col-lg-3 align-self-center">
                     <h2>Σύμβαση παροχής υπηρεσιών</h2>
                   </div>
-                  <div className="col-sm-9">
+                  <div className="col-lg-9">
                     <AgreementTitle
                       title={this.state.title}
                       description={this.state.description}

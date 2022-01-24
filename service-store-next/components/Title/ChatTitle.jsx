@@ -8,14 +8,14 @@ const ChatTitle = (props) => {
       <div className="row justify-content-between">
         <div className="col">
           <h2>ChatRoom με {props.title}</h2>
-          <span>Πρόταση για {props.name}</span>
+          <span className="align-self-end">Πρόταση για {props.name}</span>
         </div>
-      </div>
-      <div className="row justify-content-between">
-        <div className="col-9"></div>
+        {/* </div>
+      <div className="row justify-content-between"> */}
+        {/* <div className="col-9"></div> */}
         <Link href="/agreement">
           <button
-            className="btn btn-primary bg-primary140 m-2"
+            className="btn btn-primary bg-primary140 m-2 align-self-end"
             // onClick={() => {
             //   router.push({
             //     pathname: "/agreement",

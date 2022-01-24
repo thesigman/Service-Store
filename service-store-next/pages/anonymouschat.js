@@ -46,10 +46,12 @@ class AnonymousChat extends Component {
       })
       .then(
         (response) => {
-          this.setState({ questions: response.data });
-          this.setState({
-            messages: response.data[0].answers,
-          });
+          if (response.data.length) {
+            this.setState({ questions: response.data });
+            this.setState({
+              messages: response.data[0].answers,
+            });
+          }
           // this.setState({
           //   created: Date.parse(response.data[0].created.toString()),
           // });
@@ -274,14 +276,14 @@ class AnonymousChat extends Component {
               </div>
               <div className="container-fluid">
                 <div className="row">
-                  <div className="col-sm-3">
+                  <div className="col-lg-3">
                     <h1>{this.state.name}</h1>
                     <Filters
                       filterByName={this.filterByName}
                       filterByDate={this.filterByDate}
                     />
                   </div>
-                  <div className="col-sm-9">
+                  <div className="col-lg-9">
                     <AnonymousChatTitle
                       projectName={this.state.name}
                       created={this.state.created}

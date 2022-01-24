@@ -181,7 +181,7 @@ class Providers extends Component {
           <Fragment>
             {/* {this.state.user.id}
             {this.state.user.role} */}
-            <div className="row">
+            <div className="row m-2">
               <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
@@ -198,20 +198,20 @@ class Providers extends Component {
             </Head>
             <div className="container-fluid">
               <div className="row">
-                <div className="col-sm-3">
+                <div className="col-sm-3 order-2 order-sm-1">
                   <Filter
                     filterByName={this.filterByName}
                     filterByDate={this.filterByDate}
                   />
                 </div>
-                <div className="col-sm-9">
+                <div className="col-sm-9 order-1 order-sm-2">
                   <Title title={this.state.titles} />
                 </div>
               </div>
             </div>
             <div className="container-fluid">
               <div className="row">
-                <div className={[style.box, "col-sm-3 bg-primary"].join(" ")}>
+                <div className={[style.box, "col-lg-3 bg-primary"].join(" ")}>
                   <div className="d-flex justify-content-center">
                     <button
                       className="btn btn-primary btn-lg m-2 bg-light text-dark"
@@ -230,7 +230,7 @@ class Providers extends Component {
                     ))}
                   </div>
                 </div>
-                <div className="col-sm-9">
+                <div className="col-lg-9">
                   <div className={styles.container}>
                     <div className="row">
                       {this.state.providers.length === 0 ? (
@@ -258,14 +258,11 @@ class Providers extends Component {
               </div>
             </div>
           </Fragment>
-        )
-        }
-        {
-          !this.state.modalIsOpen || (
-            <MultiStepForm modalstatus={this.state.modalIsOpen} />
-          )
-        }
-      </Layout >
+        )}
+        {!this.state.modalIsOpen || (
+          <MultiStepForm modalstatus={this.state.modalIsOpen} />
+        )}
+      </Layout>
     );
   }
 }

@@ -92,7 +92,7 @@ const AnonymousChatTitle = (props) => {
         <button className="btn bg-success m-2">Κατάθεση Πρότασης</button>
       </div> */}
       <div className="row justify-content-between">
-        <div className="col-3">
+        <div className="col-xl-3">
           <h2>Ερώτηση {index + 1}</h2>
         </div>
         {props.user.role === "provider" && (
@@ -110,7 +110,7 @@ const AnonymousChatTitle = (props) => {
                 </>
               )}
             </div>
-            <div className="col-5 align-self-center">
+            <div className="col-xl-5 align-self-center">
               <Countdown
                 date={created + threeDaysdelay}
                 onComplete={isCompleted}

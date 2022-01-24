@@ -232,14 +232,14 @@ class Chat extends Component {
               </div>
               <div className="container-fluid">
                 <div className="row">
-                  <div className="col-sm-3">
+                  <div className="col-xl-3">
                     <h1>Εισερχόμενα</h1>
                     <Filters
                       filterByName={this.filterByName}
                       filterByDate={this.filterByDate}
                     />
                   </div>
-                  <div className="col-sm-9">
+                  <div className="col-xl-9 align-self-center">
                     <ChatTitle
                       title={this.state.title}
                       name={this.state.requestname}

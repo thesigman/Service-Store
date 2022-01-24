@@ -86,7 +86,7 @@ const ProvidersCard = (props) => {
       );
     } else if (offer.Status == "accepted") {
       return (
-        <button className="btn btn-small bg-primary m-2 disabled">
+        <button className="btn bg-primary m-2 disabled">
           Επιλεγμένη πρόταση
         </button>
       );
@@ -103,17 +103,17 @@ const ProvidersCard = (props) => {
   }
   function getRejectButton() {
     // const { rate } = this.state.highRate;
-    <button className="btn bg-danger" onClick={closeModal}>
+    <button className="btn bg-danger m-2" onClick={closeModal}>
       Απόρριψη
     </button>;
     if (offer.Status == "rejected") {
-      return <button className="btn bg-danger disabled">Απόρριψη</button>;
+      return <button className="btn bg-danger disabled m-2">Απόρριψη</button>;
     } else if (offer.Status == "accepted") {
-      return <button className="btn bg-danger disabled">Απόρριψη</button>;
+      return <button className="btn bg-danger disabled m-2">Απόρριψη</button>;
     } else {
       return (
         <button
-          className="btn bg-danger"
+          className="btn bg-danger m-2"
           onClick={() => (closeModal, props.rejectOffer(offer))}
         >
           Απόρριψη
@@ -177,7 +177,7 @@ const ProvidersCard = (props) => {
         offer={offer}
       >
         <div className="container-fluid">
-          <div className="row justify-content-end">
+          <div className="row justify-content-end py-2">
             <div className="col">
               <h5>{projectTitle}</h5>
               <span>{provider.NameOfCompany}</span>
@@ -185,7 +185,7 @@ const ProvidersCard = (props) => {
             <button className="btn-close" onClick={closeModal}></button>
           </div>
 
-          <div className="row justify-content-end">Χρόνος που απομένει</div>
+          {/* <div className="row justify-content-end">Χρόνος που απομένει</div> */}
           {/* <OfferForm
    openModal={openModal}
    closeModal={closeModal}
@@ -208,11 +208,11 @@ const ProvidersCard = (props) => {
             {offer.Cost} €
           </p>
 
-          <div className="row align-self-end justify-content-between m-2">
+          <div className="row align-self-end justify-content-evenly m-2">
             {getRejectButton()}
 
             {/* <p>DATE OF {props.offer.Description}</p> */}
-            <button className="btn bg-warning">Επανεξέταση</button>
+            <button className="btn bg-warning m-2">Επανεξέταση</button>
             {/* <button className="btn bg-success">
               Οριστική αποδοχή πρότασης
             </button> */}

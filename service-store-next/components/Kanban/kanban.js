@@ -45,7 +45,7 @@ export default function Kanban(props) {
       {
         id: (active_user.role == "provider") ? 'Provider Requests' : 'Requests',
         title: (active_user.role == "provider") ? 'Αιτήματα που σας αφορούν' : 'Εκκρεμείς Προτάσεις',
-        label: 'Αρ.Προτάσεων: ' + data.length, 
+        label: String(data.length), 
         cardStyle: cardStyle,
         style: {
           'border-radius': '6px',
@@ -143,7 +143,7 @@ export default function Kanban(props) {
           'id': lastMessage._id,
           'title': sender.data.NameOfCompany,
           'description': lastMessage.message,
-          'label': moment(lastMessage.created, "YYYYMMDD").fromNow()
+          'label': moment(lastMessage.created).fromNow()
         })
       }
     }
@@ -154,7 +154,7 @@ export default function Kanban(props) {
         'id': request._id,
         'title': request.name.substr(0, 12) + '...',
         'description': request.service_1,
-        'label': (request.created) ? moment(request.created, "YYYYMMDD").fromNow() : '',
+        'label': (request.created) ? moment(request.created).fromNow() : '',
         'created' : request.created,
         'fullName' : request.name
       });

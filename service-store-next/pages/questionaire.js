@@ -41,7 +41,7 @@ export default function Questionaire(props) {
     for (let i = 0; i < response.data.length; i++) {
       tempCards.push(renderedCards.at(i));
       if (tempCards.length == itemsPerRow) {
-        finalCards.push(<div className="col-3 mr-0">{tempCards}</div>);
+        finalCards.push(<div className="col-3 col-md-12 mr-0">{tempCards}</div>);
         tempCards = [];
       }
     }
@@ -77,10 +77,10 @@ export default function Questionaire(props) {
             </ol>
           </nav>
           <div className="row">
-            <div className="col-10">
+            <div className="col-md-10">
               <h2> Projects </h2>
             </div>
-            <div className="col-2 mt-4">
+            <div className="col-md-2 mt-4">
               <Button
                 onClick={() => setModalStatus(!modalIsOpen)}
                 className="btn bg-primary"
@@ -89,7 +89,9 @@ export default function Questionaire(props) {
               </Button>
             </div>
           </div>
-          <p>Παρακάτω φαίνονται τα Project που σας αφορούν</p>
+          <div className="row">
+            <p>Παρακάτω φαίνονται τα Project που σας αφορούν</p>
+          </div>
 
           <div
             className="d-flex"

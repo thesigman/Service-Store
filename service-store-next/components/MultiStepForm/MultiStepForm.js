@@ -29,8 +29,7 @@ export default function MultiStepForm(props) {
       background: "#FFFFFF",
       overflow: "visible",
       margin: 'auto',
-      width: '50%',
-      height: '50vh'
+      minWidth: '50%',
     },
   }
 
@@ -42,6 +41,8 @@ export default function MultiStepForm(props) {
   const newPage = () => {
     setPage(page => page + 1);
   }
+
+  useEffect(() => { if (page == 4) { closeModal() } }, [page])
 
   /**
   * Κλείνει το ενεργό modal 
@@ -63,8 +64,8 @@ export default function MultiStepForm(props) {
           {page < 4 && <p>Βήμα {page} από 3</p>}
           <div>
             {page === 1 && <StepOne setActiveService={setActiveService} data={data} newPage={newPage} update={setData} setName={setName} />}
-            {page === 2 && <StepTwo name={activeService} dependencies={dependQuest} updateQuest={setDependQuest} newPage={newPage} data={data} update={setData} />}
-            {page === 3 && <StepThree name={activeService} dependencies={dependQuest} newPage={newPage} updateQuest={setDependQuest} data={data} update={setData} />}
+            {page === 2 && <StepTwo name={activeService} data={data} dependencies={dependQuest} updateQuest={setDependQuest} newPage={newPage} data={data} update={setData} />}
+            {page === 3 && <StepThree name={activeService} data={data} dependencies={dependQuest} newPage={newPage} updateQuest={setDependQuest} data={data} update={setData} />}
             {page === 4 && <StepFour name={name} data={data} />}
           </div>
           <button onClick={newPage}>NExt</button>
@@ -113,31 +114,31 @@ function StepOne(props) {
 
   const updateDom = (question, answer, triggerElement) => {
     let found;
-    switch (triggerElement) {
-      case 'domain':
+    switch (question) {
+      case 'Domain':
         let tmp = service1.filter(x => x.question == answer);
         tmp = tmp.map(a => a.answer)
         setService1Active(tmp);
         setBoldText(answer);
         found = props.data.find((item) => item.question == triggerElement);
         if (typeof found != "undefined") { props.data.splice(found, 1); }
-        props.update([...props.data, { 'question': triggerElement, 'answer': answer }]);
+        props.update([...props.data, { 'question': 'domain', 'answer': answer }]);
         break;
-      case 'service_1':
+      case 'Service 1':
         setServiceText(answer)
         tmp = service2.filter(x => x.question == answer);
         tmp = tmp.map(a => a.answer)
         setService2Active(tmp);
         found = props.data.find((item) => item.question == triggerElement);
         if (typeof found != "undefined") { props.data.splice(found, 1); }
-        props.update([...props.data, { 'question': triggerElement, 'answer': answer }]);
+        props.update([...props.data, { 'question': 'service_1', 'answer': answer }]);
         break;
-      case 'service_2':
+      case 'Service 2':
         const name = Object.keys(serviceName).find(key => serviceName[key] === answer);
         props.setActiveService(name);
         found = props.data.find((item) => item.question == triggerElement);
         if (typeof found != "undefined") { props.data.splice(found, 1); }
-        props.update([...props.data, { 'question': triggerElement, 'answer': answer }]);
+        props.update([...props.data, { 'question': 'service_2', 'answer': answer }]);
         break;
       default:
         // Δεν ειναι απόλυτα σωστ΄ή προσσέγγιση αλλά λειτουργεί μιας και το default case δεν πορόκεται ποτέ 
@@ -179,6 +180,7 @@ function StepOne(props) {
 function StepTwo(props) {
   const [domQuestions, setDomQuestions] = useState([]);
   const [activeChuck, setactiveChuck] = useState(0);
+  const [activeChuckArray, setactiveChuckArray] = useState([]);
   const [question, setQuestion] = useState();
   const [dependQuest, setDependQuest] = useState([]);
 
@@ -190,15 +192,21 @@ function StepTwo(props) {
     if (question) {
       // Εαν υπάρχει ήδη η ερώτηση θα πρέπει να αντικατασταθεί με την καινούρια απάντηση
       const found = props.data.find((item) => item.question == question.question);
-      if (typeof found != "undefined") { props.data.splice(found, 1); }
-      props.update([...props.data, { 'question': question.question, 'answer': question.answer }]);
+      if (typeof found != "undefined") {
+        let tempData = props.data.filter((obj) => obj.question != question.question);
+        props.update([...tempData, { 'question': question.question, 'answer': question.answer }]);
+      } else {
+        props.update([...props.data, { 'question': question.question, 'answer': question.answer }]);
+      }
     }
-
   }, [question]);
 
   useEffect(() => {
     if (dependQuest) {
-      props.updateQuest([...props.dependencies, { 'name': dependQuest.name, 'question': dependQuest.question }]);
+      props.updateQuest(
+        [...props.dependencies,
+        { 'name': dependQuest.name, 'question': dependQuest.question }]
+      );
     }
   }, [dependQuest])
 
@@ -206,7 +214,6 @@ function StepTwo(props) {
 
   useEffect(() => {
     let step = 2;
-    console.log(props.name);
     instance.get(`characteristics?name=${props.name}`).then((response) => {
       let tempQuestions = []
       let chunk = []
@@ -216,31 +223,42 @@ function StepTwo(props) {
         let item;
         if (element.multiple != null) {
           const multiple = element.multiple;
-          if (multiple.depend != 0) { setDependQuest({ 'name': multiple.depend, 'question': multiple.multiple_quest }) }
-          item =
-            <div key={uuidv4()} className="row">
-              <div className="col mt-2">
-                <Selector selectedValue={{id:'test', value:'ts'}} key={index} onChange={updateDom} multiple={true} placeholder={multiple.multiple_quest} id={element.id} values={multiple.multiple_ans}></Selector>
-              </div>
-            </div>;
+          if (multiple.depend != 0) {
+            setDependQuest({ 'name': multiple.depend, 'question': multiple.multiple_quest })
+          }
+
+          item = <Selector
+            key={index}
+            onChange={updateDom}
+            multiple={true}
+            placeholder={multiple.multiple_quest}
+            id={element.id}
+            values={multiple.multiple_ans}
+            defaultAnswer=''>
+          </Selector>
         } else if (element.single != null) {
           const single = element.single;
-          if (single.depend != 0) { setDependQuest({ 'name': single.depend, 'question': single.single_quest }) }
-          item =
-            <div key={uuidv4()} className="row">
-              <div className="col mt-2">
-                <Selector key={index} onChange={updateDom} placeholder={single.single_quest} id={element.id} values={single.single_ans}></Selector>
-              </div>
-            </div>;
+          if (single.depend != 0) {
+            setDependQuest({ 'name': single.depend, 'question': single.single_quest })
+          }
+
+          item = <Selector
+            key={index}
+            onChange={updateDom}
+            placeholder={single.single_quest}
+            id={element.id}
+            values={single.single_ans}
+            defaultAnswer=''>
+          </Selector>
         } else {
           item =
-            <span>
+            <div key={uuidv4()}>
               <label for={element.id} >{element.text[0]}</label>
-              <div key={uuidv4()} className="row">
+              <div className="row">
                 <div className="col mt-2"><input className="form-input" key={index} id={element.id} onChange={updateDom}></input>
                 </div>
               </div>
-            </span>
+            </div>
         }
 
         chunk = [...chunk, item];
@@ -248,7 +266,7 @@ function StepTwo(props) {
           tempQuestions = [...tempQuestions, chunk];
           chunk = [];
         }
-
+        setDomQuestions(tempQuestions)
       })
 
 
@@ -260,34 +278,84 @@ function StepTwo(props) {
         if (element.multiple != null) {
           const multiple = element.multiple;
           if (multiple.depend != 0) { setDependQuest({ 'name': multiple.depend, 'question': multiple.multiple_quest }) }
-          item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} multiple={true} placeholder={multiple.multiple_quest} id={element.id} values={multiple.multiple_ans}></Selector></div></div>;
+          item = <Selector
+            key={index}
+            onChange={updateDom}
+            multiple={true}
+            placeholder={multiple.multiple_quest}
+            id={element.id}
+            values={multiple.multiple_ans}
+            defaultAnswer=''>
+          </Selector>
         } else {
           const single = element.single;
           if (single.depend != 0) { setDependQuest({ 'name': single.depend, 'question': single.single_quest }) }
-          item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} placeholder={single.single_quest} id={element.id} values={single.single_ans}></Selector></div></div>;
+          item = <Selector
+            key={index}
+            onChange={updateDom}
+            placeholder={single.single_quest}
+            id={element.id}
+            values={single.single_ans}
+            defaultAnswer=''>
+          </Selector>;
         }
-
         tempQuestions = [...tempQuestions, [item]];
       }
       setDomQuestions(tempQuestions);
     })
   }, [])
 
+  /**
+   * Γεμίζει τις ήδη απαντημένες απαντήσεις με τις τιμές που έβαλε ο χρήστης
+   */
+  const fillAnsweredQuestions = (position) => {
+    setactiveChuckArray([]);
+    let modifiedArray = domQuestions[position].map(item => {
+      const activeQuestion = item.props.placeholder;
+      // Αρχικά ελλεγχουμε εαν το κλειδί υπάρχει στα δεδομένα 
+      // Δηλαδή εαν ο χρήστης έχει απαντήσει την ερώτηση 
+      const items = props.data.map((pair) => { return pair.question });
+      const answer = (items.includes(activeQuestion[0]))
+        ? props.data.find((pair) => pair.question == activeQuestion[0])?.answer
+        : null;
+      // Στην συνέχεια κατασκευάζουμε έναν πανομοιότυπο Selector με περασμένες τις σωστές απαντήσεις
+      if (answer != null) {
+        const tempItem = <Selector
+          key={uuidv4()}
+          onChange={item.props.onChange}
+          multiple={item.props?.multiple}
+          placeholder={item.props.placeholder}
+          values={item.props.values}
+          defaultAnswer={answer}
+        />
+        return tempItem;
+      }
+      return item;
+    })
+    setactiveChuckArray(modifiedArray);
+  }
+
   const nextChunck = () => {
     if (activeChuck == domQuestions.length - 1) {
       props.newPage()
     }
     setactiveChuck(activeChuck => activeChuck + 1)
+    fillAnsweredQuestions(activeChuck + 1);
   }
 
   const prevChuck = () => {
-    setactiveChuck(activeChuck => activeChuck - 1)
+    setactiveChuck(activeChuck => activeChuck - 1);
+    fillAnsweredQuestions(activeChuck - 1);
   }
 
   return (
     <div>
       <div className="row">
-        {domQuestions[activeChuck]}
+        {
+          (activeChuckArray.length == 0)
+            ? domQuestions[activeChuck]
+            : activeChuckArray
+        }
       </div>
       <div className="d-flex float-end">
         {activeChuck > 0 && <button onClick={prevChuck} className=" mt-2 btn text-primary no-bd btn-secondary-small">Προηγούμενο</button>}
@@ -301,6 +369,7 @@ function StepThree(props) {
   const [domQuestions, setDomQuestions] = useState([]);
   const [activeChuck, setactiveChuck] = useState(0);
   const [question, setQuestion] = useState();
+  const [activeChuckArray, setactiveChuckArray] = useState([]);
   const [dependQuest, setDependQuest] = useState([]);
 
   const updateDom = async (question, answer) => {
@@ -309,7 +378,14 @@ function StepThree(props) {
 
   useEffect(() => {
     if (question) {
-      props.update([...props.data, { 'question': question.question, 'answer': question.answer }]);
+      // Εαν υπάρχει ήδη η ερώτηση θα πρέπει να αντικατασταθεί με την καινούρια απάντηση
+      const found = props.data.find((item) => item.question == question.question);
+      if (typeof found != "undefined") {
+        let tempData = props.data.filter((obj) => obj.question != question.question);
+        props.update([...tempData, { 'question': question.question, 'answer': question.answer }]);
+      } else {
+        props.update([...props.data, { 'question': question.question, 'answer': question.answer }]);
+      }
     }
 
   }, [question]);
@@ -320,41 +396,91 @@ function StepThree(props) {
     }
   }, [dependQuest])
 
+  /**
+   * Γεμίζει τις ήδη απαντημένες απαντήσεις με τις τιμές που έβαλε ο χρήστης
+   */
+  const fillAnsweredQuestions = (position) => {
+    setactiveChuckArray([]);
+    let modifiedArray = domQuestions[position].map(item => {
+      const activeQuestion = item.props.placeholder;
+      // Αρχικά ελλεγχουμε εαν το κλειδί υπάρχει στα δεδομένα 
+      // Δηλαδή εαν ο χρήστης έχει απαντήσει την ερώτηση 
+      const items = props.data.map((pair) => { return pair.question });
+      const answer = (items.includes(activeQuestion[0]))
+        ? props.data.find((pair) => pair.question == activeQuestion[0])?.answer
+        : null;
+      // Στην συνέχεια κατασκευάζουμε έναν πανομοιότυπο Selector με περασμένες τις σωστές απαντήσεις
+      if (answer != null) {
+        const tempItem = <Selector
+          key={uuidv4()}
+          onChange={item.props.onChange}
+          multiple={item.props?.multiple}
+          placeholder={item.props.placeholder}
+          values={item.props.values}
+          defaultAnswer={answer}
+        />
+        return tempItem;
+      }
+      return item;
+    })
+    setactiveChuckArray(modifiedArray);
+  }
+
 
 
   useEffect(() => {
-    let singleNAmes = props.dependencies.map(function (a) { return a.name; });
-    let onlyNames = [...new Set(singleNAmes)];
-    let step = 2;
+    if (props.dependencies.length == 0) {
+      props.newPage();
+    } else {
+      let singleNAmes = props.dependencies.map(function (a) { return a.name; });
+      let onlyNames = [...new Set(singleNAmes)];
+      let step = 2;
 
-    onlyNames.forEach((name, bigIndex) => {
-      if (typeof name == 'undefined') { return; }
-      instance.get(`characteristics?name=${name}`).then((response) => {
-        let tempQuestions = []
-        let chunk = []
-        response.data.forEach((element, index) => {
-          // Σε αυτο τo Step θα απαντήσουμε μόνο τις ερωτήσεις που δεν έχουν σύνδεση με άλλες 
-          // Ελέγχουμε αμα είναι single η multiple answer για να rendaroyme το κατάλληλο dom
-          let item;
-          if (element.multiple != null) {
-            const multiple = element.multiple;
-            item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} multiple={true} placeholder={multiple.multiple_quest} id={element.id} values={multiple.multiple_ans}></Selector></div></div>;
-          } else {
-            const single = element.single;
-            item = <div key={uuidv4()} className="row"><div className="col mt-2"><Selector key={index} onChange={updateDom} placeholder={single.single_quest} id={element.id} values={single.single_ans}></Selector></div></div>;
-          }
-          // To be added if its text
-          chunk = [...chunk, item];
-          if (index % step == 0) {
-            tempQuestions = [...tempQuestions, chunk];
-            chunk = [];
-          }
+      onlyNames.forEach((name, bigIndex) => {
+        if (typeof name == 'undefined') { return; }
+        instance.get(`characteristics?name=${name}`).then((response) => {
+          let tempQuestions = []
+          let chunk = []
+          response.data.forEach((element, index) => {
+            // Σε αυτο τo Step θα απαντήσουμε μόνο τις ερωτήσεις που δεν έχουν σύνδεση με άλλες 
+            // Ελέγχουμε αμα είναι single η multiple answer για να rendaroyme το κατάλληλο dom
+            let item;
+            if (element.multiple != null) {
+              const multiple = element.multiple;
+              item = <Selector
+                key={index}
+                onChange={updateDom}
+                multiple={true}
+                placeholder={multiple.multiple_quest}
+                id={element.id}
+                values={multiple.multiple_ans}
+                defaultAnswer=''>
+              </Selector>;
+            } else {
+              const single = element.single;
+              item = <Selector
+                key={index}
+                onChange={updateDom}
+                placeholder={single.single_quest}
+                id={element.id}
+                values={single.single_ans}
+                defaultAnswer=''>
+              </Selector>;
+            }
+            // To be added if its text
+            chunk = [...chunk, item];
+            if (index % step == 0) {
+              tempQuestions = [...tempQuestions, chunk];
+              chunk = [];
+            }
 
+          })
+          setDomQuestions(tempQuestions);
         })
-        setDomQuestions(tempQuestions);
       })
 
-    })
+    }
+
   }, []);
 
 
@@ -363,16 +489,24 @@ function StepThree(props) {
       props.newPage()
     }
     setactiveChuck(activeChuck => activeChuck + 1)
+    fillAnsweredQuestions(activeChuck + 1);
+
   }
 
   const prevChuck = () => {
     setactiveChuck(activeChuck => activeChuck - 1)
+    fillAnsweredQuestions(activeChuck - 1);
+
   }
 
   return (
     <div>
       <div className="row">
-        {domQuestions[activeChuck]}
+        {
+          (activeChuckArray.length == 0)
+            ? domQuestions[activeChuck]
+            : activeChuckArray
+        }
       </div>
       <div className="d-flex float-end">
         {activeChuck > 0 && <button onClick={prevChuck} className=" mt-2 btn text-primary no-bd btn-secondary-small">Προηγούμενο</button>}
@@ -387,9 +521,9 @@ function StepFour(props) {
   const user = JSON.parse(window.sessionStorage.getItem('application_user'))
   let jsonData = {};
   jsonData['requester'] = user.id;
-  jsonData['domain'] = props.data.find((element) => element.question == 'domain').answer;
-  jsonData['service_1'] = props.data.find((element) => element.question == 'service_1').answer;
-  jsonData['service_2'] = props.data.find((element) => element.question == 'service_2').answer;
+  jsonData['domain'] = props.data.find((element) => element.question == 'domain')?.answer;
+  jsonData['service_1'] = props.data.find((element) => element.question == 'service_1')?.answer;
+  jsonData['service_2'] = props.data.find((element) => element.question == 'service_2')?.answer;
   jsonData['answears'] = { 'quest': props.data.filter(x => x.question != 'domain' && x.question != 'service_1' && x.question != 'service_2').map(x => x.question), 'answear': props.data.filter(x => x.question != 'domain' && x.question != 'service_1' && x.question != 'service_2').map(x => x.answer) }
   jsonData['published_at'] = new Date();
   jsonData['updatedAt'] = new Date();
@@ -397,14 +531,14 @@ function StepFour(props) {
   jsonData['name'] = props.name;
   jsonData['created'] = new Date();
 
-  axios.post('http://islab-thesis.aegean.gr:82/trans/api/requests', jsonData).then((response) => {
-    if (response.status = 200) {
-      console.log('Successfully Sent')
-      setModalStatus(!modalIsOpen);
-    }
-  }
+  useEffect(() => {
+    axios.post('http://islab-thesis.aegean.gr:82/trans/api/requests', jsonData).then((response) => {
+      if (response.status = 200) {
+        console.log('Successfully Sent')
+      }
+    })
+  }, [])
 
-  )
   return (
     <div>
       <p>Τα στοιχεία σας αποθηκεύτικαν με επιτυχία !</p>

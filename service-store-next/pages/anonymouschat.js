@@ -51,19 +51,21 @@ class AnonymousChat extends Component {
             this.setState({
               messages: response.data[0].answers,
             });
+
+            // this.setState({
+            //   created: Date.parse(response.data[0].created.toString()),
+            // });
+
+            this.setState({ description: response.data[0].question });
+            this.setState({ index: 0 });
+            this.setState({ currentid: response.data[0]._id });
+            this.setState({ answered: response.data[0].answered });
           }
-          // this.setState({
-          //   created: Date.parse(response.data[0].created.toString()),
-          // });
           this.setState({
             created: Date.parse(
               Object.fromEntries(urlSearchParams.entries()).created
             ),
           });
-          this.setState({ description: response.data[0].question });
-          this.setState({ index: 0 });
-          this.setState({ currentid: response.data[0]._id });
-          this.setState({ answered: response.data[0].answered });
         },
         (error) => {
           console.log(error);

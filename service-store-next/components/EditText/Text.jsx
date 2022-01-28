@@ -24,6 +24,7 @@ const Text = (props) => {
         style={{ width: "500px", color: "purple" }}
         onSave={props.onSave}
         onChange={setText}
+        readonly={props.readonly}
       />
     </div>
   );

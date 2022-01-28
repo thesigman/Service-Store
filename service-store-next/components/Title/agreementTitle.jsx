@@ -3,26 +3,34 @@ import "react-toggle/style.css";
 
 const AgreementTitle = (props) => {
   // console.log(typeof props.accepted);
-  const { title, description, signAgreement, handleAccepted, accepted, index } =
-    props;
+  const {
+    title,
+    description,
+    signAgreement,
+    handleAccepted,
+    accepted,
+    index,
+    agreementAccept,
+  } = props;
 
   let baseURL = "http://islab-thesis.aegean.gr:5550/api";
   let url = `${baseURL}/articles/download?offerid=${props.offerid}`;
   return (
     <>
-      <div className="row justify-content-end">
-        <a
-          href={url}
-          className="btn bg-success d-flex align-items-center m-2"
-          onClick={signAgreement}
-          target="_blank"
-        >
-          Αποθήκευση πρότασης και υπογραφή
-        </a>
-        {/* <button className="btn bg-secondaryGreenColor m-2">
-          Προσωρινή Αποθήκευση
-        </button> */}
-      </div>
+      {agreementAccept ? (
+        <div className="row justify-content-end">
+          <a
+            href={url}
+            className="btn bg-success d-flex align-items-center m-2"
+            onClick={signAgreement}
+            target="_blank"
+          >
+            Αποθήκευση πρότασης και υπογραφή
+          </a>
+        </div>
+      ) : (
+        " "
+      )}
       <div className="row justify-content-start">
         <div className="col-xl-3">
           <h2> {title}</h2>

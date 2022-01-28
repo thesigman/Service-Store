@@ -22,6 +22,7 @@ class Agreement extends Component {
     keywords: [],
     values: {},
     user: {},
+    agreementAccept: true,
   };
 
   constructor(props) {
@@ -70,6 +71,11 @@ class Agreement extends Component {
 
           this.setState({ values: v });
           this.setState({ articles });
+
+          this.state.articles.forEach((article) => {
+            if (!(article.providerAccept && article.clientAccept))
+              this.setState({ agreementAccept: false });
+          });
 
           let parts = this.state.articles[0].text.split(/(\bergolavia+\b)/gi);
           // let parts = this.state.articles[0].text.split(regexList[0]);
@@ -208,6 +214,18 @@ class Agreement extends Component {
           if (this.state.article.number === response.data.number) {
             this.setState({ article: response.data });
           }
+
+          //elegxos kai update gia thn apodoxh olwn twna ar8rwn kai
+          //emfanishs tou koumpiou gia thn apo8hkeush ths sumvashs
+          //sto agreementTitle.jsx
+          let newAgreementAccept = true;
+          this.state.articles.forEach((article) => {
+            if (!(article.providerAccept && article.clientAccept))
+              newAgreementAccept = false;
+          });
+          if (this.state.agreementAccept !== newAgreementAccept) {
+            this.setState({ agreementAccept: newAgreementAccept });
+          }
         },
         (error) => {
           console.log(error);
@@ -243,6 +261,7 @@ class Agreement extends Component {
                       offerid={JSON.parse(
                         window.sessionStorage.getItem("offerid")
                       )}
+                      agreementAccept={this.state.agreementAccept}
                     />
                   </div>
                 </div>
@@ -325,6 +344,7 @@ class Agreement extends Component {
                               value={this.state.values[`${part}`]}
                               defaultValue={this.state.values[`${part}`]}
                               ph={ph}
+                              readonly={this.state.agreementAccept}
                               onSave={this.handleSave}
                             />
                           );

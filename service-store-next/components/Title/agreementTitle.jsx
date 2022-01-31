@@ -1,8 +1,8 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import Toggle from "react-toggle";
 import "react-toggle/style.css";
-
 import { devteam2 } from "../../pages/api/axiosConfiguration";
+
 
 const AgreementTitle = (props) => {
   const {
@@ -27,30 +27,18 @@ const AgreementTitle = (props) => {
   };
 
   // On file upload (click the upload button)
-  const onFileUpload = () => {
+  const  onFileUpload = async () => {
     // Create an object of formData
-    const formData = new FormData();
+    let formData = new FormData();
 
     // Update the formData object
-    formData.append("myFile", selectedFile, selectedFile.name);
+    formData.append("file", selectedFile);
 
     // Details of the uploaded file
-    console.log(selectedFile);
     console.log("trying to upload");
 
-    devteam2
-      .post("/articles/upload", {
-        data: formData,
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      .then(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    const response =  await devteam2.post("/articles/upload", formData);
+    console.log(response);
   };
 
   return (

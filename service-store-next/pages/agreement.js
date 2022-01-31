@@ -77,8 +77,27 @@ class Agreement extends Component {
               this.setState({ agreementAccept: false });
           });
 
-          let parts = this.state.articles[0].text.split(/(\bergolavia+\b)/gi);
+          // let parts = this.state.articles[0].text.split(
+          //   /(\bpreambleProvider+\b)/gi
+          // );
           // let parts = this.state.articles[0].text.split(regexList[0]);
+
+          const regexList = this.state.articles[0]?.keywords;
+
+          // console.log(new RegExp(`(\\b${regexList[0]}+\\b)`, "gi"));
+          let parts = this.state.articles[0].text.split(
+            new RegExp(`(\\b${regexList[0]}+\\b)`, "gi")
+          );
+
+          regexList.forEach((regex, index) => {
+            // if (index >= 1) {
+            let t = parts[parts.length - 1].split(
+              new RegExp(`(\\b${regex}+\\b)`, "gi")
+            );
+            parts.splice(parts.length - 1, 1);
+            t.forEach((element) => parts.push(element));
+            // }
+          });
 
           this.setState({ splitted: parts });
           this.setState({ article: response.data[0].articles["article0"] });
@@ -112,18 +131,17 @@ class Agreement extends Component {
 
     // console.log(new RegExp(`(\\b${regexList[0]}+\\b)`, "gi"));
     let parts = this.state.articles[articleNumber].text.split(
-      // "(\bproviderServices+\b)
       new RegExp(`(\\b${regexList[0]}+\\b)`, "gi")
     );
 
     regexList.forEach((regex, index) => {
-      if (index >= 1) {
-        let t = parts[parts.length - 1].split(
-          new RegExp(`(\\b${regex}+\\b)`, "gi")
-        );
-        parts.splice(parts.length - 1, 1);
-        t.forEach((element) => parts.push(element));
-      }
+      // if (index >= 1) {
+      let t = parts[parts.length - 1].split(
+        new RegExp(`(\\b${regex}+\\b)`, "gi")
+      );
+      parts.splice(parts.length - 1, 1);
+      t.forEach((element) => parts.push(element));
+      // }
     });
 
     this.setState({ splitted: parts });
@@ -194,7 +212,7 @@ class Agreement extends Component {
         number: this.state.article.number,
         //        offerid: "6123c934172d021ef07070ee",
         offerid: JSON.parse(window.sessionStorage.getItem("offerid")),
-        userid:
+        role:
           this.state.user.role === "client" ? "clientAccept" : "providerAccept",
       })
       .then(
@@ -262,6 +280,10 @@ class Agreement extends Component {
                         window.sessionStorage.getItem("offerid")
                       )}
                       agreementAccept={this.state.agreementAccept}
+                      role={this.state.user.role}
+                      uploadAgreement={this.uploadAgreement}
+                      saveFile={this.saveFile}
+                      status="signProvider"
                     />
                   </div>
                 </div>
@@ -298,6 +320,12 @@ class Agreement extends Component {
                           );
                         } else {
                           switch (part) {
+                            case "preambleClient":
+                              ph = "εργασία";
+                              break;
+                            case "preambleProvider":
+                              ph = "παροχές";
+                              break;
                             case "providerServices":
                               ph = "υπηρεσίες παρόχου";
                               break;

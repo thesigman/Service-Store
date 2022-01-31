@@ -1,8 +1,10 @@
+import React, { Component, useState } from "react";
 import Toggle from "react-toggle";
 import "react-toggle/style.css";
 
+import { devteam2 } from "../../pages/api/axiosConfiguration";
+
 const AgreementTitle = (props) => {
-  // console.log(typeof props.accepted);
   const {
     title,
     description,
@@ -11,13 +13,49 @@ const AgreementTitle = (props) => {
     accepted,
     index,
     agreementAccept,
+    role,
+    status,
   } = props;
 
+  const [selectedFile, setSelectedFile] = useState(null);
   let baseURL = "http://islab-thesis.aegean.gr:5550/api";
   let url = `${baseURL}/articles/download?offerid=${props.offerid}`;
+
+  const onFileChange = (event) => {
+    // Update the state
+    setSelectedFile(event.target.files[0]);
+  };
+
+  // On file upload (click the upload button)
+  const onFileUpload = () => {
+    // Create an object of formData
+    const formData = new FormData();
+
+    // Update the formData object
+    formData.append("myFile", selectedFile, selectedFile.name);
+
+    // Details of the uploaded file
+    console.log(selectedFile);
+    console.log("trying to upload");
+
+    devteam2
+      .post("/articles/upload", {
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
   return (
     <>
-      {agreementAccept ? (
+      {agreementAccept && role == "provider" && status == "signProvider" ? (
         <div className="row justify-content-end">
           <a
             href={url}
@@ -25,8 +63,47 @@ const AgreementTitle = (props) => {
             onClick={signAgreement}
             target="_blank"
           >
+            Αποθήκευση και υπογραφή
+          </a>
+          <div className="col-xl-3">
+            <div className="card rounded">
+              <div className="card-body">
+                <input
+                  className="form-control  form-control-sm"
+                  type="file"
+                  name="file"
+                  onChange={onFileChange}
+                />
+              </div>
+            </div>
+          </div>
+          <button
+            className="btn bg-secondaryGreenColor m-2"
+            onClick={onFileUpload}
+          >
+            Μεταφόρτωση υπογεγραμμένης σύμβασης
+          </button>
+        </div>
+      ) : role == "client" && status == "signClient" ? (
+        <div className="row justify-content-end">
+          <a
+            href={"#"}
+            className="btn bg-success d-flex align-items-center m-2"
+            onClick={signAgreement}
+            target="_blank"
+          >
             Αποθήκευση πρότασης και υπογραφή
           </a>
+          <button className="btn bg-secondaryGreenColor m-2">
+            Μεταφόρτωση υπογεγραμμένης σύμβασης
+          </button>
+        </div>
+      ) : status == "signed" ? (
+        <div className="row justify-content-end">
+          {" "}
+          <button className="btn bg-secondaryGreenColor m-2">
+            Αποθήκευση σύμβασης
+          </button>
         </div>
       ) : (
         " "
@@ -41,6 +118,7 @@ const AgreementTitle = (props) => {
             checked={accepted}
             value="yes"
             onChange={handleAccepted}
+            disabled={props.status != "signProvider"}
           />
           <label className="fw-bold" htmlFor={index}>
             αποδεκτό

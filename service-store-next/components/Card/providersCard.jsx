@@ -127,9 +127,7 @@ const ProvidersCard = (props) => {
         <div className={[styles.card, getCardClass()].join(" ")}>
           <div className="p-2">
             <div className="row">
-              {/* <h5>Provider #{index+1}</h5>*/}
-              <h5>Provider</h5>
-              <span>{provider.NameOfCompany}</span>
+              <h5>Provider #{index + 1}</h5>
             </div>
             <div className="card-body">
               <div className="row justify-content-start">
@@ -180,7 +178,7 @@ const ProvidersCard = (props) => {
           <div className="row justify-content-end py-2">
             <div className="col">
               <h5>{projectTitle}</h5>
-              <span>{provider.NameOfCompany}</span>
+              {/* <span>{provider.NameOfCompany}</span> */}
             </div>
             <button className="btn-close" onClick={closeModal}></button>
           </div>

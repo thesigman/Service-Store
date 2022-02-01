@@ -1,7 +1,6 @@
-// import axios from "axios";
-import "bootstrap/dist/css/bootstrap.css";
-import Head from "next/head";
 import { Component, Fragment } from "react";
+import Head from "next/head";
+import Link from "next/link";
 import ProjectCustomerCard from "../components/Card/ProjectCustomerCard.jsx";
 import ProvidersCard from "../components/Card/providersCard.jsx";
 import styles from "../components/Cards/cards.module.scss";
@@ -185,7 +184,10 @@ class Providers extends Component {
               <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <a href="#">Αρχική</a>
+                    {/* <a href="#">Αρχική</a> */}
+                    <Link href="/home">
+                      <a>Αρχική</a>
+                    </Link>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
                     Προβολή Προτάσεων

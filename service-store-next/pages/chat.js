@@ -1,6 +1,6 @@
 import { React, Component } from "react";
 import Head from "next/head";
-// import "bootstrap/dist/css/bootstrap.css";
+import Link from "next/link";
 import Layout from "../components/Layout/layout";
 import Filters from "../components/Filters/filters.jsx";
 import ChatRoom from "../components/ChatRoom/ChatRoom";
@@ -222,7 +222,10 @@ class Chat extends Component {
                 <nav aria-label="breadcrumb">
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <a href="#">Αρχική</a>
+                      {/* <a href="#">Αρχική</a> */}
+                      <Link href="/home">
+                        <a>Αρχική</a>
+                      </Link>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
                       Εισερχόμενα

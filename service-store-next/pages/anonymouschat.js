@@ -1,5 +1,6 @@
 import axios from "axios";
 import Head from "next/head";
+import Link from "next/link";
 import { Component, React } from "react";
 import socket from "socket.io-client";
 import QuestionSideCard from "../components/Card/questionSideCard.jsx";
@@ -268,7 +269,10 @@ class AnonymousChat extends Component {
                 <nav aria-label="breadcrumb">
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <a href="#">Αρχική</a>
+                      {/* <a href="#">Αρχική</a> */}
+                      <Link href="/home">
+                        <a>Αρχική</a>
+                      </Link>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">
                       {this.state.name}

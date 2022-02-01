@@ -1,7 +1,7 @@
 import { Component, Fragment } from "react";
 import Layout from "../components/Layout/layout";
-import "bootstrap/dist/css/bootstrap.css";
 import Head from "next/head";
+import Link from "next/link";
 import { devteam2 } from "./api/axiosConfiguration";
 import TransactionsCard from "../components/Card/transactionsCard";
 import BalanceCard from "../components/Card/balanceCard";
@@ -50,7 +50,10 @@ class Ewallet extends Component {
               <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <a href="#">Αρχική</a>
+                    {/* <a href="#">Αρχική</a> */}
+                    <Link href="/home">
+                      <a>Αρχική</a>
+                    </Link>
                   </li>
                   <li className="breadcrumb-item active" aria-current="page">
                     e-Πορτοφόλι

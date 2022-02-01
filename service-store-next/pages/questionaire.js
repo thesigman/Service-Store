@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Button } from "react-bootstrap";
 import Card from "../components/Card/card";
 import Layout from "../components/Layout/layout";
@@ -41,7 +42,9 @@ export default function Questionaire(props) {
     for (let i = 0; i < response.data.length; i++) {
       tempCards.push(renderedCards.at(i));
       if (tempCards.length == itemsPerRow) {
-        finalCards.push(<div className="col-3 col-md-12 mr-0">{tempCards}</div>);
+        finalCards.push(
+          <div className="col-3 col-md-12 mr-0">{tempCards}</div>
+        );
         tempCards = [];
       }
     }
@@ -69,7 +72,10 @@ export default function Questionaire(props) {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <a href="#">Αρχική</a>
+                {/* <a href="#">Αρχική</a> */}
+                <Link href="/home">
+                  <a>Αρχική</a>
+                </Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 Projects

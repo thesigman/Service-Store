@@ -1,7 +1,6 @@
-import "bootstrap/dist/css/bootstrap.css";
-import moment from "moment";
 import Head from "next/head";
-import { Component } from "react";
+import Link from "next/link";
+import React, { Component } from "react";
 import ArticleSideCard from "../components/Card/articleSideCard";
 import styles from "../components/ChatRoom/chatroom.module.scss";
 import Text from "../components/EditText/Text";
@@ -264,6 +263,26 @@ class Agreement extends Component {
         <Layout user={this.props}>
           {(!this.props.isAuthenticated && <p>You have to login First</p>) || (
             <>
+              <div className="row mt-2">
+                <nav aria-label="breadcrumb">
+                  <ol className="breadcrumb">
+                    <li className="breadcrumb-item">
+                      {/* <a href="#">Αρχική</a> */}
+                      <Link href="/home">
+                        <a>Αρχική</a>
+                      </Link>
+                    </li>
+                    <li className="breadcrumb-item" aria-current="page">
+                      <Link href="/chat">
+                        <a>Εισερχόμενα</a>
+                      </Link>
+                    </li>
+                    <li className="breadcrumb-item active" aria-current="page">
+                      Σύμβαση
+                    </li>
+                  </ol>
+                </nav>
+              </div>
               {/* {this.state.user.id}
               {this.state.user.role} */}
               <div className="container-fluid">

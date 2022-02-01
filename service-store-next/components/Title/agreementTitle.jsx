@@ -127,7 +127,7 @@ const AgreementTitle = (props) => {
             onClick={signAgreement}
             target="_blank"
           >
-            Αποθήκευση και υπογραφή
+            Αποθήκευση υπογεγραμμένης σύμβασης
           </a>
         </div>
       ) : (

@@ -22,6 +22,7 @@ class Agreement extends Component {
     keywords: [],
     values: {},
     user: {},
+    status: "",
     agreementAccept: true,
   };
 
@@ -66,6 +67,8 @@ class Agreement extends Component {
           //   article.push(response.data[0].articles["article0"][element]);
           // }
           // console.log(article);
+
+          this.setState({ status: response.data[0].status });
 
           console.log(v);
 
@@ -283,7 +286,7 @@ class Agreement extends Component {
                       role={this.state.user.role}
                       uploadAgreement={this.uploadAgreement}
                       saveFile={this.saveFile}
-                      status="signProvider"
+                      status={this.state.status}
                     />
                   </div>
                 </div>

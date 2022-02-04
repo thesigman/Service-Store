@@ -1,17 +1,29 @@
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import moment from 'moment';
 import Router from "next/router";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import { toast, ToastContainer } from 'react-nextjs-toast';
+import StarRatingComponent from 'react-star-rating-component';
 import Board from 'react-trello';
 import { instance } from '../../pages/api/axiosConfiguration';
+
 
 export default function Kanban(props) {
   const [data, setData] = useState([]);
   const [messageData, setMessageData] = useState([]);
   const [totalMessagesNum, setTotalMessagesNum] = useState(0)
   const [modalIsOpen, setModalStatus] = useState(false);
+  const [rateModalIsOpen, setRateModalIsOpen] = useState(false);
   const [activeRequest, setActiveRequest] = useState({});
+
+  // Για το rating μπορεί να αλλάξουν τα factor
+  const [factor1, setfactor1] = useState();
+  const [factor2, setfactor2] = useState();
+  const [factor3, setfactor3] = useState();
+  
 
   const modalStyle = {
     content: {
@@ -22,9 +34,12 @@ export default function Kanban(props) {
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
       background: "#FFFFFF",
-      width: "70%",
+      width: "60%",
     },
   }
+
+  // Φόρτωστη των request που έχει πραγματοποιήσει ο χρήσητς ως πελάτης
+  const active_user = JSON.parse(window.sessionStorage.getItem("application_user"));
 
   // Κατασκευή του board με βάση τα δεδομένα που θέλουμε να φαίνονται
   let taskCard = {
@@ -37,15 +52,15 @@ export default function Kanban(props) {
     'border-radius': '6px',
   }
 
-  // Φόρτωστη των request που έχει πραγματοποιήσει ο χρήσητς ως πελάτης
-  const active_user = JSON.parse(window.sessionStorage.getItem("application_user"));
-
-  const data2 = {
+  /**
+   * Κατασκευή του βασικού σκελετού του canban
+   */
+  const kanbanData = {
     lanes: [
       {
         id: (active_user.role == "provider") ? 'Provider Requests' : 'Requests',
         title: (active_user.role == "provider") ? 'Αιτήματα που σας αφορούν' : 'Εκκρεμείς Προτάσεις',
-        label: String(data.length), 
+        label: String(data.length),
         cardStyle: cardStyle,
         style: {
           'border-radius': '6px',
@@ -74,6 +89,7 @@ export default function Kanban(props) {
           setModalStatus(true);
         }
       },
+
       {
         id: 'inprogress',
         cardStyle: cardStyle,
@@ -89,6 +105,7 @@ export default function Kanban(props) {
         title: 'Σε εκρεμμότητα',
         cards: []
       },
+
       {
         id: 'done',
         cardStyle: cardStyle,
@@ -102,8 +119,21 @@ export default function Kanban(props) {
           'max-height': '600px'
         },
         title: 'Ολοκληρωμένες',
-        cards: []
+        cards: [
+          {
+            'id': 100,
+            'title': 'Κατασκευή WebSite',
+            'description': '5.1 Υπηρεσια',
+            'label': 'test'
+          }
+        ],
+        onCardClick(cardId, metadata, labeId) {
+          // Φόρτωση του modal για το rating 
+          setRateModalIsOpen(true);
+          setActiveRequest(cardId);
+        }
       },
+
       {
         id: 'messages',
         cardStyle: cardStyle,
@@ -155,8 +185,8 @@ export default function Kanban(props) {
         'title': request.name.substr(0, 12) + '...',
         'description': request.service_1,
         'label': (request.created) ? moment(request.created).fromNow() : '',
-        'created' : request.created,
-        'fullName' : request.name
+        'created': request.created,
+        'fullName': request.name
       });
     });
     setData(cards);
@@ -168,6 +198,45 @@ export default function Kanban(props) {
    */
   const closeModal = () => {
     setModalStatus(false);
+    setRateModalIsOpen(false);
+  }
+
+  // Ενημερώνει τα αποτελέσματα των stars
+  const onStarClick = (nextValue, prevValue, name) => {
+    switch (name) {
+      case 'factor1':
+        setfactor1(nextValue);
+        break;
+    
+      case 'factor2':
+        setfactor2(nextValue);
+        break;
+    
+      case 'factor3':
+        setfactor3(nextValue);
+        break;
+    }
+  }
+
+  const rateJob = (id) => {
+    const rate = {
+      factor1 : factor1,
+      factor2 : factor2,
+      factor3 : factor3,
+      id : id
+    }
+    
+    // Πρέπει να μπεί το endpoint για την αποστολή των δεδομένων
+    console.log(rate);
+
+  }
+
+  const newRating = () => {
+    rateJob(activeRequest);
+    setRateModalIsOpen(false);
+    toast.notify('Η αξιολόγηση υποβλήθηκε επιτυχώς', { duration: 5, type: "success", title: "Service Store" });
+
+    
   }
 
   /**
@@ -175,12 +244,78 @@ export default function Kanban(props) {
    * στο anonymoys chat 
    */
   const navigateToAnonymoysChat = () => {
-    Router.push({ pathname: '/anonymouschat', query: { requestId: activeRequest.id, name: activeRequest.fullName, created:activeRequest.created } });
+    Router.push({ pathname: '/anonymouschat', query: { requestId: activeRequest.id, name: activeRequest.fullName, created: activeRequest.created } });
   }
 
   return (
     <>
-      <Board style={{ 'backgroundColor': 'transparent' }} data={data2}></Board>
+      <Board style={{ 'backgroundColor': 'transparent' }} data={kanbanData}></Board>
+      <ToastContainer align={"left"} position={"bottom"} />
+
+      <Modal isOpen={rateModalIsOpen} style={modalStyle} ariaHideApp={false}>
+        <div className="container-fluid">
+          <div className="row justify-content-end">
+            <div className="col">
+              <h5>Αξολογήστε την εμπειρία σας</h5>
+            </div>
+            <button className="btn-close" onClick={closeModal}></button>
+          </div>
+        </div>
+        <div className="row p-2">
+          <div className="col">
+            <label> Η κριτική σας είναι πολύ σημαντική για την εξέλιξη της πλατφόρμας </label>
+          </div>
+        </div>
+        <div className="row p-2 col-md-8 col-12">
+          <div className='col-md-4 col-12'>
+            <div className='row'>
+              <strong>Παράγωντας 1</strong>
+            </div>
+            <StarRatingComponent
+              name="factor1"
+              starCount={5}
+              emptyStarColor={'#F0F0F0'}
+              renderStarIcon={() => <FontAwesomeIcon icon={faStar} />}
+              starColor={'#FFD579'}
+              onStarClick={onStarClick.bind(this)}
+            />
+          </div>
+          <div className='col-md-4 col-12'>
+            <div className='row'>
+              <strong>Παράγωντας 2</strong>
+            </div>
+            <StarRatingComponent
+              name="factor2"
+              starCount={5}
+              emptyStarColor={'#F0F0F0'}
+              renderStarIcon={() => <FontAwesomeIcon icon={faStar} />}
+              starColor={'#FFD579'}
+              onStarClick={onStarClick.bind(this)}
+            />
+          </div>
+          <div className='col-md-4 col-12'>
+            <div className='row'>
+              <strong>Παράγωντας 3</strong>
+            </div>
+            <StarRatingComponent
+              name="factor3"
+              starCount={5}
+              emptyStarColor={'#F0F0F0'}
+              renderStarIcon={() => <FontAwesomeIcon icon={faStar} />}
+              starColor={'#FFD579'}
+              onStarClick={onStarClick.bind(this)}
+            />
+          </div>
+        </div>
+        <div className='row p-2 col-12'>
+          <label>Συναντήσατε κάποια δυσκολια ή έχετε κάποια πρόταση για βελτίωση (προαιρετικό) ?</label>
+          <input type='text' className='mt-2' placeholder='Αναλύστε τις προτάσεις σας εδώ'></input>
+        </div>
+        <div className="d-flex float-end">
+          <button onClick={newRating} className=" mt-2 btn bg-success btn-small"> Υποβολή Αξιολόγησης</button>
+        </div>
+      </Modal>
+
       <Modal isOpen={modalIsOpen} style={modalStyle} ariaHideApp={false}>
         <div className="container-fluid">
           <div className="row justify-content-end">

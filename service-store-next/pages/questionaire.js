@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Card from "../components/Card/card";
 import Layout from "../components/Layout/layout";
@@ -33,6 +33,7 @@ export default function Questionaire(props) {
           badge1={item.service_1}
           badge2={item.status}
           fixedWitdth={true}
+          key= {item.id}
         ></Card>
       );
     });

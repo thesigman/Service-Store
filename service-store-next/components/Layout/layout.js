@@ -51,12 +51,14 @@ export default function Layout(props) {
                       <b className="text-white"> <Link href="/home"><span style={{ cursor: "pointer" }} className="text-white">Αρχική</span></Link></b>
                     </a>
                   </li>
-                  <li className='nav-item'>
-                    <a className='nav-link'>
-                      <FontAwesomeIcon icon={faProjectDiagram} className="text-white" ></FontAwesomeIcon>
-                      <b className="text-white"> <Link href="/questionaire"><span style={{ cursor: "pointer" }} className="text-white">Projects</span></Link></b>
-                    </a>
-                  </li>
+                  {role == "provider" &&
+                    <li className='nav-item'>
+                      <a className='nav-link'>
+                        <FontAwesomeIcon icon={faProjectDiagram} className="text-white" ></FontAwesomeIcon>
+                        <b className="text-white"> <Link href="/questionaire"><span style={{ cursor: "pointer" }} className="text-white">Projects</span></Link></b>
+                      </a>
+                    </li>
+                  }
                   <li className='nav-item'>
                     <a className='nav-link'>
                       <FontAwesomeIcon icon={faPaperPlane} className="text-white" ></FontAwesomeIcon>

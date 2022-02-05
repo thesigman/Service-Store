@@ -59,7 +59,7 @@ export default function Kanban(props) {
     lanes: [
       {
         id: (active_user.role == "provider") ? 'Provider Requests' : 'Requests',
-        title: (active_user.role == "provider") ? 'Αιτήματα που σας αφορούν' : 'Εκκρεμείς Προτάσεις',
+        title: (active_user.role == "provider") ? 'Αιτήματα που σας αφορούν' : 'Εκκρεμή Αιτήματα',
         label: String(data.length),
         cardStyle: cardStyle,
         style: {
@@ -118,7 +118,7 @@ export default function Kanban(props) {
           'width': '25%',
           'max-height': '600px'
         },
-        title: 'Ολοκληρωμένες',
+        title: 'Ολοκληρωμένα',
         cards: [
           {
             'id': 100,
@@ -256,7 +256,7 @@ export default function Kanban(props) {
         <div className="container-fluid">
           <div className="row justify-content-end">
             <div className="col">
-              <h5>Αξολογήστε την εμπειρία σας</h5>
+              <h5>Αξιολογήστε την εμπειρία σας</h5>
             </div>
             <button className="btn-close" onClick={closeModal}></button>
           </div>
@@ -269,7 +269,7 @@ export default function Kanban(props) {
         <div className="row p-2 col-md-8 col-12">
           <div className='col-md-4 col-12'>
             <div className='row'>
-              <strong>Παράγωντας 1</strong>
+              <strong>Παράγοντας 1</strong>
             </div>
             <StarRatingComponent
               name="factor1"
@@ -282,7 +282,7 @@ export default function Kanban(props) {
           </div>
           <div className='col-md-4 col-12'>
             <div className='row'>
-              <strong>Παράγωντας 2</strong>
+              <strong>Παράγοντας 2</strong>
             </div>
             <StarRatingComponent
               name="factor2"
@@ -295,7 +295,7 @@ export default function Kanban(props) {
           </div>
           <div className='col-md-4 col-12'>
             <div className='row'>
-              <strong>Παράγωντας 3</strong>
+              <strong>Παράγοντας 3</strong>
             </div>
             <StarRatingComponent
               name="factor3"

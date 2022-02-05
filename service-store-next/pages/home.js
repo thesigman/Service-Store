@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Kanban from "../components/Kanban/kanban";
 import Layout from "../components/Layout/layout";
@@ -8,9 +8,17 @@ export default function Home(props) {
   const changeDefaultView = (event, event2, event3) => {
     setView(event2);
   };
-
   const [view, setView] = useState("Καρτέλες ως πελάτης");
   const [modalIsOpen, setModalStatus] = useState(false);
+  const [role, setRole] = useState();
+
+  useEffect(() => {
+    const active_user = JSON.parse(window.sessionStorage.getItem("application_user"));
+    setRole(active_user.role);
+    
+  }, [])
+  console.log(props);
+
 
   return (
     <Layout user={props}>
@@ -31,12 +39,15 @@ export default function Home(props) {
               <Selector onChange={changeDefaultView} placeholder="Προεπιλεγμένη εμφάνιση" values={["Καρτέλες ως πελάτης", "Καρτέλες ώς πάροχος"]} ></Selector>
             </div> */}
             <div className="col-md-2 col-sm-12 mt-2 mb-4">
-              <Button
-                onClick={() => setModalStatus(!modalIsOpen)}
-                className="btn bg-primary"
-              >
-                Προσθήκη Πρότασης
-              </Button>
+              {role == 'client' &&
+
+                <Button
+                  onClick={() => setModalStatus(!modalIsOpen)}
+                  className="btn bg-primary"
+                >
+                  Προσθήκη Αιτήματος
+                </Button>
+              }
             </div>
           </div>
           <Kanban view={view}></Kanban>

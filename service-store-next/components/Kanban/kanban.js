@@ -123,7 +123,7 @@ export default function Kanban(props) {
           {
             'id': 100,
             'title': 'Κατασκευή WebSite',
-            'description': '5.1 Υπηρεσια',
+            'description': 'Υπηρεσια Marketing',
             'label': 'test'
           }
         ],
@@ -183,7 +183,7 @@ export default function Kanban(props) {
       cards.push({
         'id': request._id,
         'title': request.name.substr(0, 12) + '...',
-        'description': request.service_1,
+        'description': request.service_1.substr(request.service_1.indexOf(' ') +1 ),
         'label': (request.created) ? moment(request.created).fromNow() : '',
         'created': request.created,
         'fullName': request.name

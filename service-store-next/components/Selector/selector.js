@@ -32,7 +32,11 @@ export default function Selector(props) {
 
   if (!props.select2ready) {
     values.forEach(element => {
-      options = [...options, { 'value': element, 'label': element }]
+      if (typeof element == 'undefined') {return ;}
+      options = [...options, {
+        'value': element,
+        'label': (props.hasCleanView) ? element.substr(element.indexOf(' ') + 1) : element
+      }]
     })
   } else {
     options = props.values;
@@ -47,7 +51,7 @@ export default function Selector(props) {
     }
     setSelectedOptions({
       'value': value,
-      'label': value
+      'label': (props.hasCleanView) ? value.substr(value.indexOf(' ') + 1) : value,
     })
     props.onChange(props.placeholder, value, event.label)
   }

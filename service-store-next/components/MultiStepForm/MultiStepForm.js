@@ -119,13 +119,13 @@ function StepOne(props) {
         let tmp = service1.filter(x => x.question == answer);
         tmp = tmp.map(a => a.answer)
         setService1Active(tmp);
-        setBoldText(answer);
+        setBoldText(answer.substr(answer.indexOf(' ') + 1));
         found = props.data.find((item) => item.question == triggerElement);
         if (typeof found != "undefined") { props.data.splice(found, 1); }
         props.update([...props.data, { 'question': 'domain', 'answer': answer }]);
         break;
       case 'Service 1':
-        setServiceText(answer)
+        setServiceText(answer.substr(answer.indexOf(' ') + 1))
         tmp = service2.filter(x => x.question == answer);
         tmp = tmp.map(a => a.answer)
         setService2Active(tmp);
@@ -135,7 +135,7 @@ function StepOne(props) {
         break;
       case 'Service 2':
         const name = Object.keys(serviceName).find(key => serviceName[key] === answer);
-        props.setActiveService(name);
+        props.setActiveService(name.substr(name.indexOf(' ') + 1));
         found = props.data.find((item) => item.question == triggerElement);
         if (typeof found != "undefined") { props.data.splice(found, 1); }
         props.update([...props.data, { 'question': 'service_2', 'answer': answer }]);
@@ -159,15 +159,15 @@ function StepOne(props) {
       </div>
       <div className="row">
         <div className="col">
-          <Selector placeholder="Domain" id="domain" onChange={updateDom} values={[...new Set(domains.values())]}></Selector>
+          <Selector placeholder="Domain" hasCleanView={true} id="domain" onChange={updateDom} values={[...new Set(domains.values())]}></Selector>
         </div>
       </div>
       <div className="row mt-2">
         <div className="col">
-          <Selector placeholder="Service 1" id="service_1" onChange={updateDom} values={[...new Set(service1Active)]}></Selector>
+          <Selector placeholder="Service 1" hasCleanView={true} id="service_1" onChange={updateDom} values={[...new Set(service1Active)]}></Selector>
         </div>
         <div className="col">
-          <Selector placeholder="Service 2" id="service_2" onChange={updateDom} values={[...new Set(service2Active)]}></Selector>
+          <Selector placeholder="Service 2" hasCleanView={true} id="service_2" onChange={updateDom} values={[...new Set(service2Active)]}></Selector>
         </div>
       </div>
       <div className="d-flex float-end">

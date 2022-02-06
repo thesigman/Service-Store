@@ -135,7 +135,7 @@ function StepOne(props) {
         break;
       case 'Service 2':
         const name = Object.keys(serviceName).find(key => serviceName[key] === answer);
-        props.setActiveService(name.substr(name.indexOf(' ') + 1));
+        props.setActiveService(name);
         found = props.data.find((item) => item.question == triggerElement);
         if (typeof found != "undefined") { props.data.splice(found, 1); }
         props.update([...props.data, { 'question': 'service_2', 'answer': answer }]);

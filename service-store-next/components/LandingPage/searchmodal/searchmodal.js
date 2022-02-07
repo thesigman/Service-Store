@@ -1,5 +1,5 @@
-import React from 'react'
-import {Button}  from 'react-bootstrap';
+import React from 'react';
+import { Button } from 'react-bootstrap';
 
 
 
@@ -17,7 +17,7 @@ const searchmodal = () => {
 
   return (
   <div className="modal-wrapper">
-    <span className="modal-title">Βρες τον ιδικό για κάθε υπηρεσία</span>
+    <span className="modal-title">Βρες τον ειδικό για κάθε υπηρεσία</span>
     <div className="search-area">
       <h4>Τι χρειάζεστε?</h4>
       <input

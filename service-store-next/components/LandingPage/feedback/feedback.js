@@ -1,6 +1,4 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
 import Rate from '../../Rate/rate'
 
 
@@ -16,7 +14,7 @@ const feedback = () => {
           <div className=" color-white modal-wrapper-sm col-md m-2 p-2">
             <div className="comment-wrapper">
               <Rate stars="5" starColor="text-secondary"></Rate>
-              <p>Πολυ ευχαρηστημένος. Προτείνω το Service Strore σε όλους</p>
+              <p>Πολυ ευχαριστημένος. Προτείνω το Service Strore σε όλους</p>
               <div class="row text-center">
                 <div class="col-md-3 mb-2">
                   <img class="rounded-circle profile p-2" alt="50x50" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(30).jpg"
@@ -31,7 +29,7 @@ const feedback = () => {
         <div className=" color-white modal-wrapper-sm col-md m-2 p-2">
             <div className="comment-wrapper">
             <Rate stars="4" starColor="text-danger"></Rate>
-            <p >Πολυ ευχαρηστημένος. Προτείνω το Service Strore σε όλους</p>
+            <p >Πολυ ευχαριστημένος. Προτείνω το Service Strore σε όλους</p>
             <div class="row text-center">
               <div class="col-md-3 mb-2">
                 <img class="rounded-circle profile p-2" alt="50x50" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(30).jpg"
@@ -45,7 +43,7 @@ const feedback = () => {
         <div className=" color-white modal-wrapper-sm col-md m-2 p-2">
             <div className="comment-wrapper">
             <Rate stars="5" starColor="text-success"></Rate>
-            <p>Πολυ ευχαρηστημένος. Προτείνω το Service Strore σε όλους</p>
+            <p>Πολυ ευχαριστημένος. Προτείνω το Service Strore σε όλους</p>
             <div class="row text-center">
               <div class="col-md-3 mb-2">
                 <img class="rounded-circle profile p-2" alt="25x25" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(30).jpg"

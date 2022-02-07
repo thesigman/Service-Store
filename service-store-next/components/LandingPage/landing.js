@@ -1,5 +1,5 @@
-import { Button } from 'react-bootstrap'
 import React from 'react'
+import { Button } from 'react-bootstrap'
 import SearchModal from './searchmodal/searchmodal'
 
 
@@ -8,7 +8,7 @@ const landing = () => {
    <div className='body'>
      <div className="row landrow">
         <div className="col-6 first-half">
-          <span class="title-text">Ψηφιακός Μετασχηματιματισμός για την επιχείρησή σου</span>
+          <span class="title-text">Ψηφιακός Μετασχηματισμός για την επιχείρησή σου</span>
           <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
           <Button className="btn btn-rounded color-primary">Είσαι επαγγελματίας ?</Button> <Button className="btn btn-rounded color-primary">Λύσεις για επιχειρήσεις</Button>{' '}
         </div>

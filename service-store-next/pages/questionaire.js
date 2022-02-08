@@ -1,7 +1,6 @@
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import Card from "../components/Card/card";
 import Layout from "../components/Layout/layout";
 import MultiStepForm from "../components/MultiStepForm/MultiStepForm";
@@ -44,7 +43,7 @@ export default function Questionaire(props) {
       tempCards.push(renderedCards.at(i));
       if (tempCards.length == itemsPerRow) {
         finalCards.push(
-          <div className="col-3 col-md-12 mr-0">{tempCards}</div>
+          <div className="col-md-3 col mr-0">{tempCards}</div>
         );
         tempCards = [];
       }
@@ -86,14 +85,6 @@ export default function Questionaire(props) {
           <div className="row">
             <div className="col-md-10">
               <h2> Projects </h2>
-            </div>
-            <div className="col-md-2 mt-4">
-              <Button
-                onClick={() => setModalStatus(!modalIsOpen)}
-                className="btn bg-primary"
-              >
-                Προσθήκη Πρότασης
-              </Button>
             </div>
           </div>
           <div className="row">

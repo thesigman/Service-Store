@@ -11,9 +11,9 @@ import {
   faFileSignature,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-// import pic from "../public/heroImg.png";
-// import logo from "/logo.png";
-// import contact from "../public/contact.png";
+import pic from "../public/heroImg.png";
+import logo from "../public/logo.png";
+import contact from "../public/contact.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -44,7 +44,7 @@ const Home = (props) => {
         style={{ backgroundColor: "#0e2e46!important;" }}
       >
         <div className="container-fluid">
-          <Image
+          {/* <Image
             // loader={myLoader}
             src="/logo.png"
             alt="logo"
@@ -52,6 +52,12 @@ const Home = (props) => {
             // layout="fill"
             width="200%"
             height="30%"
+          /> */}
+          <Image
+            // loader={myLoader}
+            src={logo}
+            alt="logo"
+            responsive="true"
           />
           <button
             className="navbar-toggler"
@@ -197,11 +203,9 @@ const Home = (props) => {
             >
               <Image
                 // loader={myLoader}
-                src="/heroImg.png"
-                alt="Hero image"
-                // responsive="true"
-                width="650%"
-                height="700%"
+                src={pic}
+                alt="Picture of the author"
+                responsive="true"
               />
             </div>
           </div>
@@ -336,11 +340,9 @@ const Home = (props) => {
           >
             <Image
               // loader={myLoader}
-              src={"/contact.png"}
+              src={contact}
               alt="Picture of contact"
               responsive="true"
-              width="800%"
-              height="450%"
             />
           </div>
 

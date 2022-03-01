@@ -21,6 +21,7 @@ export default function Selector(props) {
         })
         setSelectedOptions(multipleVals);
       } else {
+
         setSelectedOptions({
           'value': props.defaultAnswer,
           'label': props.defaultAnswer,
@@ -32,7 +33,7 @@ export default function Selector(props) {
 
   if (!props.select2ready) {
     values.forEach(element => {
-      if (typeof element == 'undefined') {return ;}
+      if (typeof element == 'undefined') { return; }
       options = [...options, {
         'value': element,
         'label': (props.hasCleanView) ? element.substr(element.indexOf(' ') + 1) : element
@@ -51,7 +52,7 @@ export default function Selector(props) {
     }
     setSelectedOptions({
       'value': value,
-      'label': (props.hasCleanView) ? value.substr(value.indexOf(' ') + 1) : value,
+      'label': (props.hasCleanView) ? event.label.substr(event.label.indexOf(' ') + 1) : event.label,
     })
     props.onChange(props.placeholder, value, event.label)
   }

@@ -1,24 +1,28 @@
-import React from "react";
-import Chart from "chart.js/auto";
-import { Doughnut, Line } from "react-chartjs-2";
 import {
-  faUser,
-  faList,
-  faFile,
-  faUsers,
-  faWrench,
-  faCogs,
-  faChartBar,
-  faPenSquare,
-  faTrash,
+  faChartBar, faCogs, faFile, faList, faPenSquare,
+  faTrash, faUser, faUsers,
+  faWrench
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ArcElement, CategoryScale, Chart, LinearScale, LineController, LineElement, PointElement, Title } from 'chart.js';
+import React from "react";
+import { Doughnut, Line } from 'react-chartjs-2';
+import AdminLayout from "./adminLayout";
 
-import Layout from "../components/Layout/layout";
 
-import moment from "moment";
+
+
 
 const AdminPage = (props) => {
+  Chart.register(
+    LineController,
+    LineElement,
+    PointElement,
+    LinearScale,
+    Title,
+    ArcElement,
+    CategoryScale
+  );
   const data = {
     labels: ["Clients", "Providers", "Admins"],
     datasets: [
@@ -58,7 +62,7 @@ const AdminPage = (props) => {
   const config2 = { type: "line", data: data2, options: {} };
 
   return (
-    <Layout user={props}>
+    <AdminLayout user={props}>
       {(!props.isAuthenticated && <p>You have to login First</p>) || (
         <div className="container-fluid p-3 overflow-auto">
           <div className="row p-2">
@@ -383,7 +387,7 @@ const AdminPage = (props) => {
           {/* end of 5th row */}
         </div>
       )}
-    </Layout>
+    </AdminLayout>
   );
 };
 

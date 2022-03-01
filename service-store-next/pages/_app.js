@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }) {
       setRawUser(JSON.parse(window.sessionStorage.getItem('user')))
       setIsAuthenticated(true);
     }
-
+    console.log('rerender');
   }, []);
 
   return <Component

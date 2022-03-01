@@ -28,10 +28,11 @@ export default function Questionaire(props) {
       renderedCards.push(
         <Card
           name={item.name}
-          description={item.service_2}
-          badge1={item.service_1}
+          description={item.service_2.substr(item.service_2.indexOf(' ')+ 1)}
+          badge1={item.service_1.substr(item.service_1.indexOf(' ') +1 )}
           badge2={item.status}
           fixedWitdth={true}
+          fixedHeight={true}
           key= {item.id}
         ></Card>
       );

@@ -35,7 +35,9 @@ export const loginUser = async (username, password, props = null) => {
             "email": response.data.user.email,
             "username": response.data.user.username,
             "role": (typeof response.data.user.userprovider == "undefined") ? "client" : "provider",
-            "hasAdminRole" : response.data.user.role.name =='Admin'
+            "hasAdminRole": (response.data.user.role != null && response.data.user.role.name == 'Admin')
+              ? true 
+              : false
           }
 
           // Αποθήκευση των πληροφοριών του χρήστη στο κεντρικό state της εφαρμογής
@@ -47,6 +49,7 @@ export const loginUser = async (username, password, props = null) => {
           window.sessionStorage.setItem('application_user', JSON.stringify(application_user));
 
         } catch (error) {
+          console.log(error);
           return false;
         }
         props.setIsAuthenticated(true);

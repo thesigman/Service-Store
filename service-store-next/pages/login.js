@@ -23,6 +23,7 @@ export default function login(props) {
   const checkUserLogin = async (username, password) => {
     if (await loginUser(username, password, props)) {
       const active_user = JSON.parse(window.sessionStorage.getItem("application_user"));
+      console.log(active_user);
       if (active_user.hasAdminRole) {
         Router.push("/admin/dashboard");
       } else {

@@ -1,10 +1,15 @@
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
+import Modal from 'react-modal';
 import Selector from '../../../components/Selector/selector';
 import { devteam2, instance } from '../../api/axiosConfiguration';
 import AdminLayout from '../adminLayout';
+import EditRequest from '../forms/editRequest';
+
 const requests = () => {
 
   // Items
@@ -25,6 +30,10 @@ const requests = () => {
   const [service22Options, setService22Options] = useState();
   const [company2Options, setCompany2Options] = useState();
 
+  //Modal
+  const [modalStatus, setModalStatus] = useState(false);
+  const [modalContent, setModalContent] = useState();
+
 
   const paginationComponentOptions = {
     rowsPerPageText: 'Εμφάνιση Κατά',
@@ -33,6 +42,19 @@ const requests = () => {
     selectAllRowsItemText: 'Χρήστες',
     noRowsPerPage: 20
   };
+
+  const modalStyle = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      background: "#FFFFFF",
+      width: "60%",
+    },
+  }
 
   useEffect(async () => {
     const formatedRequests = [];
@@ -58,7 +80,7 @@ const requests = () => {
         domain: request.domain,
         service_1: request.service_1,
         service_2: request.service_2,
-        date: ( typeof request.created != 'undefined')
+        date: (typeof request.created != 'undefined')
           ? moment(request.created).format("DD/MM/YYYY")
           : null
       });
@@ -71,6 +93,16 @@ const requests = () => {
       { name: 'Service 1', selector: row => row.service_1, sortable: true },
       { name: 'Service 2', selector: row => row.service_2, sortable: true },
       { name: 'Δημιουργήθηκε', selector: row => row.date, sortable: true },
+      {
+        name: 'Ενέργειες', key: 'edit', text: 'edit', sortable: false,
+        cell: (record) => {
+          return (
+            <button type="button" className="btn bg-transparent no-b btn-small p-2" onClick={() => prepareModal(record)}>
+              <FontAwesomeIcon style={{ color: "#1f6100" }} icon={faEdit} />
+            </button>
+          )
+        }
+      }
     ];
 
     // Initialize Των φίλτρων
@@ -96,6 +128,16 @@ const requests = () => {
     setFilteredOptions(formatedRequests);
     setPending(false);
   }, []);
+
+  const prepareModal = (record) => {
+    console.log(record);
+    setModalContent(
+      <EditRequest
+        record="record"
+      />
+    )
+    setModalStatus(true);
+  }
 
   const filterRequests = (placeholder = null, value, label = null) => {
     console.log(value);
@@ -123,9 +165,10 @@ const requests = () => {
       filterRequests = requests;
     }
     setFilteredOptions(filterRequests)
+  }
 
-
-
+  const closeModal = () => {
+    setModalStatus(false);
   }
 
   return (
@@ -166,8 +209,18 @@ const requests = () => {
           pagination
           progressPending={pending}
           paginationComponentOptions={paginationComponentOptions}
-
         />
+        <Modal isOpen={modalStatus} style={modalStyle} ariaHideApp={false}>
+          <div className="container-fluid">
+            <div className="row justify-content-end">
+              <div className="col">
+                <h5>Επεξεργασία Request</h5>
+              </div>
+              <button className="btn-close" onClick={closeModal}></button>
+            </div>
+          </div>
+          {modalContent}
+        </Modal>
       </div>
     </AdminLayout>
   )

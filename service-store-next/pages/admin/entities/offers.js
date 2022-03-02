@@ -15,19 +15,6 @@ const offers = () => {
   const [pending, setPending] = useState(true);
   const [filteredOptions, setFilteredOptions] = useState();
 
-  // Filters 
-  const [domainFilter, setDomainFilter] = useState();
-  const [service1Filter, setService1Filter] = useState();
-  const [service2Filter, setService2Filter] = useState();
-  const [company, setCompany] = useState();
-
-  // Filter Options
-  const [domain2Options, setDomain2Options] = useState();
-  const [service12Options, setService12Options] = useState();
-  const [service22Options, setService22Options] = useState();
-  const [company2Options, setCompany2Options] = useState();
-
-
   const paginationComponentOptions = {
     rowsPerPageText: 'Εμφάνιση Κατά',
     rangeSeparatorText: 'από',
@@ -69,7 +56,6 @@ const offers = () => {
       { name: 'Περιγραφή', selector: row => row.description, sortable: true },
       { name: 'Περίληψη', selector: row => row.summary, sortable: true },
       { name: 'Κόστος', selector: row => row.cost, sortable: true },
-      //{ name: 'Status', selector: row => row.status, sortable: true },
       { name: 'Δημιουργήθηκε', selector: row => row.date, sortable: true },
       {
         name: 'Πάροχος', key: 'client', text: 'Πελάτης', sortable: false,

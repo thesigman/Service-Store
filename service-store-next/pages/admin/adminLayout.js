@@ -1,4 +1,4 @@
-import { faBrush, faChartLine, faComment, faHandsHelping, faHome, faPaperPlane, faSignOutAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faBrush, faChartLine, faComment, faFileContract, faHandsHelping, faHome, faPaperPlane, faSignOutAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -66,6 +66,12 @@ export default function AdminLayout(props) {
                     <a className='nav-link'>
                       <FontAwesomeIcon icon={faHandsHelping} className="text-white" ></FontAwesomeIcon>
                       <b className="text-white"> <Link href="/admin/entities/offers"><span style={{ cursor: "pointer" }} className="text-white">Προτάσεις</span></Link></b>
+                    </a>
+                  </li>
+                  <li className='nav-item'>
+                    <a className='nav-link'>
+                      <FontAwesomeIcon icon={faFileContract} className="text-white" ></FontAwesomeIcon>
+                      <b className="text-white"> <Link href="/admin/entities/contracts"><span style={{ cursor: "pointer" }} className="text-white">Συμβάσεις</span></Link></b>
                     </a>
                   </li>
                   <li className='nav-item'>

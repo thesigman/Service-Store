@@ -1,10 +1,10 @@
+import moment from 'moment';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import Selector from '../../../components/Selector/selector';
 import { devteam2, instance } from '../../api/axiosConfiguration';
 import AdminLayout from '../adminLayout';
-
 const requests = () => {
 
   // Items
@@ -57,7 +57,10 @@ const requests = () => {
           : 'Δεν έχει χρήστη',
         domain: request.domain,
         service_1: request.service_1,
-        service_2: request.service_2
+        service_2: request.service_2,
+        date: ( typeof request.created != 'undefined')
+          ? moment(request.created).format("DD/MM/YYYY")
+          : null
       });
     }
 
@@ -67,6 +70,7 @@ const requests = () => {
       { name: 'Τομέας', selector: row => row.domain, sortable: true },
       { name: 'Service 1', selector: row => row.service_1, sortable: true },
       { name: 'Service 2', selector: row => row.service_2, sortable: true },
+      { name: 'Δημιουργήθηκε', selector: row => row.date, sortable: true },
     ];
 
     // Initialize Των φίλτρων

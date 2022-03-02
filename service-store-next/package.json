@@ -40,6 +40,7 @@
     "react-star-rating-component": "^1.4.1",
     "react-toggle": "^4.1.2",
     "react-trello": "^2.2.11",
+    "reactjs-popup": "^2.0.5",
     "sass": "^1.49.7",
     "socket.io-client": "^4.4.1",
     "typewriter-effect": "^2.18.2",

@@ -8,7 +8,7 @@ const editRequest = (props) => {
   const [service2, setService22Options] = useState();
   const [domain, setDomain2Options] = useState();
 
-  useEffect(() => {
+  useEffect(async () => {
     // Initialize Των φίλτρων
     const allServices = await instance.get('/services');
     let tempService1 = [{ label: "Όλα", value: 'all' }];

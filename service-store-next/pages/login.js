@@ -22,7 +22,12 @@ export default function login(props) {
   // Σύνδεση του χρήστη στην εφαρμογή
   const checkUserLogin = async (username, password) => {
     if (await loginUser(username, password, props)) {
-      Router.push("/home");
+      const active_user = JSON.parse(window.sessionStorage.getItem("application_user"));
+      if (active_user.hasAdminRole) {
+        Router.push("/admin/dashboard");
+      } else {
+        Router.push("/home");
+      }
     } else {
       toast.notify(
         'Λάθος Συνδιασμός Ονόματος / Κωδικού Πρόσβασης',

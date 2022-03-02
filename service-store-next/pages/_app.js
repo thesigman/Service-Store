@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import "react-edit-text/dist/index.css";
 import '../styles/globals.scss';
 
+
 function MyApp({ Component, pageProps }) {
   moment.locale('el')
   const [token, setToken] = useState();

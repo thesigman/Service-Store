@@ -34,7 +34,8 @@ export const loginUser = async (username, password, props = null) => {
             "id": (typeof response.data.user.userprovider == "undefined") ? response.data.user.client.id : response.data.user.userprovider.id,
             "email": response.data.user.email,
             "username": response.data.user.username,
-            "role": (typeof response.data.user.userprovider == "undefined") ? "client" : "provider"
+            "role": (typeof response.data.user.userprovider == "undefined") ? "client" : "provider",
+            "hasAdminRole" : response.data.user.role.name =='Admin'
           }
 
           // Αποθήκευση των πληροφοριών του χρήστη στο κεντρικό state της εφαρμογής

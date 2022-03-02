@@ -34,10 +34,16 @@ export default function Profile(props) {
   const [city, setCity] = useState();
   const [postl, setPostal] = useState();
   const [ekprosvpos, setEkpr] = useState();
+
+
   // needs fix
   useEffect(async () => {
-    const active_user = JSON.parse(window.sessionStorage.getItem("application_user"));
-    const endpointName = (active_user.role == 'provider') ? 'providers' : 'clients';
+    let active_user = JSON.parse(window.sessionStorage.getItem("application_user"));
+    let endpointName = (active_user.role == 'provider') ? 'providers' : 'clients';
+    if (props.mode == 'admin') {
+      endpointName = props.activeUser.role;
+      active_user = props.activeUser
+    }
     setActiveUser(active_user);
     setType(endpointName);
     setUsername(active_user.username);
@@ -83,9 +89,9 @@ export default function Profile(props) {
 
   }
   return (
-    <Layout user={props}>
+    <Layout mode={props.mode} user={props}>
       <ToastContainer></ToastContainer>
-      {(!props.isAuthenticated && <p>You have to login First</p>) || (
+      {(!(props.isAuthenticated || props.mode == 'admin') && <p>You have to login First</p>) || (
         <div className="row mt-4">
           <div className="col-md-4 col-12">
             <Innercontainer>

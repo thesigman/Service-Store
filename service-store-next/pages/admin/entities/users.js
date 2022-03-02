@@ -3,16 +3,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
+import Modal from 'react-modal';
 import Selector from '../../../components/Selector/selector';
 import { instance } from '../../api/axiosConfiguration';
+import Profile from '../../profile';
 import AdminLayout from '../adminLayout';
 
-const users = () => {
+const users = (props) => {
 
   const [users, setUsers] = useState();
   const [filteredUsers, setFilteredUsers] = useState();
   const [columns, setColumns] = useState();
   const [pending, setPending] = useState(true);
+  const [modalStatus, setModalStatus] = useState(false);
+  const [modalContent, setModalContent] = useState();
 
   const paginationComponentOptions = {
     rowsPerPageText: 'Εμφάνιση Κατά',
@@ -22,15 +26,39 @@ const users = () => {
     noRowsPerPage: 20
   };
 
+  const modalStyle = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      background: "#FFFFFF",
+      width: "60%",
+    },
+  }
+
   const select2Options = [
     { label: 'Μόνο Πάροχοι', value: 'provider' },
     { label: 'Μόνο Πελάτες', value: 'client' },
     { label: 'Όλοι', value: 'all' },
   ];
 
-  const prepareModal = (role, application_id) => {
-    console.log(role);
-    console.log(application_id);
+  const prepareModal = (role, application_id, email, username) => {
+    const active_user = {
+      id: application_id,
+      email: email,
+      username: username,
+      role: role + 's'
+    }
+    setModalContent(
+      <Profile
+        user={props.user}
+        mode="admin"
+        activeUser={active_user} />
+    )
+    setModalStatus(true);
   }
 
 
@@ -65,7 +93,7 @@ const users = () => {
           cell: (record) => {
             return (
               <div className='d-flex justify-content-between'>
-                <button type="button" className="btn bg-transparent no-b btn-small p-2" onClick={() => prepareModal(record.mashineRole, record.application_id)}>
+                <button type="button" className="btn bg-transparent no-b btn-small p-2" onClick={() => prepareModal(record.mashineRole, record.application_id, record.email, record.username)}>
                   <FontAwesomeIcon style={{ color: "#1f6100" }} icon={faEdit} />
                 </button>
                 <button type="button" className="btn bg-transparent no-b btn-small p-2">
@@ -88,6 +116,10 @@ const users = () => {
     const filteredUsers = (value != 'all')
       ? setFilteredUsers(users.filter(user => user.mashineRole == value))
       : setFilteredUsers(users);
+  }
+
+  const closeModal = () => {
+    setModalStatus(false);
   }
 
   return (
@@ -118,8 +150,18 @@ const users = () => {
           pagination
           progressPending={pending}
           paginationComponentOptions={paginationComponentOptions}
-
         />
+        <Modal isOpen={modalStatus} style={modalStyle} ariaHideApp={false}>
+          <div className="container-fluid">
+            <div className="row justify-content-end">
+              <div className="col">
+                <h5>Επεξεργασία Πληροφοριών χρήστη</h5>
+              </div>
+              <button className="btn-close" onClick={closeModal}></button>
+            </div>
+          </div>
+          {modalContent}
+        </Modal>
       </div>
     </AdminLayout >
   )

@@ -30,6 +30,7 @@ export default function MultiStepForm(props) {
       overflow: "visible",
       margin: 'auto',
       minWidth: '50%',
+      maxHeight: '70%'
     },
   }
 

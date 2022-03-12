@@ -10,6 +10,10 @@ const editRequest = (props) => {
   const [service2, setService22Options] = useState();
   const [domain, setDomain2Options] = useState();
 
+  const [selectedservice1, setSelectedService1] = useState(props.record.service_1 );
+  const [selectedservice2, setSelectedService2] = useState(props.record.service_2);
+  const [selectedDomain, setSelectedDomain] = useState(props.record.domain );
+
   useEffect(async () => {
     // Initialize Των φίλτρων
     const allServices = await instance.get('/services');
@@ -23,28 +27,51 @@ const editRequest = (props) => {
       tempService2 = [...tempService2, { 'label': value.service_2, value: value.service_2 }];
     })
 
-
     setService12Options([...new Map(tempService1.map(item => [item.label, item])).values()]);
     setService22Options([...new Map(tempService2.map(item => [item.label, item])).values()]);
     setDomain2Options([...new Map(tempDomains.map(item => [item.label, item])).values()]);
   }, [])
+
+  const setNewValue = (placeholder, value) => {
+    switch (placeholder) {
+      case 'Service 1':
+        setSelectedService1(value);
+        break;
+      case 'Service 2':
+        setSelectedService2(value);
+        break;
+      case 'Domain':
+        setSelectedDomain(value);
+        break;
+    }
+  }
+
+  const sendRequest = () => {
+    const req ={
+      domain : selectedDomain,
+      service1: selectedservice1,
+      service2: selectedservice2
+    }
+
+    console.log(req);
+  }
 
 
   return (
     <>
       <div className="row ">
         <div className='col-md-4'>
-          <Selector select2ready={true} hasCleanView={true} placeholder="Τομέας" values={domain} ></Selector>
+          <Selector defaultAnswer={selectedDomain} onChange={setNewValue} select2ready={true} hasCleanView={false} placeholder="Domain" values={domain} ></Selector>
         </div>
         <div className='col-md-4'>
-          <Selector select2ready={true} hasCleanView={true} placeholder="Service 1" values={service1} ></Selector>
+          <Selector defaultAnswer={selectedservice1} onChange={setNewValue} select2ready={true} hasCleanView={false} placeholder="Service 1" values={service1} ></Selector>
         </div>
         <div className='col-md-4'>
-          <Selector select2ready={true} hasCleanView={true} placeholder="Service 2" values={service2} ></Selector>
+          <Selector defaultAnswer={selectedservice2} onChange={setNewValue} select2ready={true} hasCleanView={false} placeholder="Service 2" values={service2} ></Selector>
         </div>
       </div>
       <div className="d-flex float-end">
-        <button className=" mt-2 btn bg-success btn-small"> Ενημέρωση</button>
+        <button onClick={sendRequest} className=" mt-2 btn bg-success btn-small"> Ενημέρωση</button>
       </div>
     </>
   )

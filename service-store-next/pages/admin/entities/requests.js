@@ -131,7 +131,8 @@ const requests = () => {
     console.log(record);
     setModalContent(
       <EditRequest
-        record="record"
+        record={record}
+
       />
     )
     setModalStatus(true);

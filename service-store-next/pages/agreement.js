@@ -201,6 +201,8 @@ class Agreement extends Component {
           this.setState({
             values: newValues,
           });
+          //edw prepei na settarete kai to clientAccept kai providerAccept se false gia to
+          //sugkekrimeno ar8ro. Sto backend einai etoimo
         },
         (error) => {
           console.log(error);

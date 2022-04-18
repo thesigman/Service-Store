@@ -6,7 +6,7 @@ import DataTable from 'react-data-table-component';
 import Modal from 'react-modal';
 import Selector from '../../../components/Selector/selector';
 import { instance } from '../../api/axiosConfiguration';
-import Profile from '../../profile';
+import ProfileInfo from '../../../components/ProfileInfo/profileInfo';
 import AdminLayout from '../adminLayout';
 
 const users = (props) => {
@@ -53,7 +53,7 @@ const users = (props) => {
       role: role + 's'
     }
     setModalContent(
-      <Profile
+      <ProfileInfo
         user={props.user}
         mode="admin"
         activeUser={active_user} />

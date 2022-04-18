@@ -45,14 +45,11 @@ const requests = () => {
 
   const modalStyle = {
     content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
       background: "#FFFFFF",
-      width: "60%",
+      overflow: "visible",
+      margin: 'auto',
+      minWidth: '30%',
+      maxHeight: '50%'
     },
   }
 
@@ -92,6 +89,7 @@ const requests = () => {
       { name: 'Τομέας', selector: row => row.domain, sortable: true },
       { name: 'Service 1', selector: row => row.service_1, sortable: true },
       { name: 'Service 2', selector: row => row.service_2, sortable: true },
+      { name: 'Δημιουργήθηκε', selector: row => row.date, sortable: true },
       { name: 'Δημιουργήθηκε', selector: row => row.date, sortable: true },
       {
         name: 'Ενέργειες', key: 'edit', text: 'edit', sortable: false,
@@ -133,7 +131,8 @@ const requests = () => {
     console.log(record);
     setModalContent(
       <EditRequest
-        record="record"
+        record={record}
+
       />
     )
     setModalStatus(true);

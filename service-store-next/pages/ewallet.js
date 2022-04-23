@@ -2,6 +2,7 @@ import { Component, Fragment } from "react";
 import Layout from "../components/Layout/layout";
 import Head from "next/head";
 import Link from "next/link";
+import { toast, ToastContainer } from "react-nextjs-toast";
 import { devteam2 } from "./api/axiosConfiguration";
 import TransactionsCard from "../components/Card/transactionsCard";
 import BalanceCard from "../components/Card/balanceCard";
@@ -40,6 +41,13 @@ class Ewallet extends Component {
     let balance = this.state.balance;
     balance = parseFloat(balance) + parseFloat(ammount);
     this.setState({ balance });
+
+    //toast notification
+    toast.notify("Balance updated", {
+      duration: 5,
+      type: "success",
+      title: "Service Store",
+    });
   };
   render() {
     return (
@@ -83,6 +91,9 @@ class Ewallet extends Component {
                 <TransactionsCard />
               </div>
             </div>
+
+            {/* toast */}
+            <ToastContainer align={"left"} position={"bottom"} />
           </Fragment>
         )}
       </Layout>

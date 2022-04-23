@@ -60,7 +60,6 @@ const BalanceForm = (props) => {
               id="balance"
               aria-describedby="balanceHelp"
               placeholder="balance"
-              id="balance"
               ref={balance}
               autoFocus
               required

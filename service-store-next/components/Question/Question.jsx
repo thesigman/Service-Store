@@ -43,7 +43,7 @@ const Question = (props) => {
           <div className="row justify-content-end">
             <div className="col">
               <h5>Δημιουργία ερωτήσεων για {props.projectName}</h5>
-              <span>Customers company name</span>
+              {/* <span>Customers company name</span> */}
             </div>
             <button className="btn-close" onClick={closeModal}></button>
           </div>

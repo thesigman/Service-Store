@@ -225,7 +225,7 @@ const HowItWorks = (props) => {
           >
             <li className="nav-item py-2" role="presentation">
               <button
-                className="active btn btn-outline-dark rounded-pill"
+                className="active btn-primary btn-small rounded-pill"
                 id="pills-create-tab"
                 data-bs-toggle="pill"
                 data-bs-target="#pills-create"
@@ -240,7 +240,7 @@ const HowItWorks = (props) => {
             </li>
             <li className="nav-item py-2" role="presentation">
               <button
-                className="btn btn-outline-dark rounded-pill"
+                className="btn-primary btn-small rounded-pill"
                 id="pills-match-tab"
                 data-bs-toggle="pill"
                 data-bs-target="#pills-match"
@@ -255,7 +255,7 @@ const HowItWorks = (props) => {
             </li>
             <li className="nav-item py-2" role="presentation">
               <button
-                className="btn btn-outline-dark rounded-pill"
+                className="btn-primary btn-small rounded-pill"
                 id="pills-choice-tab"
                 data-bs-toggle="pill"
                 data-bs-target="#pills-choice"
@@ -270,7 +270,7 @@ const HowItWorks = (props) => {
             </li>
             <li className="nav-item py-2" role="presentation">
               <button
-                className="btn btn-outline-dark rounded-pill"
+                className="btn-primary btn-small rounded-pill"
                 id="pills-communication-tab"
                 data-bs-toggle="pill"
                 data-bs-target="#pills-communication"
@@ -285,7 +285,7 @@ const HowItWorks = (props) => {
             </li>
             <li className="nav-item py-2" role="presentation">
               <button
-                className="btn btn-outline-dark rounded-pill"
+                className="btn-primary btn-small rounded-pill"
                 id="pills-agreement-tab"
                 data-bs-toggle="pill"
                 data-bs-target="#pills-agreement"

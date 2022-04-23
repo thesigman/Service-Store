@@ -16,8 +16,9 @@ const Footer = () => {
       <footer className="text-light">
         <div className="row py-4 text-center d-flex flex-column flex-md-row align-items-center">
           <div className="col-4 p-2">
-            <h5 className="py-2 text-uppercase border border-warning">
-              ServiceStore
+            <h5 className="py-2 text-uppercase">
+              {/* <h5 className="py-2 text-uppercase border border-warning"> */}
+              Servicestore
             </h5>
             <ul className="list-unstyled">
               <li className="mb-2">

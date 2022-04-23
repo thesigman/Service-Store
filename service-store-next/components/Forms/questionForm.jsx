@@ -24,7 +24,6 @@ const QuestionForm = (props) => {
           id="question"
           aria-describedby="questionHelp"
           placeholder="question"
-          id="question"
           ref={question}
           autoFocus
           required

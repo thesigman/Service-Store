@@ -62,7 +62,7 @@ const Navbar = ({ page, background }) => {
                   cursor: "default",
                 }}
               >
-                Πως λειτουργεί
+                Πώς λειτουργεί
               </a>
             </Link>
             <Link href="#contact" scroll={false}>

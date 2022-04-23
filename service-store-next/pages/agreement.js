@@ -202,7 +202,8 @@ class Agreement extends Component {
             values: newValues,
           });
           //edw prepei na settarete kai to clientAccept kai providerAccept se false gia to
-          //sugkekrimeno ar8ro. Sto backend einai etoimo
+          //sugkekrimeno ar8ro. Sto backend einai etoimo.
+          //den kanei akoma update to clientAccept kai to providerAccept
         },
         (error) => {
           console.log(error);

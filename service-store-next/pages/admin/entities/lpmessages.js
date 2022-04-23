@@ -1,4 +1,6 @@
 import moment from "moment";
+import AdminLayout from "../adminLayout";
+
 const Apm = () => {
   const messages = [
     {
@@ -54,52 +56,56 @@ const Apm = () => {
   };
 
   return (
-    <div className="container-fluid p-3 overflow-auto">
-      {messages.map((object) => (
-        <div
-          className={
-            messages.indexOf(object) % 2 == 0
-              ? "row p-2 justify-content-center border-top border-bottom"
-              : "row p-2 justify-content-center bg-light border-top border-bottom"
-          }
-          key={object._id}
-        >
-          <div className="col-lg-2">
-            <div className="row p-2">
-              <div className="col">{object.name}</div>
-            </div>
-            <div className="row p-2">
-              <div className="col">{object.email}</div>
-            </div>
-            <div className="row p-2">
-              <div className="col">{object.ip}</div>
-            </div>
-          </div>
-          <div className="col-lg-8">
-            <div className="row">
-              <div className="col-lg-6">
-                <strong>Subject: </strong> {object.subject}
+    <AdminLayout>
+      <div className="vh-100 overflow-auto">
+        {messages.map((object) => (
+          <div
+            className={
+              messages.indexOf(object) % 2 == 0
+                ? "row p-2 justify-content-center border-top border-bottom"
+                : "row p-2 justify-content-center bg-light border-top border-bottom"
+            }
+            key={object._id}
+          >
+            <div className="col-lg-2">
+              <div className="row p-2">
+                <div className="col">{object.name}</div>
+              </div>
+              <div className="row p-2">
+                <div className="col">{object.email}</div>
+              </div>
+              <div className="row p-2">
+                <div className="col">{object.ip}</div>
               </div>
             </div>
-            <hr />
-            <div className="row">{object.message}</div>
-          </div>
-          <div className="col-lg-2">
-            <div className="row py-2">{moment(object.date).format("LLLL")}</div>
-            <div className="row py-2">
-              <div className="col-md-6">
-                <button
-                  className="btn btn-outline-danger rounded-pill"
-                  onClick={() => console.log("delete")}
-                >
-                  Διαγραφή
-                </button>
+            <div className="col-lg-8">
+              <div className="row">
+                <div className="col-lg-6">
+                  <strong>Subject: </strong> {object.subject}
+                </div>
+              </div>
+              <hr />
+              <div className="row">{object.message}</div>
+            </div>
+            <div className="col-lg-2">
+              <div className="row py-2">
+                {moment(object.date).format("LLLL")}
+              </div>
+              <div className="row py-2">
+                <div className="col-md-6">
+                  <button
+                    className="btn btn-outline-danger rounded-pill"
+                    onClick={() => console.log("delete")}
+                  >
+                    Διαγραφή
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </AdminLayout>
   );
 };
 

@@ -45,7 +45,6 @@ const OfferForm = (props) => {
           id="summary"
           aria-describedby="summaryHelp"
           placeholder="summary"
-          id="summary"
           ref={summary}
           autoFocus
           required

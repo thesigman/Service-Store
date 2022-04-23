@@ -26,7 +26,7 @@
 //   )
 // }
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -51,7 +51,10 @@ const Home = (props) => {
     AOS.init({ once: true });
   });
 
-  let serviceList = [
+  const [domain, setDomain] = useState("");
+  //auta mporoun na erxontai apo th vash me request
+  //prepei na ftiaxtei to api
+  const [domains, setDomains] = useState([
     { id: 1, name: "Ψηφιακό Μάρκετινγκ" },
     { id: 2, name: "Ψηφιακή διαχείριση πωλήσεων & αγορών" },
     { id: 3, name: "Ψηφιακή διαχείριση παραγωγής" },
@@ -59,8 +62,48 @@ const Home = (props) => {
     { id: 5, name: "Ψηφιακή διαχείριση παραγωγής" },
     { id: 6, name: "Οικονομική διαχείριση" },
     { id: 7, name: "Διαχείριση ανθρώπινου δυναμικού" },
-  ];
+    { id: 8, name: "Ψηφιακή διαχείριση αποθήκης" },
+    { id: 9, name: "Έξυπνα κτίρια" },
+    { id: 10, name: "ΙΤ Υποδομές & Ασφάλεια" },
+    { id: 11, name: "Τηλε-εργασία/διάσκεψη" },
+    { id: 12, name: "Ψηφιακές δεξιότητες" },
+    { id: 13, name: "Ανάπτυξη λογισμικού" },
+    { id: 14, name: "Συμβουλευτικές υπηρεσίες" },
+  ]);
+  //kanoume shuffle ta domains kai pairnoume ta 4 prwta stoixeia
+  //kai ta vazoume sto shuffledDomains
+  const [shuffledDomains, setShuffledDomains] = useState(
+    domains.sort(() => 0.5 - Math.random()).slice(0, 4)
+  );
+  // let domainList = [
+  //   { id: 1, name: "Ψηφιακό Μάρκετινγκ" },
+  //   { id: 2, name: "Ψηφιακή διαχείριση πωλήσεων & αγορών" },
+  //   { id: 3, name: "Ψηφιακή διαχείριση παραγωγής" },
+  //   { id: 4, name: "Έξυπνη εφοδιαστική αλυσίδα" },
+  //   { id: 5, name: "Ψηφιακή διαχείριση παραγωγής" },
+  //   { id: 6, name: "Οικονομική διαχείριση" },
+  //   { id: 7, name: "Διαχείριση ανθρώπινου δυναμικού" },
+  // ];
 
+  const getInputValue = (event) => {
+    // show the user input value to console
+    const userValue = event.target.value;
+    setDomain(userValue);
+    console.log(userValue);
+  };
+
+  const MyButton = React.forwardRef(({ onClick, href, text }, ref) => {
+    return (
+      <a
+        className="btn-primary btn-small rounded-pill"
+        href={href}
+        onClick={onClick}
+        ref={ref}
+      >
+        {text}
+      </a>
+    );
+  });
   return (
     <>
       <Head>
@@ -87,112 +130,184 @@ const Home = (props) => {
         //     "-webkit-linear-gradient(45deg, #1C5A8A 50%, #fff 50%)",
         // }}
       >
-        <div className="container py-3">
-          <div className="row d-flex align-items-center">
+        <div className="container py-3" style={{ minHeigth: "30vh" }}>
+          <div className="row align-items-center">
             <div
               className="col"
               data-aos="fade-right"
               data-aos-duration="1000"
-              style={{ height: "60vh!important" }}
+              style={{ height: "70vh!important" }}
             >
-              <div
-                className="card rounded border-light shadow h-100 mb-3 bg-light bg-opacity-10"
+              {/* <div
+                // className="card rounded border-light shadow h-100 mb-3 bg-light bg-opacity-10"
+                className="h-100 mb-3"
                 // style={{ background: "none!important" }}
-              >
-                <div className="card-body p-2">
-                  <div className="card-title justify-content-center py-2 my-2">
-                    <h1 className="display-5 text-light">
-                      <Typewriter
-                        options={{
-                          strings: [
-                            "Φέρνουμε κοντά επιχειρήσεις στο ταξίδι του ψηφιακού μετασχηματισμού",
-                            "Βρίσκουμε τους καλύτερους για τον ψηφιακό μετασχηματισμό της επιχείρησής σου",
-                            "Δημιουργούμε νέες ευκαιρίες στην ψηφιακή οικονομία",
-                          ],
-                          autoStart: true,
-                          loop: true,
-                          delay: 75,
-                          deleteSpeed: 3,
-                        }}
-                      />
-                    </h1>
-                  </div>
+              > */}
+              {/* <div className="card-body p-2"> */}
+              <div className="row justify-content-center py-2 my-2">
+                <h1 className="display-4 text-light">
+                  <Typewriter
+                    options={{
+                      strings: [
+                        "Φέρνουμε κοντά επιχειρήσεις στο ταξίδι του ψηφιακού μετασχηματισμού",
+                        "Βρίσκουμε τους καλύτερους για τον ψηφιακό μετασχηματισμό της επιχείρησής σου",
+                        "Δημιουργούμε νέες ευκαιρίες στην ψηφιακή οικονομία",
+                      ],
+                      autoStart: true,
+                      loop: true,
+                      delay: 75,
+                      deleteSpeed: 3,
+                    }}
+                  />
+                </h1>
+              </div>
 
-                  <div className="row p-2 m-2 justify-content-center align-items-center fixed-bottom">
-                    <div
-                      className="col-7 pt-2"
-                      data-aos="fade-right"
-                      data-aos-duration="1000"
-                    >
-                      <input
-                        className="form-control"
-                        placeholder={"Αναζητήστε υπηρεσία"}
-                        style={{ height: "3em" }}
-                        // list="serviceList"
-                      />
-                      {/* <datalist id="serviceList">
+              <div className="fixed-bottom">
+                <div className="card rounded border-light shadow bg-light bg-opacity-10 m-2">
+                  <div className="card-body">
+                    <div className="row py-2 mb-2 justify-content-center align-items-center">
+                      <div
+                        className="col-7"
+                        data-aos="fade-right"
+                        data-aos-duration="1000"
+                      >
+                        <input
+                          className="form-control"
+                          placeholder={"Αναζητήστε υπηρεσία"}
+                          style={{
+                            height: "3em",
+                            backgroundColor: "#ebe2d0",
+                            borderRadius: "25px",
+                          }}
+                          onChange={getInputValue}
+                          // list="serviceList"
+                        />
+                        {/* <datalist id="serviceList">
                         {serviceList.map((service) => (
                           <option key={service.id} value={service.name} />
                         ))}
                       </datalist> */}
+                      </div>
+
+                      <div className="col-5 text-center align-items-center">
+                        <Link
+                          href={{ pathname: "/login", query: { domain } }}
+                          passHref
+                        >
+                          <button className="btn btn-primary">
+                            Ξεκινήστε εδώ!
+                          </button>
+                        </Link>
+                      </div>
                     </div>
 
-                    <div className="col-5 text-center align-items-center">
-                      <Link href={"/login"}>
-                        <button className="btn btn-outline-light rounded-pill">
-                          Ξεκινήστε εδώ!
-                        </button>
-                      </Link>
-                    </div>
-
-                    <div
-                      className="display-6 text-light text-center py-2"
+                    <h4
+                      className="fw-bold text-light text-center py-2 my-2"
                       data-aos="fade-up"
                       data-aos-duration="1000"
                     >
                       Συχνές υπηρεσίες
-                    </div>
-                    <div
-                      className="col-auto me-auto py-2"
-                      data-aos="fade-up"
-                      data-aos-duration="1100"
-                    >
-                      <button className="btn btn-danger rounded-pill">
-                        Ψηφιακό Μάρκετινγκ
-                      </button>
-                    </div>
-                    <div
-                      className="col-auto me-auto py-2 d-none d-lg-block"
-                      data-aos="fade-up"
-                      data-aos-duration="1100"
-                    >
-                      <button className="btn btn-primary rounded-pill">
-                        Οικονομική Διαχείριση
-                      </button>
-                    </div>
+                    </h4>
 
-                    <div className="w-100 d-none d-md-block"></div>
-                    <div
-                      className="col-auto me-auto py-2 d-none d-lg-block"
-                      data-aos="fade-up"
-                      data-aos-duration="1200"
-                    >
-                      <button className="btn btn-warning rounded-pill">
-                        Έξυπνα κτίρια
-                      </button>
+                    {/* {shuffledDomains.map(domain => (
+
+
+                    ))} */}
+
+                    <div className="row">
+                      <div
+                        className="col-auto me-auto py-2"
+                        data-aos="fade-up"
+                        data-aos-duration="1100"
+                      >
+                        <Link
+                          href={{
+                            pathname: "/login",
+                            query: { domain: shuffledDomains[0].name },
+                          }}
+                          passHref
+                        >
+                          <button
+                            className="btn-primary btn-small rounded-pill"
+                            onClick={() => setDomain(shuffledDomains[0].name)}
+                          >
+                            {/* Οικονομική Διαχείριση */}
+                            {shuffledDomains[0].name}
+                          </button>
+                        </Link>
+                      </div>
+                      <div
+                        className="col-auto me-auto py-2 d-none d-xl-block"
+                        data-aos="fade-up"
+                        data-aos-duration="1100"
+                      >
+                        <Link
+                          href={{
+                            pathname: "/login",
+                            query: { domain: shuffledDomains[1].name },
+                          }}
+                          passHref
+                        >
+                          <button
+                            className="btn-primary btn-small rounded-pill"
+                            onClick={() => setDomain(shuffledDomains[1].name)}
+                          >
+                            {/* Οικονομική Διαχείριση */}
+                            {shuffledDomains[1].name}
+                          </button>
+                        </Link>
+                      </div>
                     </div>
-                    <div
-                      className="col-auto me-auto py-2"
-                      data-aos="fade-up"
-                      data-aos-duration="1200"
-                    >
-                      <button className="btn btn-success rounded-pill">
-                        ΙΤ Yποδομές & Ασφάλεια
-                      </button>
+                    {/* <div className="w-100 d-none d-md-block"></div> */}
+                    <div className="row">
+                      <div
+                        className="col-auto me-auto py-2 d-none d-xl-block"
+                        data-aos="fade-up"
+                        data-aos-duration="1200"
+                      >
+                        <Link
+                          href={{
+                            pathname: "/login",
+                            query: { domain: shuffledDomains[2].name },
+                          }}
+                          passHref
+                        >
+                          <button
+                            className="btn-primary btn-small rounded-pill"
+                            onClick={() => setDomain(shuffledDomains[2].name)}
+                          >
+                            {/* Έξυπνα κτίρια */}
+                            {shuffledDomains[2].name}
+                          </button>
+                        </Link>
+                      </div>
+                      <div
+                        className="col-auto me-auto py-2"
+                        data-aos="fade-up"
+                        data-aos-duration="1200"
+                      >
+                        <Link
+                          href={{
+                            pathname: "/login",
+                            query: { domain: shuffledDomains[3].name },
+                          }}
+                          passHref
+                        >
+                          <button
+                            className="btn-primary btn-small rounded-pill"
+                            onClick={() => setDomain(shuffledDomains[3].name)}
+                          >
+                            {/* ΙΤ Yποδομές & Ασφάλεια */}
+                            {shuffledDomains[3].name}
+                          </button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+              {/* </div> */}
+              {/* </div> */}
             </div>
             <div
               className="col d-flex justify-content-center d-none d-md-block"
@@ -321,10 +436,10 @@ const Home = (props) => {
       </div>
 
       <div
-        className="container-fluid py-2"
+        className="container-fluid py-2 text-light"
         id="howitworks"
         // style={{ backgroundColor: "#f6f7fb" }}
-        style={{ backgroundColor: "#ebe2d0" }}
+        style={{ backgroundColor: "#1c5a8a" }}
       >
         <div className="row py-2 text-center">
           <h1 className="display-4">Πώς λειτουργεί</h1>
@@ -337,7 +452,10 @@ const Home = (props) => {
                 data-aos="fade-up"
                 data-aos-duration="1000"
               >
-                <FontAwesomeIcon className="text-primary" icon={faPlus} />{" "}
+                <FontAwesomeIcon
+                  // className="text-light"
+                  icon={faPlus}
+                />{" "}
                 Δημιουργία αιτήματος
               </h1>
               <h1
@@ -345,7 +463,10 @@ const Home = (props) => {
                 data-aos="fade-up"
                 data-aos-duration="1200"
               >
-                <FontAwesomeIcon className="text-primary" icon={faCogs} />{" "}
+                <FontAwesomeIcon
+                  // className="text-light"
+                  icon={faCogs}
+                />{" "}
                 Αντιστοίχιση
               </h1>
               <h1
@@ -353,7 +474,7 @@ const Home = (props) => {
                 data-aos="fade-up"
                 data-aos-duration="1400"
               >
-                <FontAwesomeIcon className="text-primary" icon={faFileAlt} />{" "}
+                <FontAwesomeIcon className="text-light" icon={faFileAlt} />{" "}
                 Δημιουργία Προσφοράς
               </h1>
               <h1
@@ -362,7 +483,7 @@ const Home = (props) => {
                 data-aos-duration="1600"
               >
                 <FontAwesomeIcon
-                  className="text-primary"
+                  // className="text-light"
                   icon={faFileSignature}
                 />{" "}
                 Επικοινωνία και υπογραφή
@@ -373,7 +494,7 @@ const Home = (props) => {
         <div className="row p-2 m-2 justify-content-center">
           <div className="col-md-4 d-flex justify-content-center">
             <Link href={"/howitworks"}>
-              <button className="btn btn-lg btn-outline-primary rounded">
+              <button className="btn-small btn-primary rounded-pill">
                 Μάθετε περισσότερα για τη διαδικασία{" "}
                 <FontAwesomeIcon icon={faArrowRight} />
               </button>
@@ -471,7 +592,10 @@ const Home = (props) => {
                     </div>
                   </div>
                   <div className="col">
-                    <button type="submit" className="btn btn-primary">
+                    <button
+                      type="submit"
+                      className="btn-small btn-primary rounded-pill"
+                    >
                       Υποβολή
                     </button>
                   </div>

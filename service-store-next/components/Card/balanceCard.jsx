@@ -58,51 +58,57 @@ const BalanceCard = (props) => {
         </div> */}
           <div className="row">
             <div className="col">
-              <table className="table caption-top">
-                <caption>
-                  <strong>Διαθέσιμοι λογαριασμοί</strong>
-                  <hr />
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Α/Α</th>
-                    <th scope="col">Αναγνωριστικό λογαριασμού</th>
-                    <th scope="col">Τύπος</th>
-                    <th scope="col">Λεπτομέριες</th>
-                    <th scope="col justify-selft-end">Ενέργειες</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Εταιρικό Paypal</td>
-                    <td>Paypal</td>
-                    <td>companymail@companyname.gr</td>
-                    <td className="d-flex justify-content-start">
-                      <button className="btn btn-icon m-1">
-                        <FontAwesomeIcon icon={faPencilAlt}></FontAwesomeIcon>
-                      </button>
-                      <button className="btn btn-icon m-1">
-                        <FontAwesomeIcon icon={faCheckSquare}></FontAwesomeIcon>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Κάρτα Εξόδων Εταιρίας προς τρίτους</td>
-                    <td>Credit Card</td>
-                    <td>**** 8989</td>
-                    <td className="d-flex justify-content-start">
-                      <button className="btn btn-icon m-1">
-                        <FontAwesomeIcon icon={faPencilAlt}></FontAwesomeIcon>
-                      </button>
-                      <button className="btn btn-icon m-1">
-                        <FontAwesomeIcon icon={faCheckSquare}></FontAwesomeIcon>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="table-responsive">
+                <table className="table caption-top">
+                  <caption>
+                    <strong>Διαθέσιμοι λογαριασμοί</strong>
+                    <hr />
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Α/Α</th>
+                      <th scope="col">Αναγνωριστικό λογαριασμού</th>
+                      <th scope="col">Τύπος</th>
+                      <th scope="col">Λεπτομέριες</th>
+                      <th scope="col justify-selft-end">Ενέργειες</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Εταιρικό Paypal</td>
+                      <td>Paypal</td>
+                      <td>companymail@companyname.gr</td>
+                      <td className="d-flex justify-content-start">
+                        <button className="btn btn-icon m-1">
+                          <FontAwesomeIcon icon={faPencilAlt}></FontAwesomeIcon>
+                        </button>
+                        <button className="btn btn-icon m-1">
+                          <FontAwesomeIcon
+                            icon={faCheckSquare}
+                          ></FontAwesomeIcon>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Κάρτα Εξόδων Εταιρίας προς τρίτους</td>
+                      <td>Credit Card</td>
+                      <td>**** 8989</td>
+                      <td className="d-flex justify-content-start">
+                        <button className="btn btn-icon m-1">
+                          <FontAwesomeIcon icon={faPencilAlt}></FontAwesomeIcon>
+                        </button>
+                        <button className="btn btn-icon m-1">
+                          <FontAwesomeIcon
+                            icon={faCheckSquare}
+                          ></FontAwesomeIcon>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
           <div className="row d-flex justify-content-between m-2">

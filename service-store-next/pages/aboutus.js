@@ -4,14 +4,16 @@ import Navbar from "../components/navbar";
 const AboutUs = () => {
   return (
     <>
+      <style jsx global>{`
+        body {
+          background: transparent !important;
+        }
+      `}</style>
       {/* <div
         className="container-fluid py-3"
         style={{ backgroundColor: "white;" }}
       > */}
-      <div
-        className="container-fluid"
-        // style={{ minHeight: "100vh" }}
-      >
+      <div className="container-fluid">
         <video
           autoPlay
           muted
@@ -24,11 +26,11 @@ const AboutUs = () => {
             top: "0",
             left: "0",
             zIndex: "-1",
+            opacity: "0.6",
           }}
         >
           <source src="/video.mp4" type="video/mp4" />
         </video>
-
         <Navbar page="aboutus" background={""} />
       </div>
       {/* ----------------------------- telos conainer video ----------------------*/}
@@ -41,44 +43,29 @@ const AboutUs = () => {
         }}
       >
         <div
-          className="row text-light py-2 text-center"
+          className="row text-center text-uppercase g-2"
           // style={{ minHeight: "100vh", zIndex: "1" }}
         >
           <h1
             className="display-6 fw-bold"
             style={{ color: "#0e2e46!important" }}
           >
-            Our Mission:
+            OUR MISSION:
           </h1>
-          {/* </div>
-        <div
-          className="row text-light py-2 text-center"
-          // style={{ minHeight: "100vh", zIndex: "1" }}
-        > */}
           <h1
-            className="display-1 fw-bold"
+            className="display-2 fw-bold"
             style={{ color: "#0e2e46!important" }}
           >
             We bring businesses together
           </h1>
-          {/* </div>
-        <div
-          className="row text-light py-2 text-center"
-          // style={{ minHeight: "100vh", zIndex: "1" }}
-        > */}
           <h1
-            className="display-1 fw-bold"
+            className="display-2 fw-bold"
             style={{ color: "#0e2e46!important" }}
           >
             on the journey of
           </h1>
-          {/* </div>
-        <div
-          className="row text-light py-2 text-center"
-          // style={{ minHeight: "100vh", zIndex: "1" }}
-        > */}
           <h1
-            className="display-1 fw-bold"
+            className="display-2 fw-bold"
             style={{ color: "#0e2e46!important" }}
           >
             digital transformation

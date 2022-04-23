@@ -92,18 +92,6 @@ const Home = (props) => {
     console.log(userValue);
   };
 
-  const MyButton = React.forwardRef(({ onClick, href, text }, ref) => {
-    return (
-      <a
-        className="btn-primary btn-small rounded-pill"
-        href={href}
-        onClick={onClick}
-        ref={ref}
-      >
-        {text}
-      </a>
-    );
-  });
   return (
     <>
       <Head>
@@ -149,9 +137,9 @@ const Home = (props) => {
                   <Typewriter
                     options={{
                       strings: [
-                        "Φέρνουμε κοντά επιχειρήσεις στο ταξίδι του ψηφιακού μετασχηματισμού",
-                        "Βρίσκουμε τους καλύτερους για τον ψηφιακό μετασχηματισμό της επιχείρησής σου",
-                        "Δημιουργούμε νέες ευκαιρίες στην ψηφιακή οικονομία",
+                        `Φέρνουμε κοντά επιχειρήσεις στο ταξίδι του <span style="color:#0e2e46;font-weight: 400;">ψηφιακού μετασχηματισμού</span> `,
+                        `Βρίσκουμε τους <span style="color:#0e2e46;font-weight: 400;">καλύτερους</span> για τον ψηφιακό μετασχηματισμό της επιχείρησής σου `,
+                        `Δημιουργούμε νέες <span style="color:#0e2e46;font-weight: 400;">ευκαιρίες</span> στην ψηφιακή οικονομία `,
                       ],
                       autoStart: true,
                       loop: true,

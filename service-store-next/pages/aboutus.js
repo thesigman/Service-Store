@@ -1,9 +1,15 @@
+import Head from "next/head";
+
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
 
 const AboutUs = () => {
   return (
     <>
+      <Head>
+        <title>Service Store - Για εμάς</title>
+        <meta name="description" content="Greek DX services platform" />
+      </Head>
       <style jsx global>{`
         body {
           background: transparent !important;

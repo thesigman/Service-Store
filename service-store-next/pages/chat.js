@@ -211,7 +211,8 @@ class Chat extends Component {
     return (
       <>
         <Head>
-          <title>Chatroom</title>
+          <title>Service Store - Συνομιλία</title>
+          <meta name="description" content="Greek DX services platform" />
         </Head>
         <Layout user={this.props}>
           {(!this.props.isAuthenticated && <p>You have to login First</p>) || (

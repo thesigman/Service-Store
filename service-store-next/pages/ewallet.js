@@ -51,52 +51,55 @@ class Ewallet extends Component {
   };
   render() {
     return (
-      <Layout user={this.props}>
-        {(!this.props.isAuthenticated && <p>You have to login First</p>) || (
-          <Fragment>
-            <div className="row">
-              <nav aria-label="breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    {/* <a href="#">Αρχική</a> */}
-                    <Link href="/home">
-                      <a>Αρχική</a>
-                    </Link>
-                  </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    e-Πορτοφόλι
-                  </li>
-                </ol>
-              </nav>
-            </div>
-            <Head>
-              <title>e-Πορτοφόλι</title>
-            </Head>
-
-            <div className="row">
-              <h2> Το e-πορτοφόλι μου </h2>
-            </div>
-
-            <div className="row pb-2">
-              <div className="col-lg-8">
-                <BalanceCard
-                  balance={parseFloat(this.state.balance)}
-                  handleDeposit={this.handleDeposit}
-                />
+      <>
+        <Head>
+          <title>Service Store - e-Πορτοφόλι</title>
+          <meta name="description" content="Greek DX services platform" />
+        </Head>
+        <Layout user={this.props}>
+          {(!this.props.isAuthenticated && <p>You have to login First</p>) || (
+            <Fragment>
+              <div className="row">
+                <nav aria-label="breadcrumb">
+                  <ol className="breadcrumb">
+                    <li className="breadcrumb-item">
+                      {/* <a href="#">Αρχική</a> */}
+                      <Link href="/home">
+                        <a>Αρχική</a>
+                      </Link>
+                    </li>
+                    <li className="breadcrumb-item active" aria-current="page">
+                      e-Πορτοφόλι
+                    </li>
+                  </ol>
+                </nav>
               </div>
-            </div>
 
-            <div className="row">
-              <div className="col-lg-9">
-                <TransactionsCard />
+              <div className="row">
+                <h2> Το e-πορτοφόλι μου </h2>
               </div>
-            </div>
 
-            {/* toast */}
-            <ToastContainer align={"left"} position={"bottom"} />
-          </Fragment>
-        )}
-      </Layout>
+              <div className="row pb-2">
+                <div className="col-lg-8">
+                  <BalanceCard
+                    balance={parseFloat(this.state.balance)}
+                    handleDeposit={this.handleDeposit}
+                  />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-lg-9">
+                  <TransactionsCard />
+                </div>
+              </div>
+
+              {/* toast */}
+              <ToastContainer align={"left"} position={"bottom"} />
+            </Fragment>
+          )}
+        </Layout>
+      </>
     );
   }
 }

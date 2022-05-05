@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
+import Head from "next/head";
 
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
@@ -19,6 +20,11 @@ const HowItWorks = (props) => {
 
   return (
     <>
+      <Head>
+        <title>Service Store - Πώς λειτουργεί</title>
+        <meta name="description" content="Greek DX services platform" />
+      </Head>
+
       <Navbar page="howitworks" background={"bg-dark"} />
 
       <div className="container-fluid py-3">

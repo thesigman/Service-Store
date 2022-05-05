@@ -13,12 +13,15 @@ export default function Home(props) {
   const [role, setRole] = useState();
 
   useEffect(() => {
-    const active_user = JSON.parse(window.sessionStorage.getItem("application_user"));
+    const active_user = JSON.parse(
+      window.sessionStorage.getItem("application_user")
+    );
     setRole(active_user.role);
-    
-  }, [])
+    if (active_user.role == "client" && localStorage.getItem("domain")) {
+      setModalStatus(true);
+    }
+  }, []);
   console.log(props);
-
 
   return (
     <Layout user={props}>
@@ -39,15 +42,14 @@ export default function Home(props) {
               <Selector onChange={changeDefaultView} placeholder="Προεπιλεγμένη εμφάνιση" values={["Καρτέλες ως πελάτης", "Καρτέλες ώς πάροχος"]} ></Selector>
             </div> */}
             <div className="col-md-2 col-sm-12 mt-2 mb-4">
-              {role == 'client' &&
-
+              {role == "client" && (
                 <Button
                   onClick={() => setModalStatus(!modalIsOpen)}
                   className="btn bg-primary"
                 >
                   Προσθήκη Αιτήματος
                 </Button>
-              }
+              )}
             </div>
           </div>
           <Kanban view={view}></Kanban>

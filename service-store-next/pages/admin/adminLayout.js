@@ -8,6 +8,7 @@ import {
   faPaperPlane,
   faSignOutAlt,
   faUserCircle,
+  faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
@@ -159,7 +160,7 @@ export default function AdminLayout(props) {
                   <li className="nav-item">
                     <a className="nav-link">
                       <FontAwesomeIcon
-                        icon={faFileContract}
+                        icon={faEnvelope}
                         className="text-white"
                       ></FontAwesomeIcon>
                       <b className="text-white">
@@ -169,7 +170,7 @@ export default function AdminLayout(props) {
                             style={{ cursor: "pointer" }}
                             className="text-white"
                           >
-                            Μήνυματα αρχικής σελίδας
+                            Μηνύματα αρχικής σελίδας
                           </span>
                         </Link>
                       </b>

@@ -176,6 +176,10 @@ class Providers extends Component {
   render() {
     return (
       <Layout user={this.props}>
+        <Head>
+          <title>Προβολή Προτάσεων</title>
+          <meta name="description" content="Greek DX services platform" />
+        </Head>
         {(!this.props.isAuthenticated && <p>You have to login First</p>) || (
           <Fragment>
             {/* {this.state.user.id}
@@ -195,9 +199,6 @@ class Providers extends Component {
                 </ol>
               </nav>
             </div>
-            <Head>
-              <title>Προβολή Προτάσεων</title>
-            </Head>
             <div className="container-fluid">
               <div className="row">
                 <div className="col-sm-3 order-2 order-sm-1">

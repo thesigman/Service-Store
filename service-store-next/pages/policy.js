@@ -1,9 +1,15 @@
+import Head from "next/head";
+
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
 
 const Policy = () => {
   return (
     <>
+      <Head>
+        <title>Service Store - Πολιτική Απορρήτου</title>
+        <meta name="description" content="Greek DX services platform" />
+      </Head>
       <Navbar page="policy" background={"bg-dark"} />
 
       <div className="container-fluid">

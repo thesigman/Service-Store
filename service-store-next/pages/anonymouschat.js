@@ -258,7 +258,8 @@ class AnonymousChat extends Component {
     return (
       <>
         <Head>
-          <title>Chatroom</title>
+          <title>Service Store - Ανώνυμη Συνομιλία</title>
+          <meta name="description" content="Greek DX services platform" />
         </Head>
         <Layout user={this.props}>
           {(!this.props.isAuthenticated && <p>You have to login First</p>) || (

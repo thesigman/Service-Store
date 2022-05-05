@@ -18,8 +18,8 @@ const BalanceCard = (props) => {
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
       background: "#FFFFFF",
-      width: "50%",
-      height: "auto",
+      width: "70%",
+      height: "50vh",
     },
 
     boxShadow: "0px 4px 4px rgba(0, 0, 0, 1)",

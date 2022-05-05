@@ -25,7 +25,7 @@ export default function MultiStepForm(props) {
 
   const modalStyle = {
     content: {
-      background: "#FFFFFF",
+      backgroundColor: "#FFFFFF",
       overflow: "visible",
       margin: "auto",
       minWidth: "50%",
@@ -68,7 +68,8 @@ export default function MultiStepForm(props) {
       </div>
       <div className="row p-2">
         <div className={["p-4", styles.formRow].join(" ")}>
-          {page < 4 && <p>Βήμα {page} από 3</p>}
+          {page < 4 && <p>Βήμα {page} από 3</p>}{" "}
+          {localStorage.getItem("domain")}
           <div>
             {page === 1 && (
               <StepOne
@@ -203,7 +204,7 @@ function StepOne(props) {
       <p className="text-center">{serviceText}</p>
       <div className="row">
         <div className="col">
-          <label for="requestName">Όνομα Πρότασης</label>
+          <label htmlFor="requestName">Όνομα Πρότασης</label>
           <input
             placeholder="Όνομα πρότασης"
             id="requestName"
@@ -244,8 +245,14 @@ function StepOne(props) {
       </div>
       <div className="d-flex float-end">
         <button
+          onClick={() => localStorage.removeItem("domain")}
+          className=" m-2 btn bg-warning btn-small"
+        >
+          Καθαρισμός
+        </button>
+        <button
           onClick={props.newPage}
-          className=" mt-2 btn bg-primary btn-small"
+          className=" m-2 btn bg-primary btn-small"
         >
           Επόμενο
         </button>
@@ -348,7 +355,7 @@ function StepTwo(props) {
         } else {
           item = (
             <div key={uuidv4()}>
-              <label for={element.id}>{element.text[0]}</label>
+              <label htmlFor={element.id}>{element.text[0]}</label>
               <div className="row">
                 <div className="col mt-2">
                   <input

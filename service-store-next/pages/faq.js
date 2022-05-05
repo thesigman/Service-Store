@@ -1,17 +1,21 @@
+import Head from "next/head";
+
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 
 const FrequentlyAskedQuestions = () => {
   return (
     <>
+      <Head>
+        <title>Service Store - Συχνές Ερωτήσεις</title>
+        <meta name="description" content="Greek DX services platform" />
+      </Head>
       <Navbar page="faq" background={"bg-dark"} />
-
       <div className="container-fluid">
         <div className="row py-2 text-center">
           <h1 className="display-4">Συχνές ερωτήσεις</h1>
         </div>
       </div>
-
       <div className="container py-3">
         <div className="row py-2 my-2">
           <div className="card border border-light shadow shadow-sm rounded">

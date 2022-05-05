@@ -261,7 +261,7 @@ class Agreement extends Component {
     return (
       <>
         <Head>
-          <title>Σύμβαση</title>
+          <title>Service Store - Σύμβαση</title>
         </Head>
         <Layout user={this.props}>
           {(!this.props.isAuthenticated && <p>You have to login First</p>) || (

@@ -1,19 +1,16 @@
-import Image from "next/dist/client/image";
-import Router from "next/router";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import Image from "next/image";
+import Router from "next/router";
+import Link from "next/link";
 import { toast, ToastContainer } from "react-nextjs-toast";
 import { loginUser } from "../libs/auth";
-import "../node_modules/font-awesome/css/font-awesome.min.css";
+// import "../node_modules/font-awesome/css/font-awesome.min.css";
 import styles from "./login.module.scss";
+import logo_dark from "../public/logo_dark.png";
 
 export default function login(props) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const router = useRouter();
-  const query = router.query;
-  const domain = query.domain;
-  console.log("passed domain: ", domain);
   // Κάθε φορά που γυρίζουμε στο Login καθαρίζουμε το session storage
   // ώστε να αλλάζει ο ενεργός χρήστης
   useEffect(() => {
@@ -54,12 +51,22 @@ export default function login(props) {
                   " "
                 )}
               >
-                <Image
+                {/* <Image
                   src="/logo_dark.png"
                   width={2000}
                   height={412}
                   loading="eager"
-                />
+                /> */}
+                <Link href={"/"} passHref>
+                  <a>
+                    <Image
+                      src={logo_dark}
+                      alt="logo dark image"
+                      responsive="true"
+                      // priority
+                    />
+                  </a>
+                </Link>
                 <div className={[styles.formcontent].join(" ")}>
                   <div>
                     <h4>Username</h4>
@@ -85,7 +92,7 @@ export default function login(props) {
                       Σύνδεση
                     </button>
                   </div>
-                  <a href="/register">
+                  <Link href="/register">
                     <a
                       className={[
                         styles.contentmiddle,
@@ -95,7 +102,7 @@ export default function login(props) {
                     >
                       Εγγραφή στην πλατφόρμα
                     </a>
-                  </a>
+                  </Link>
                   <div className={["separator", "mb-2", "mt-2"].join(" ")}>
                     {" "}
                     or{" "}

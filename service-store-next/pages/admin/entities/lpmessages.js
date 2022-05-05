@@ -1,4 +1,5 @@
 import moment from "moment";
+import Link from "next/link";
 import AdminLayout from "../adminLayout";
 
 const Apm = () => {
@@ -58,6 +59,20 @@ const Apm = () => {
   return (
     <AdminLayout>
       <div className="vh-100 overflow-auto">
+        <div className="row mt-2">
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb">
+              <li className="breadcrumb-item">
+                <Link href="/admin/dashboard">
+                  <a>Dashboard</a>
+                </Link>
+              </li>
+              <li className="breadcrumb-item active" aria-current="page">
+                Μηνύματα αρχικής σελίδας
+              </li>
+            </ol>
+          </nav>
+        </div>
         {messages.map((object) => (
           <div
             className={

@@ -245,12 +245,6 @@ function StepOne(props) {
       </div>
       <div className="d-flex float-end">
         <button
-          onClick={() => localStorage.removeItem("domain")}
-          className=" m-2 btn bg-warning btn-small"
-        >
-          Καθαρισμός
-        </button>
-        <button
           onClick={props.newPage}
           className=" m-2 btn bg-primary btn-small"
         >

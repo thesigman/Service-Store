@@ -93,7 +93,7 @@ const Navbar = ({ page, background }) => {
                 Για εμάς
               </a>
             </Link>
-            <Link href="/login" scroll={false}>
+            <Link href="/Plogin" scroll={false}>
               <a
                 style={{
                   textDecoration: "none",
@@ -107,7 +107,7 @@ const Navbar = ({ page, background }) => {
                 Σύνδεση
               </a>
             </Link>
-            <Link href="/register" scroll={false}>
+            <Link href="/Pregister" scroll={false}>
               <a
                 style={{
                   textDecoration: "none",
@@ -161,7 +161,7 @@ const Navbar = ({ page, background }) => {
           id="navbarNavAltMarkup"
         >
           <div className="navbar-nav">
-            <Link href="/login" scroll={false}>
+            <Link href="/Plogin" scroll={false}>
               <a
                 style={{
                   textDecoration: "none",
@@ -175,7 +175,7 @@ const Navbar = ({ page, background }) => {
                 Σύνδεση
               </a>
             </Link>
-            <Link href="/register" scroll={false}>
+            <Link href="/Pregister" scroll={false}>
               <a
                 style={{
                   textDecoration: "none",

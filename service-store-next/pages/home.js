@@ -3,13 +3,18 @@ import { Button } from "react-bootstrap";
 import Kanban from "../components/Kanban/kanban";
 import Layout from "../components/Layout/layout";
 import MultiStepForm from "../components/MultiStepForm/MultiStepForm";
+import PMultiStepForm from "../components/MultiStepForm/PMultiStepForm";
 import Search from "../components/Search/search";
+import Modal from "react-modal";
+
 export default function Home(props) {
   const changeDefaultView = (event, event2, event3) => {
     setView(event2);
   };
   const [view, setView] = useState("Καρτέλες ως πελάτης");
-  const [modalIsOpen, setModalStatus] = useState(false);
+  // const [modalIsOpen, setModalStatus] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
+
   const [role, setRole] = useState();
 
   useEffect(() => {
@@ -18,23 +23,42 @@ export default function Home(props) {
     );
     setRole(active_user.role);
     if (active_user.role == "client" && localStorage.getItem("domain")) {
-      setModalStatus(true);
+      setIsOpen(true);
     }
   }, []);
   console.log(props);
+
+  // function openModal() {
+  //   setModalStatus(true);
+  // }
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+    localStorage.removeItem("domain");
+  }
+
+  const modalStyle = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      background: "#FFFFFF",
+      width: "80%",
+      height: "65vh",
+    },
+  };
 
   return (
     <Layout user={props}>
       {(!props.isAuthenticated && <p>You have to login First</p>) || (
         <div className="row">
           <div className="row mt-2">
-            {/* <nav aria-label="breadcrumb">
-              <ol className="breadcrumb">
-                <li className="breadcrumb-item">
-                  <a href="#">Αρχική</a>
-                </li>
-              </ol>
-            </nav> */}
             <div className="col-md-2 col-sm-12 mt-4">
               <Search></Search>
             </div>
@@ -44,7 +68,8 @@ export default function Home(props) {
             <div className="col-md-2 col-sm-12 mt-2 mb-4">
               {role == "client" && (
                 <Button
-                  onClick={() => setModalStatus(!modalIsOpen)}
+                  // onClick={() => setModalStatus(!modalIsOpen)}
+                  onClick={openModal}
                   className="btn bg-primary"
                 >
                   Προσθήκη Αιτήματος
@@ -55,9 +80,17 @@ export default function Home(props) {
           <Kanban view={view}></Kanban>
         </div>
       )}
-      {!modalIsOpen || (
+      {/* {!modalIsOpen || (
         <MultiStepForm modalstatus={modalIsOpen}></MultiStepForm>
-      )}
+      )} */}
+      <Modal
+        isOpen={modalIsOpen}
+        style={modalStyle}
+        ariaHideApp={false}
+        size="sm"
+      >
+        <PMultiStepForm closeModal={closeModal} />
+      </Modal>
     </Layout>
   );
 }

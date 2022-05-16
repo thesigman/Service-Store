@@ -25,6 +25,17 @@ export default function Kanban(props) {
   const [factor3, setfactor3] = useState();
 
   const modalStyle = {
+    // content: {
+    //   top: "50%",
+    //   left: "50%",
+    //   right: "auto",
+    //   bottom: "auto",
+    //   marginRight: "-50%",
+    //   transform: "translate(-50%, -50%)",
+    //   background: "#FFFFFF",
+    //   width: "60%",
+    // },
+
     content: {
       top: "50%",
       left: "50%",
@@ -33,7 +44,8 @@ export default function Kanban(props) {
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
       background: "#FFFFFF",
-      width: "60%",
+      width: "65%",
+      height: "50vh",
     },
   };
 
@@ -290,8 +302,7 @@ export default function Kanban(props) {
         <div className="row p-2">
           <div className="col">
             <label>
-              {" "}
-              Η κριτική σας είναι πολύ σημαντική για την εξέλιξη της πλατφόρμας{" "}
+              Η κριτική σας είναι πολύ σημαντική για την εξέλιξη της πλατφόρμας
             </label>
           </div>
         </div>
@@ -336,23 +347,35 @@ export default function Kanban(props) {
             />
           </div>
         </div>
-        <div className="row p-2 col-12">
-          <label>
-            Συναντήσατε κάποια δυσκολια ή έχετε κάποια πρόταση για βελτίωση
-            (προαιρετικό) ?
-          </label>
-          <input
+        <div className="row">
+          <p>
+            Συναντήσατε κάποια δυσκολία ή έχετε κάποια πρόταση για βελτίωση ?
+            (προαιρετικό)
+          </p>
+        </div>
+        {/* <input
             type="text"
             className="mt-2"
             placeholder="Αναλύστε τις προτάσεις σας εδώ"
-          ></input>
+          ></input> */}
+        <div className="row">
+          <div className="form-floating pt-2">
+            <textarea
+              className="form-control"
+              placeholder="Αναλύστε τις προτάσεις σας εδώ"
+              id="floatingTextarea"
+              style={{ height: "100px" }}
+            />
+            <label htmlFor="floatingTextarea">
+              Αναλύστε τις προτάσεις σας εδώ
+            </label>
+          </div>
         </div>
         <div className="d-flex float-end">
           <button
             onClick={newRating}
             className=" mt-2 btn bg-success btn-small"
           >
-            {" "}
             Υποβολή Αξιολόγησης
           </button>
         </div>
@@ -360,39 +383,38 @@ export default function Kanban(props) {
 
       <Modal isOpen={modalIsOpen} style={modalStyle} ariaHideApp={false}>
         <div className="container-fluid">
-          <div className="row justify-content-end">
+          <div className="row p-2">
             <div className="col">
               <h5>{activeRequest.fullName}</h5>
             </div>
             <button className="btn-close" onClick={closeModal}></button>
           </div>
-        </div>
-        <div className="row p-2">
-          <div className="col-2">
-            <strong>Απαραίτητες Υπηρεσίες : </strong>
+          <div className="row p-2">
+            <div className="col-xl-2">
+              <strong>Απαραίτητες Υπηρεσίες:</strong>
+            </div>
+            <div className="col-xl-10">{activeRequest.description}</div>
           </div>
-          {activeRequest.description}
-        </div>
-        <div className="row p-2">
-          <div className="col-2">
-            <strong> Ημερομηνία Δημιουργίας : </strong>
+          <div className="row p-2">
+            <div className="col-3">
+              <strong>Ημερομηνία Δημιουργίας:</strong>
+            </div>
+            <div className="col-xl-9">{activeRequest.label}</div>
           </div>
-          {activeRequest.label}
-        </div>
-        <div className="d-flex float-end">
-          <button
-            onClick={navigateToAnonymoysChat}
-            className=" mt-2 btn bg-primary btn-small"
-          >
-            Εμφάνιση Ερωτήσεων
-          </button>
-          {active_user.role == "provider" && (
+          <div className="row p-2 justify-content-end">
+            <button
+              onClick={navigateToAnonymoysChat}
+              className="btn bg-primary btn-small"
+            >
+              Εμφάνιση Ερωτήσεων
+            </button>
+
             <Link href={"/questionaire"}>
-              <button className=" mt-2 btn bg-primary btn-small">
+              <button className="btn bg-primary btn-small">
                 Λεπτομέρειες αιτήματος
               </button>
             </Link>
-          )}
+          </div>
         </div>
       </Modal>
     </>

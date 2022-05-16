@@ -1,6 +1,9 @@
 import { useState } from "react";
+import Link from "next/link";
 import Modal from "react-modal";
 import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const ProjectCard = (props) => {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -46,7 +49,7 @@ const ProjectCard = (props) => {
     <>
       <div className="card p-1 m-1 shadow">
         <div className="card-body">
-          <h5 className="card-title">{props.request.name}</h5>
+          <h5 className="card-title fs-6">{props.request.name}</h5>
           <div className="row">
             <div className="col">
               <span className="badge badge-primary m-2">{props.badge1}</span>
@@ -56,12 +59,14 @@ const ProjectCard = (props) => {
             </div>
           </div>
 
-          <div className="row p-2">
-            <div className="col-2">
-              <button className="btn bg-primary btn-small" onClick={openModal}>
-                Λεπτομέρειες
-              </button>
-            </div>
+          <div className="row justify-content-end">
+            <button
+              className="btn btn-sm bg-primary"
+              onClick={openModal}
+              style={{ width: "2rem", height: "2rem" }}
+            >
+              <FontAwesomeIcon icon={faArrowRight} />
+            </button>
           </div>
         </div>
       </div>
@@ -71,7 +76,7 @@ const ProjectCard = (props) => {
         <div className="container-fluid">
           <div className="row justify-content-end">
             <div className="col">
-              <h5>{props.request.name}</h5>
+              <p className="fs-4">{props.request.name}</p>
             </div>
             <button className="btn-close" onClick={closeModal}></button>
           </div>
@@ -147,6 +152,43 @@ const ProjectCard = (props) => {
                 </tbody>
               </table>
             </div>
+          </div>
+
+          <div className="row p-2 justify-content-end">
+            {/* elegxoume ean einai provider */}
+            {/* ean einai provider elegxoumeεαν το τώρα είναι ανάμεσα στην ημερομηνία 
+            δημιουργίας του request και (ημερομηνία δημιουργίας + 3 μερες) τότε printare 
+            μου πόσο θέλω ακόμα μεχρι το request.created + μερες, ΑΛΛΙΩΣ printare μου 
+            "Ο χρόνος έχει λήξει" */}
+            {props.role === "provider" ? (
+              moment([]).isBetween(
+                moment(props.request.created),
+                moment([props.request.created]).add(2, "days").calendar()
+              ) ? (
+                <span>
+                  Ο χρόνος των ερωτήσεων λήγει{" "}
+                  {moment().to(moment(props.request.created).add(2, "days"))}
+                </span>
+              ) : (
+                <span>Ο χρόνος ερωτήσεων έχει λήξει</span>
+              )
+            ) : (
+              // ean den einai provider tote mhn printareis tipota
+              " "
+            )}
+
+            <Link
+              href={{
+                pathname: "/anonymouschat",
+                query: {
+                  requestId: props.request._id,
+                  name: props.request.name,
+                  created: props.request.created,
+                },
+              }}
+            >
+              <button className="btn bg-primary">Σελίδα ερωτήσεων</button>
+            </Link>
           </div>
         </div>
       </Modal>

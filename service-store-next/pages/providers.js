@@ -177,7 +177,7 @@ class Providers extends Component {
     return (
       <Layout user={this.props}>
         <Head>
-          <title>Προβολή Προτάσεων</title>
+          <title>Service Store - Προβολή Προτάσεων</title>
           <meta name="description" content="Greek DX services platform" />
         </Head>
         {(!this.props.isAuthenticated && <p>You have to login First</p>) || (

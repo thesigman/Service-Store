@@ -12,9 +12,10 @@ const AnonymousChatRoom = (props) => {
       console.log("enter");
     }
   };
-  const twoDaysdelay = 172800000; //2 meres gia ton provider
-  const threeDaysdelay = 259200000; // 2+1=3 meres gia ton client
-
+  // const twoDaysdelay = 172800000; //2 meres gia ton provider
+  // const threeDaysdelay = 259200000; // 2+1=3 meres gia ton client
+  const threeDaysdelay = 300000;
+  const twoDaysdelay = 180000;
   return (
     <div className={[styles.container, " overflow-auto"].join(" ")}>
       {messages.map((message) => (

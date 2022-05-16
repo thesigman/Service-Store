@@ -12,15 +12,36 @@ const Policy = () => {
       </Head>
       <Navbar page="policy" background={"bg-dark"} />
 
-      <div className="container-fluid">
+      {/* <div className="container-fluid">
         <div className="row py-2 text-center">
           <h1 className="display-4">Πολιτική Απορρήτου</h1>
         </div>
-      </div>
+      </div> */}
 
       <div className="container py-3">
-        <div className="row py-2 my-2">
-          <div className="card border border-light shadow shadow-sm rounded">
+        <div className="card border border-light shadow shadow-sm rounded">
+          {/* <div style={{ background: "#0e2e46" }}>
+            <h1 className="display-4">Πολιτική Απορρήτου</h1>
+          </div> */}
+          <div
+            className="container justify-content-center"
+            style={{
+              backgroundColor: "#0e2e46",
+              width: "100%",
+              height: "30vh",
+              // borderRadius: "0 0 60% 60% / 3vh",
+              borderBottomLeftRadius: "90% 5vh",
+              borderBottomRightRadius: "50% 4vh",
+              // borderEndEndRadius: "5px",
+              // borderEndStartRadius: "5vh",
+            }}
+          >
+            <h2 className="fw-bold text-light m-3">Πολιτική Απορρήτου</h2>
+            <p className="text-light m-3">
+              Τελευταία ενημέρωση 18 Μαρτίου 2022
+            </p>
+          </div>
+          <div className="row py-2 my-2">
             <div className="card-body">
               Η Εταιρεία είναι υπεύθυνη επεξεργασίας και οφείλει να
               διαχειρίζεται και να προστατεύει τα προσωπικά δεδομένα των

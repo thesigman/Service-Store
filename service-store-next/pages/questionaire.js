@@ -10,6 +10,7 @@ export default function Questionaire(props) {
   const [finalCards, setFinalCards] = useState([]);
   const [modalIsOpen, setModalStatus] = useState(false);
   const [requests, setRequests] = useState([]);
+  const [activeUser, setActiveUser] = useState({});
 
   useEffect(async () => {
     let finalCards = [];
@@ -17,50 +18,51 @@ export default function Questionaire(props) {
     const active_user = JSON.parse(
       window.sessionStorage.getItem("application_user")
     );
+    setActiveUser(active_user);
     const response = await axios.post(
       `http://islab-thesis.aegean.gr:82/trans/api/requests/uid`,
       { uid: active_user.id, role: active_user.role }
     );
     console.log("requests response", response);
-    const itemsPerRow = 5;
-    let itemsParsed = 0;
-    const totalItemNum = response.data.length;
-    const renderedCards = [];
+    // const itemsPerRow = 5;
+    // let itemsParsed = 0;
+    // const totalItemNum = response.data.length;
+    // const renderedCards = [];
 
-    console.log("test projects");
+    // console.log("test projects");
     setRequests(response.data);
 
-    response.data.forEach((item) => {
-      renderedCards.push(
-        <Card
-          name={item.name}
-          description={item.service_2.substr(item.service_2.indexOf(" ") + 1)}
-          badge1={item.service_1.substr(item.service_1.indexOf(" ") + 1)}
-          badge2={item.status}
-          fixedWitdth={true}
-          fixedHeight={true}
-          key={item._id}
-        ></Card>
-      );
-    });
-    let tempCards = [];
+    // response.data.forEach((item) => {
+    //   renderedCards.push(
+    //     <Card
+    //       name={item.name}
+    //       description={item.service_2.substr(item.service_2.indexOf(" ") + 1)}
+    //       badge1={item.service_1.substr(item.service_1.indexOf(" ") + 1)}
+    //       badge2={item.status}
+    //       fixedWitdth={true}
+    //       fixedHeight={true}
+    //       key={item._id}
+    //     ></Card>
+    //   );
+    // });
+    // let tempCards = [];
 
-    // Μορφοποίηση των καρτών ώστε να εμφανίζονται σε στήλες
-    for (let i = 0; i < response.data.length; i++) {
-      tempCards.push(renderedCards.at(i));
-      if (tempCards.length == itemsPerRow) {
-        finalCards.push(<div className="col-md-3 col mr-0">{tempCards}</div>);
-        tempCards = [];
-      }
-    }
+    // // Μορφοποίηση των καρτών ώστε να εμφανίζονται σε στήλες
+    // for (let i = 0; i < response.data.length; i++) {
+    //   tempCards.push(renderedCards.at(i));
+    //   if (tempCards.length == itemsPerRow) {
+    //     finalCards.push(<div className="col-md-3 col mr-0">{tempCards}</div>);
+    //     tempCards = [];
+    //   }
+    // }
 
-    // Παει να πει ότι έχουν περισσέψει κάρτες που δεν έχουν
-    // συμπληρώσει τον αριθμό per Row. Τις προσθέτουμε και αυτές
-    if (tempCards.length > 0) {
-      finalCards.push(<div className="col-3">{tempCards}</div>);
-    }
+    // // Παει να πει ότι έχουν περισσέψει κάρτες που δεν έχουν
+    // // συμπληρώσει τον αριθμό per Row. Τις προσθέτουμε και αυτές
+    // if (tempCards.length > 0) {
+    //   finalCards.push(<div className="col-3">{tempCards}</div>);
+    // }
 
-    setFinalCards(finalCards);
+    // setFinalCards(finalCards);
   }, []);
 
   /**
@@ -74,29 +76,32 @@ export default function Questionaire(props) {
     <Layout user={props}>
       {(!props.isAuthenticated && <p>You have to login First</p>) || (
         <div className="container-fluid h-100">
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item">
-                {/* <a href="#">Αρχική</a> */}
-                <Link href="/home">
-                  <a>Αρχική</a>
-                </Link>
-              </li>
-              <li className="breadcrumb-item active" aria-current="page">
-                Projects
-              </li>
-            </ol>
-          </nav>
+          <div className="row mt-2">
+            <nav aria-label="breadcrumb">
+              <ol className="breadcrumb">
+                <li className="breadcrumb-item">
+                  {/* <a href="#">Αρχική</a> */}
+                  <Link href="/home">
+                    <a>Αρχική</a>
+                  </Link>
+                </li>
+                <li className="breadcrumb-item active" aria-current="page">
+                  Projects
+                </li>
+              </ol>
+            </nav>
+          </div>
+
           <div className="row">
             <div className="col-md-10">
               <h2> Projects </h2>
             </div>
           </div>
           <div className="row">
-            <p>Παρακάτω φαίνονται τα Project που σας αφορούν</p>
+            <p>Παρακάτω φαίνονται τα Projects που σας αφορούν</p>
           </div>
 
-          <div
+          {/* <div
             className="d-flex"
             style={{
               "overflow-y": "scroll",
@@ -105,7 +110,7 @@ export default function Questionaire(props) {
             }}
           >
             {finalCards}
-          </div>
+          </div> */}
 
           <div
             className="container-fluid p-2 overflow-auto"
@@ -125,6 +130,7 @@ export default function Questionaire(props) {
                         request.service_1.indexOf(" ") + 1
                       )}
                       badge2={request.status}
+                      role={activeUser.role}
                     />
                   </div>
                 ))}

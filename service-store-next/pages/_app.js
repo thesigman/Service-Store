@@ -1,6 +1,7 @@
+import React, { useEffect, useState } from "react";
+import Head from "next/head";
 import "bootstrap/dist/css/bootstrap.css";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
 import "react-edit-text/dist/index.css";
 import "../styles/globals.scss";
 import "moment/locale/el";
@@ -27,14 +28,19 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <Component
-      user={user}
-      isAuthenticated={isAuthenticated}
-      setIsAuthenticated={setIsAuthenticated}
-      setRawUser={setRawUser}
-      setUser={setUser}
-      {...pageProps}
-    />
+    <>
+      {/* <Head>
+        <link rel="shortcut icon" href="/logo.png" />
+      </Head> */}
+      <Component
+        user={user}
+        isAuthenticated={isAuthenticated}
+        setIsAuthenticated={setIsAuthenticated}
+        setRawUser={setRawUser}
+        setUser={setUser}
+        {...pageProps}
+      />
+    </>
   );
 }
 

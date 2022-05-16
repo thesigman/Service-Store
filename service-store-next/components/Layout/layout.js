@@ -13,6 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import AdminInfo from "../AdminBar/adminInfo";
+import logo from "../../public/logo.png";
 
 export default function Layout(props) {
   const [role, setRole] = useState();
@@ -29,15 +30,11 @@ export default function Layout(props) {
     <>
       <div>
         <header className="navbar bg-primary navbar-dark sticky-top flex-md-nowrap p-0 shadow ">
-          <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3 m-2">
-            <Image
-              src="/logo.png"
-              width={191}
-              height={27}
-              loading="eager"
-              to="http://localhost:3001"
-            />
-          </a>
+          <Link href={"/home"} passHref>
+            <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3 m-2">
+              <Image src={logo} alt="logo image" responsive="true" />
+            </a>
+          </Link>
           <button
             className="navbar-toggler d-md-none collapsed"
             type="button"
@@ -54,9 +51,11 @@ export default function Layout(props) {
           <div className="row">
             <nav
               id="sidebarMenu"
-              className="col-md-2 col-lg-2 d-md-block bg-dark sidebar collapse"
+              // className="col-md-2 col-lg-2 d-md-block bg-dark sidebar collapse"
+              className="col-md-2 col-lg-2 d-md-block sidebar collapse"
+              style={{ background: "#0e2e46" }}
             >
-              <div className="menu  position-sticky pt-3">
+              <div className="menu position-sticky pt-3">
                 <ul className="nav flex-column">
                   <li className="nav-item">
                     <AdminInfo user={props.user}></AdminInfo>
@@ -80,7 +79,26 @@ export default function Layout(props) {
                       </b>
                     </a>
                   </li>
-                  {role == "provider" && (
+                  <li className="nav-item">
+                    <a className="nav-link">
+                      <FontAwesomeIcon
+                        icon={faProjectDiagram}
+                        className="text-white"
+                      ></FontAwesomeIcon>
+                      <b className="text-white">
+                        {" "}
+                        <Link href="/questionaire">
+                          <span
+                            style={{ cursor: "pointer" }}
+                            className="text-white"
+                          >
+                            Projects
+                          </span>
+                        </Link>
+                      </b>
+                    </a>
+                  </li>
+                  {/* {role == "provider" && (
                     <li className="nav-item">
                       <a className="nav-link">
                         <FontAwesomeIcon
@@ -95,6 +113,28 @@ export default function Layout(props) {
                               className="text-white"
                             >
                               Projects
+                            </span>
+                          </Link>
+                        </b>
+                      </a>
+                    </li>
+                  )} */}
+
+                  {role == "client" && (
+                    <li className="nav-item">
+                      <a className="nav-link">
+                        <FontAwesomeIcon
+                          icon={faHandsHelping}
+                          className="text-white"
+                        ></FontAwesomeIcon>
+                        <b className="text-white">
+                          {" "}
+                          <Link href="/providers">
+                            <span
+                              style={{ cursor: "pointer" }}
+                              className="text-white"
+                            >
+                              Προτάσεις
                             </span>
                           </Link>
                         </b>
@@ -120,27 +160,6 @@ export default function Layout(props) {
                       </b>
                     </a>
                   </li>
-                  {role == "client" && (
-                    <li className="nav-item">
-                      <a className="nav-link">
-                        <FontAwesomeIcon
-                          icon={faHandsHelping}
-                          className="text-white"
-                        ></FontAwesomeIcon>
-                        <b className="text-white">
-                          {" "}
-                          <Link href="/providers">
-                            <span
-                              style={{ cursor: "pointer" }}
-                              className="text-white"
-                            >
-                              Προτάσεις
-                            </span>
-                          </Link>
-                        </b>
-                      </a>
-                    </li>
-                  )}
                   <li className="nav-item">
                     <hr className="bg-white b-2 bd-white" />
                   </li>
@@ -152,7 +171,7 @@ export default function Layout(props) {
                       ></FontAwesomeIcon>
                       <b className="text-white">
                         {" "}
-                        <Link href="/profile">
+                        <Link href="/Pprofile">
                           <span
                             style={{ cursor: "pointer" }}
                             className="text-white"
@@ -209,7 +228,7 @@ export default function Layout(props) {
                       ></FontAwesomeIcon>
                       <b className="text-white">
                         {" "}
-                        <Link href="/login">
+                        <Link href="/Plogin">
                           <span
                             style={{ cursor: "pointer" }}
                             className="text-white"

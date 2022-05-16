@@ -1,29 +1,26 @@
-// import Navigation from '../components/LandingPage/Navigation/navigation'
-// import Landing from '../components/LandingPage/landing'
-// import Services from '../components/LandingPage/services/services'
-// import WhoAreWe from '../components/LandingPage/whoarewe/whoarewe'
-// import Feedback from '../components/LandingPage/feedback/feedback'
+// import Navigation from "../components/LandingPage/Navigation/navigation";
+// import Landing from "../components/LandingPage/landing";
+// import Services from "../components/LandingPage/services/services";
+// import WhoAreWe from "../components/LandingPage/whoarewe/whoarewe";
+// import Feedback from "../components/LandingPage/feedback/feedback";
 // export default function Home() {
-
 //   return (
 //     <div style={{ textAlign: "center" }}>
 //       <Navigation></Navigation>
-//       <div id="home" style={{height: 750}}>
+//       <div id="home" style={{ height: 750 }}>
 //         <Landing></Landing>
 //       </div>
-//       <div id="services" style={{height: 650}}>
+//       <div id="services" style={{ height: 650 }}>
 //         <Services></Services>
 //       </div>
-//       <div id="whoarewe" style={{height: 550}}>
+//       <div id="whoarewe" style={{ height: 550 }}>
 //         <WhoAreWe></WhoAreWe>
 //       </div>
-//       <div id="feedback" style={{height: 750}}>
+//       <div id="feedback" style={{ height: 750 }}>
 //         <Feedback></Feedback>
 //       </div>
-
 //     </div>
-
-//   )
+//   );
 // }
 
 import React, { useEffect, useState } from "react";
@@ -45,17 +42,38 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
+import { devteam2 } from "./api/axiosConfiguration";
+import AsyncSelect from "react-select/async";
 
 const Home = () => {
-  const [domain, setDomain] = useState("");
+  // const [domain, setDomain] = useState("");
+  const [selectedDomain, setSelectedDomain] = useState(null);
+
   //auta mporoun na erxontai apo th vash me request
   //prepei na ftiaxtei to api
-  const [domains, setDomains] = useState([
+  // const [domains, setDomains] = useState([
+  //   { id: 1, name: "Ψηφιακό Μάρκετινγκ" },
+  //   { id: 2, name: "Ψηφιακή διαχείριση πωλήσεων & αγορών" },
+  //   { id: 3, name: "Ψηφιακή διαχείριση παραγωγής" },
+  //   { id: 4, name: "Έξυπνη εφοδιαστική αλυσίδα" },
+  //   { id: 5, name: "Ψηφιακή υπηρεσίες υποστήριξης" },
+  //   { id: 6, name: "Οικονομική διαχείριση" },
+  //   { id: 7, name: "Διαχείριση ανθρώπινου δυναμικού" },
+  //   { id: 8, name: "Ψηφιακή διαχείριση αποθήκης" },
+  //   { id: 9, name: "Έξυπνα κτίρια" },
+  //   { id: 10, name: "ΙΤ Υποδομές & Ασφάλεια" },
+  //   { id: 11, name: "Τηλε-εργασία/διάσκεψη" },
+  //   { id: 12, name: "Ψηφιακές δεξιότητες" },
+  //   { id: 13, name: "Ανάπτυξη λογισμικού" },
+  //   { id: 14, name: "Συμβουλευτικές υπηρεσίες" },
+  // ]);
+
+  const domains = [
     { id: 1, name: "Ψηφιακό Μάρκετινγκ" },
     { id: 2, name: "Ψηφιακή διαχείριση πωλήσεων & αγορών" },
     { id: 3, name: "Ψηφιακή διαχείριση παραγωγής" },
     { id: 4, name: "Έξυπνη εφοδιαστική αλυσίδα" },
-    { id: 5, name: "Ψηφιακή διαχείριση παραγωγής" },
+    { id: 5, name: "Ψηφιακή υπηρεσίες υποστήριξης" },
     { id: 6, name: "Οικονομική διαχείριση" },
     { id: 7, name: "Διαχείριση ανθρώπινου δυναμικού" },
     { id: 8, name: "Ψηφιακή διαχείριση αποθήκης" },
@@ -65,7 +83,8 @@ const Home = () => {
     { id: 12, name: "Ψηφιακές δεξιότητες" },
     { id: 13, name: "Ανάπτυξη λογισμικού" },
     { id: 14, name: "Συμβουλευτικές υπηρεσίες" },
-  ]);
+  ];
+
   //kanoume shuffle ta domains kai pairnoume ta 4 prwta stoixeia
   //kai ta vazoume sto shuffledDomains
   const [shuffledDomains, setShuffledDomains] = useState(
@@ -77,27 +96,35 @@ const Home = () => {
     localStorage.removeItem("domain");
   }, []);
 
-  const getInputValue = (event) => {
-    // show the user input value to console
-    const userValue = event.target.value;
-    setDomain(userValue);
-    // console.log(userValue);
-  };
+  // const getInputValue = (event) => {
+  //   // show the user input value to console
+  //   const userValue = event.target.value;
+  //   setDomain(userValue);
+  //   // console.log(userValue);
+  // };
 
-  // useEffect(() => {
-  //   // Access count value from session storage
-  //   var pageView = sessionStorage.getItem("pageView");
-  //   if (pageView == null) {
-  //     // Initialize page views count
-  //     pageView = 1;
-  //   } else {
-  //     // Increment count
-  //     pageView = Number(pageView) + 1;
-  //   }
-  //   // Update session storage
-  //   sessionStorage.setItem("pageView", pageView);
-  //   setCount(pageView);
-  // }, []); //No dependency to trigger in each page load
+  const searchDomain = async (inputValue) => {
+    console.log("input domain value: ", inputValue);
+
+    // dhmiourgoume regex gia na elegxoume ean grafei space, ari8mo h teleia . ws prwto xarakthra
+    // dioti apo th vash 8a ferei ola ta apotelesmata
+    const regex = new RegExp("^\\s+|^[0-9]|^\\.");
+
+    // elegxoume ean tairiazei tote kanoume return
+    if (regex.test(inputValue)) {
+      return;
+    } else {
+      const response = await devteam2.post("/services/domain", { inputValue });
+      console.log("before", response.data);
+      const services = response.data.map((service) => ({
+        label: service.slice(2),
+        value: service,
+      }));
+
+      console.log(services);
+      return services;
+    }
+  };
 
   return (
     <>
@@ -144,9 +171,9 @@ const Home = () => {
                   <Typewriter
                     options={{
                       strings: [
-                        `Φέρνουμε κοντά επιχειρήσεις στο ταξίδι του <span style="color:#0e2e46;font-weight: 400;">ψηφιακού μετασχηματισμού</span> `,
-                        `Βρίσκουμε τους <span style="color:#0e2e46;font-weight: 400;">καλύτερους</span> για τον ψηφιακό μετασχηματισμό της επιχείρησής σου `,
-                        `Δημιουργούμε νέες <span style="color:#0e2e46;font-weight: 400;">ευκαιρίες</span> στην ψηφιακή οικονομία `,
+                        `Φέρνουμε κοντά επιχειρήσεις στο ταξίδι του <span style="color:#0e2e46;font-weight: 400;">ψηφιακού μετασχηματισμού</span>`,
+                        `Βρίσκουμε τους <span style="color:#0e2e46;font-weight: 400;">καλύτερους</span> για τον ψηφιακό μετασχηματισμό της επιχείρησής σου`,
+                        `Δημιουργούμε νέες <span style="color:#0e2e46;font-weight: 400;">ευκαιρίες</span> στην ψηφιακή οικονομία`,
                       ],
                       autoStart: true,
                       loop: true,
@@ -166,31 +193,27 @@ const Home = () => {
                         data-aos="fade-right"
                         data-aos-duration="1000"
                       >
-                        <input
-                          className="form-control"
-                          placeholder={"Αναζητήστε υπηρεσία"}
-                          style={{
-                            height: "3em",
-                            backgroundColor: "#ebe2d0",
-                            borderRadius: "25px",
-                          }}
-                          onChange={getInputValue}
-                          // list="serviceList"
+                        <AsyncSelect
+                          value={selectedDomain}
+                          instanceId="domain"
+                          loadOptions={searchDomain}
+                          placeholder="Αναζητήστε"
+                          onChange={setSelectedDomain}
+                          loadingMessage={() => "Φόρτωση..."}
+                          noOptionsMessage={() => "Κανένα αποτέλεσμα"}
                         />
-                        {/* <datalist id="serviceList">
-                        {serviceList.map((service) => (
-                          <option key={service.id} value={service.name} />
-                        ))}
-                      </datalist> */}
                       </div>
 
                       <div className="col-5 text-center align-items-center">
-                        <Link href={"/login"} passHref>
+                        <Link href={"/Plogin"} passHref>
                           <button
                             className="btn btn-primary"
                             onClick={() => {
-                              domain.length > 0 &&
-                                localStorage.setItem("domain", domain);
+                              selectedDomain &&
+                                localStorage.setItem(
+                                  "domain",
+                                  selectedDomain.value
+                                );
                             }}
                           >
                             Ξεκινήστε εδώ!
@@ -209,143 +232,31 @@ const Home = () => {
                       data-aos="fade-up"
                       data-aos-duration="1000"
                     >
-                      {" "}
                       Συχνές υπηρεσίες
                     </p>
-                    {/* </h4> */}
-
-                    {/* {shuffledDomains.map(domain => (
-
-
-                    ))} */}
-
                     <div className="row">
                       <div
                         className="col-auto me-auto py-2"
                         data-aos="fade-up"
                         data-aos-duration="1100"
                       >
-                        <Link href={"/login"} passHref>
-                          <a
-                            className="text-light"
-                            onClick={() => {
-                              localStorage.setItem(
-                                "domain",
-                                shuffledDomains[0].name
-                              );
-                              setDomain(shuffledDomains[0].name);
-                            }}
-                          >
-                            {shuffledDomains[0].name}
-                          </a>
-                          {/* <button
-                            className="btn-primary btn-small rounded-pill"
-                            onClick={() => {
-                              setDomain(shuffledDomains[0].name);
-                              localStorage.setItem(
-                                "domain",
-                                shuffledDomains[0].name
-                              );
-                            }}
-                          > */}
-                          {/* Οικονομική Διαχείριση */}
-                          {/* {shuffledDomains[0].name}
-                          </button> */}
-                        </Link>
+                        <p className="fs-6 text-light">
+                          {shuffledDomains[0].name}
+                        </p>
                       </div>
                       <div
                         className="col-auto me-auto py-2"
                         data-aos="fade-up"
                         data-aos-duration="1100"
                       >
-                        <Link href={"/login"} passHref>
-                          <a
-                            className="text-light"
-                            onClick={() => {
-                              localStorage.setItem(
-                                "domain",
-                                shuffledDomains[1].name,
-                                setDomain(shuffledDomains[1].name)
-                              );
-                            }}
-                          >
-                            {shuffledDomains[1].name}
-                          </a>
-                          {/* <button
-                            className="btn-primary btn-small rounded-pill"
-                            onClick={() => {
-                              setDomain(shuffledDomains[1].name);
-                              localStorage.setItem(
-                                "domain",
-                                shuffledDomains[1].name
-                              );
-                            }}
-                          > */}
-                          {/* Οικονομική Διαχείριση */}
-                          {/* </button> */}
-                        </Link>
+                        <p className="fs-6 text-light">
+                          {shuffledDomains[1].name}
+                        </p>
                       </div>
                     </div>
-                    {/* <div className="w-100 d-none d-md-block"></div> */}
-                    {/* <div className="row">
-                      <div
-                        className="col-auto me-auto py-2 d-none d-xl-block"
-                        data-aos="fade-up"
-                        data-aos-duration="1200"
-                      >
-                        <Link
-                          href={{
-                            pathname: "/login",
-                            query: { domain: shuffledDomains[2].name },
-                          }}
-                          passHref
-                        >
-                          <button
-                            className="btn-primary btn-small rounded-pill"
-                            onClick={() => {
-                              setDomain(shuffledDomains[2].name);
-                              localStorage.setItem(
-                                "domain",
-                                shuffledDomains[2].name
-                              );
-                            }}
-                          >
-                            {shuffledDomains[2].name}
-                          </button>
-                        </Link>
-                      </div>
-                      <div
-                        className="col-auto me-auto py-2"
-                        data-aos="fade-up"
-                        data-aos-duration="1200"
-                      >
-                        <Link
-                          href={{
-                            pathname: "/login",
-                            query: { domain: shuffledDomains[3].name },
-                          }}
-                          passHref
-                        >
-                          <button
-                            className="btn-primary btn-small rounded-pill"
-                            onClick={() => {
-                              setDomain(shuffledDomains[3].name);
-                              localStorage.setItem(
-                                "domain",
-                                shuffledDomains[3].name
-                              );
-                            }}
-                          >
-                            {shuffledDomains[3].name}
-                          </button>
-                        </Link>
-                      </div>
-                    </div> */}
                   </div>
                 </div>
               </div>
-              {/* </div> */}
-              {/* </div> */}
             </div>
             <div
               className="col d-flex justify-content-center d-none d-md-block"
@@ -356,7 +267,7 @@ const Home = () => {
                 src={pic}
                 alt="hero image"
                 responsive="true"
-                // priority
+                //priority
               />
             </div>
           </div>

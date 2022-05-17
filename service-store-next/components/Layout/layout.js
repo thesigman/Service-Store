@@ -209,7 +209,7 @@ export default function Layout(props) {
                       ></FontAwesomeIcon>
                       <b className="text-white">
                         {" "}
-                        <Link href="/ewallet">
+                        <Link href="/settings">
                           <span
                             style={{ cursor: "pointer" }}
                             className="text-white"

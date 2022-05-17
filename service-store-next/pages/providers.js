@@ -40,24 +40,26 @@ class Providers extends Component {
       })
       .then(
         (response) => {
-          this.setState({ requests: response.data });
-          this.setState({ currenrequestid: response.data[0]._id });
-          this.setState({ titles: response.data[0].name });
-          console.log(this.state.requests[0]._id);
-          devteam2
-            .post("/offers/id/", {
-              cid: this.state.requests[0]._id,
-            })
-            .then(
-              (response) => {
-                console.log(response);
-                this.setState({ offers: response.data[0] });
-                this.setState({ providers: response.data[1] });
-              },
-              (error) => {
-                console.log(error);
-              }
-            );
+          if (response.data.length > 0) {
+            this.setState({ requests: response.data });
+            this.setState({ currenrequestid: response.data[0]._id });
+            this.setState({ titles: response.data[0].name });
+            console.log(this.state.requests[0]._id);
+            devteam2
+              .post("/offers/id/", {
+                cid: this.state.requests[0]._id,
+              })
+              .then(
+                (response) => {
+                  console.log(response);
+                  this.setState({ offers: response.data[0] });
+                  this.setState({ providers: response.data[1] });
+                },
+                (error) => {
+                  console.log(error);
+                }
+              );
+          }
         },
         (error) => {
           console.log(error);

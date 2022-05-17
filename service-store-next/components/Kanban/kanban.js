@@ -136,12 +136,12 @@ export default function Kanban(props) {
         },
         title: "Ολοκληρωμένα",
         cards: [
-          {
-            id: 100,
-            title: "Κατασκευή WebSite",
-            description: "Υπηρεσια Marketing",
-            label: "test",
-          },
+          // {
+          //   id: 100,
+          //   title: "Κατασκευή WebSite",
+          //   description: "Υπηρεσια Marketing",
+          //   label: "test",
+          // },
         ],
         onCardClick(cardId, metadata, labeId) {
           // Φόρτωση του modal για το rating

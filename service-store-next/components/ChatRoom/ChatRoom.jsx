@@ -15,9 +15,13 @@ const ChatRoom = (props) => {
   };
   return (
     <div className={[styles.container, " overflow-auto"].join(" ")}>
-      {messages.map((message) => (
-        <MessageCard key={message._id} message={message}></MessageCard>
-      ))}
+      {messages ? (
+        messages.map((message) => (
+          <MessageCard key={message._id} message={message}></MessageCard>
+        ))
+      ) : (
+        <div>Δεν υπάρχουν μηνύματα</div>
+      )}
       <div className="row m-2 p-2">
         <input
           className={[styles.faIcon, styles.search].join(" ")}

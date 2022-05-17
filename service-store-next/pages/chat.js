@@ -80,15 +80,21 @@ class Chat extends Component {
           // this.setState({ offers: response.data[0] });
           // this.setState({ messages: response.data[1] });
           // this.setState({ currentofferid: response.data[0][0]._id });
-          this.setState({ currentofferid: this.state.offers[0]._id });
+          if (o.length > 0) {
+            this.setState({ currentofferid: this.state.offers[0]._id });
+          }
 
           this.setState({ chatroommessages: response.data[1][0] });
           // this.setState({ providers: response.data[2] });
 
           // this.setState({ requests: response.data[3] });
           // console.log("TITLE", response.data[2][0][0].NameOfCompany);
-          this.setState({ title: response.data[2][0][0].NameOfCompany });
-          this.setState({ requestname: response.data[3][0][0].name });
+          if (response.data[2] > 0) {
+            this.setState({ title: response.data[2][0][0].NameOfCompany });
+          }
+          if (response.data[3] > 0) {
+            this.setState({ requestname: response.data[3][0][0].name });
+          }
 
           console.log("stateMessages", this.state.messages);
           console.log(this.state.users);

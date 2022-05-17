@@ -166,7 +166,7 @@ class Pregister extends Component {
 
     if (this.state.type == "Πάροχος") {
       newUser["Rating"] = 0;
-      newUser["TypeOfRequestedJobs"] = this.state.selectedService2.value;
+      newUser["TypeOfRequestedJobs"] = this.state.selectedService2[0].value;
       path = "/providers";
     }
 

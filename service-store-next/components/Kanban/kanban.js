@@ -118,7 +118,7 @@ export default function Kanban(props) {
           width: "25%",
           maxHeight: "600px",
         },
-        title: "Σε εκρεμμότητα",
+        title: "Σε εξέλιξη",
         cards: [],
       },
 

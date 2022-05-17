@@ -284,7 +284,7 @@ class AnonymousChat extends Component {
               <div className="container-fluid">
                 <div className="row">
                   <div className="col-lg-3">
-                    <h1>{this.state.name}</h1>
+                    <h3 className="fw-bolder">{this.state.name}</h3>
                     <Filters
                       filterByName={this.filterByName}
                       filterByDate={this.filterByDate}

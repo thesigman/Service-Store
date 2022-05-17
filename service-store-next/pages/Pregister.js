@@ -11,7 +11,10 @@ import StepTwo from "../components/Register/StepTwo";
 import StepThree from "../components/Register/StepThree";
 import Success from "../components/Register/Success";
 
+import { loginUser } from "../libs/auth";
 import { instance, devteam2 } from "./api/axiosConfiguration";
+
+import { toast, ToastContainer } from "react-nextjs-toast";
 
 import logo from "/public/logo.png";
 
@@ -161,8 +164,6 @@ class Pregister extends Component {
       update_at: new Date().toISOString(),
     };
 
-    console.log("new user: ", newUser);
-
     if (this.state.type == "Πάροχος") {
       newUser["Rating"] = 0;
       newUser["TypeOfRequestedJobs"] = this.state.selectedService2.value;
@@ -171,7 +172,7 @@ class Pregister extends Component {
 
     instance
       .post(path, newUser)
-      .then(function (response) {
+      .then(async (response) => {
         if (response.status == 200) {
           let finalUser = {
             confirmed: true,
@@ -201,12 +202,13 @@ class Pregister extends Component {
           instance
             .post("/users", finalUser)
             .then((response) => {
+              console.log("/users", response);
               if (response.status == 201) {
                 toast.notify(
                   "Η εγγραφή στην πλατφόρμα ήταν επιτυχής θα συνδεθείτε αυτόματα",
                   { duration: 5, type: "success", title: "Service Store" }
                 );
-                loginUser(username, password, props);
+                loginUser(this.state.username, this.state.password, this.props);
               } else {
                 console.log(response);
               }
@@ -372,6 +374,7 @@ class Pregister extends Component {
             </div>
           </div>
         </div>
+        <ToastContainer align={"left"} position={"bottom"} />
       </>
     );
   }

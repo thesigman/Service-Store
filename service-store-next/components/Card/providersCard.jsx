@@ -160,7 +160,11 @@ const ProvidersCard = (props) => {
         <div className="col-sm-10">
           <button className="btn btn-primary">Έναρξη συζήτησης</button>
         </div> */}
-              <button className="btn btn-icon" onClick={openModal}>
+              <button
+                className="btn btn-sm bg-primary"
+                style={{ width: "2rem", height: "2rem" }}
+                onClick={openModal}
+              >
                 <FontAwesomeIcon icon={faEye}></FontAwesomeIcon>
               </button>
               {getAcceptButton()}

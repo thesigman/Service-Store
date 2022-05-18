@@ -35,7 +35,11 @@ const TransactionsCard = (props) => {
                       {moment().format("l")} {moment().format("LT")}
                     </td>
                     <td className="d-flex justify-content-center">
-                      <button className="btn btn-icon">
+                      <button
+                        // className="btn btn-icon m-1"
+                        className="btn btn-sm bg-primary m-1"
+                        style={{ width: "2rem", height: "2rem" }}
+                      >
                         <FontAwesomeIcon icon={faPrint}></FontAwesomeIcon>
                       </button>
                     </td>
@@ -47,7 +51,11 @@ const TransactionsCard = (props) => {
                       {moment().format("l")} {moment().format("LT")}
                     </td>
                     <td className="d-flex justify-content-center">
-                      <button className="btn btn-icon">
+                      <button
+                        // className="btn btn-icon m-1"
+                        className="btn btn-sm bg-primary m-1"
+                        style={{ width: "2rem", height: "2rem" }}
+                      >
                         <FontAwesomeIcon icon={faPrint}></FontAwesomeIcon>
                       </button>
                     </td>
@@ -59,7 +67,11 @@ const TransactionsCard = (props) => {
                       {moment().format("l")} {moment().format("LT")}
                     </td>
                     <td className="d-flex justify-content-center">
-                      <button className="btn btn-icon">
+                      <button
+                        // className="btn btn-icon m-1"
+                        className="btn btn-sm bg-primary m-1"
+                        style={{ width: "2rem", height: "2rem" }}
+                      >
                         <FontAwesomeIcon icon={faPrint}></FontAwesomeIcon>
                       </button>
                     </td>
@@ -71,7 +83,11 @@ const TransactionsCard = (props) => {
                       {moment().format("l")} {moment().format("LT")}
                     </td>
                     <td className="d-flex justify-content-center">
-                      <button className="btn btn-icon">
+                      <button
+                        // className="btn btn-icon m-1"
+                        className="btn btn-sm bg-primary m-1"
+                        style={{ width: "2rem", height: "2rem" }}
+                      >
                         <FontAwesomeIcon icon={faPrint}></FontAwesomeIcon>
                       </button>
                     </td>
@@ -83,7 +99,11 @@ const TransactionsCard = (props) => {
                       {moment().format("l")} {moment().format("LT")}
                     </td>
                     <td className="d-flex justify-content-center">
-                      <button className="btn btn-icon">
+                      <button
+                        // className="btn btn-icon m-1"
+                        className="btn btn-sm bg-primary m-1"
+                        style={{ width: "2rem", height: "2rem" }}
+                      >
                         <FontAwesomeIcon icon={faPrint}></FontAwesomeIcon>
                       </button>
                     </td>

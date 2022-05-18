@@ -8,9 +8,24 @@ import Filter from "../components/Filters/filters";
 import Layout from "../components/Layout/layout";
 import style from "../components/LeftBar/box.module.scss";
 import MultiStepForm from "../components/MultiStepForm/MultiStepForm";
+import PMultiStepForm from "../components/MultiStepForm/PMultiStepForm";
 import Title from "../components/Title/title";
 import { devteam2 } from "./api/axiosConfiguration";
+import Modal from "react-modal";
 
+const modalStyle = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    background: "#FFFFFF",
+    width: "80%",
+    height: "65vh",
+  },
+};
 class Providers extends Component {
   // user = JSON.parse(window.sessionStorage.getItem("application_user"));
   state = {
@@ -27,6 +42,14 @@ class Providers extends Component {
     // this.state = { user: props.user };
     // console.log(JSON.parse(window.sessionStorage.getItem("application_user")));
   }
+  openModal = () => {
+    this.setState({ modalIsOpen: true });
+  };
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false });
+    localStorage.removeItem("domain");
+  };
   componentDidMount() {
     console.log(JSON.parse(window.sessionStorage.getItem("application_user")));
     // this.setState({ user: this.props.user });
@@ -264,9 +287,19 @@ class Providers extends Component {
             </div>
           </Fragment>
         )}
-        {!this.state.modalIsOpen || (
-          <MultiStepForm modalstatus={this.state.modalIsOpen} />
-        )}
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          style={modalStyle}
+          ariaHideApp={false}
+          size="sm"
+        >
+          <PMultiStepForm closeModal={this.closeModal} />
+        </Modal>
+        {/* {this.state.modalIsOpen && (
+          <PMultiStepForm
+          // modalstatus={this.state.modalIsOpen}
+          />
+        )} */}
       </Layout>
     );
   }

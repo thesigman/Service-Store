@@ -80,10 +80,18 @@ const BalanceCard = (props) => {
                       <td>Paypal</td>
                       <td>companymail@companyname.gr</td>
                       <td className="d-flex justify-content-start">
-                        <button className="btn btn-icon m-1">
+                        <button
+                          // className="btn btn-icon m-1"
+                          className="btn btn-sm bg-primary m-1"
+                          style={{ width: "2rem", height: "2rem" }}
+                        >
                           <FontAwesomeIcon icon={faPencilAlt}></FontAwesomeIcon>
                         </button>
-                        <button className="btn btn-icon m-1">
+                        <button
+                          // className="btn btn-icon m-1"
+                          className="btn btn-sm bg-primary m-1"
+                          style={{ width: "2rem", height: "2rem" }}
+                        >
                           <FontAwesomeIcon
                             icon={faCheckSquare}
                           ></FontAwesomeIcon>
@@ -96,10 +104,18 @@ const BalanceCard = (props) => {
                       <td>Credit Card</td>
                       <td>**** 8989</td>
                       <td className="d-flex justify-content-start">
-                        <button className="btn btn-icon m-1">
+                        <button
+                          // className="btn btn-icon m-1"
+                          className="btn btn-sm bg-primary m-1"
+                          style={{ width: "2rem", height: "2rem" }}
+                        >
                           <FontAwesomeIcon icon={faPencilAlt}></FontAwesomeIcon>
                         </button>
-                        <button className="btn btn-icon m-1">
+                        <button
+                          // className="btn btn-icon m-1"
+                          className="btn btn-sm bg-primary m-1"
+                          style={{ width: "2rem", height: "2rem" }}
+                        >
                           <FontAwesomeIcon
                             icon={faCheckSquare}
                           ></FontAwesomeIcon>

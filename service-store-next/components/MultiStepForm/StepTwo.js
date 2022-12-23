@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { devteam2 } from "../../pages/api/axiosConfiguration";
 import Select from "react-select";
 import { toast, ToastContainer } from "react-nextjs-toast";
+import styles from "./test.module.scss";
 
 {
   /* STATELESS COMPONENT */
@@ -208,6 +209,8 @@ const StepTwo = (props) => {
   const [quest, setQuest] = useState([]);
   const [answear, setAsnwear] = useState([]);
 
+  const [terms, setTerms] = useState([]);
+
   useEffect(async () => {
     const response = await devteam2.post(
       "/services/characteristics",
@@ -215,6 +218,12 @@ const StepTwo = (props) => {
     );
     setObjects(response.data);
     console.log("response data", response.data);
+  }, []);
+
+  useEffect(async () => {
+    const term = await devteam2.get("/terms");
+    setTerms(term.data);
+    console.log("term data", term.data);
   }, []);
 
   const handleAnswers = (answer, q) => {
@@ -250,8 +259,139 @@ const StepTwo = (props) => {
     setAsnwear(newAns);
   };
 
+  const findSubstrings = (string, substrings) => {
+    const termsInString = new Array();
+
+    for (const i in substrings) {
+      if (
+        string.toLowerCase().indexOf(substrings[i].term.toLowerCase()) != -1
+      ) {
+        termsInString.push(substrings[i]);
+      }
+    }
+
+    if (termsInString.length > 1) {
+      for (const i in termsInString) {
+        for (const j in termsInString) {
+          if (
+            termsInString[i].term
+              .toLowerCase()
+              .indexOf(termsInString[j].term.toLowerCase()) != -1
+          ) {
+            termsInString.splice(i, 1);
+          } else if (
+            termsInString[j].term
+              .toLowerCase()
+              .indexOf(termsInString[i].term.toLowerCase()) != -1
+          ) {
+            termsInString.splice(j, 1);
+          }
+        }
+      }
+    }
+    return termsInString;
+  };
+
+  const replaceWithTooltip = (string, subTerm, tooltip) => {
+    if (typeof string === "string") {
+      const getIndex1 = string.toLowerCase().indexOf(subTerm.toLowerCase());
+      const getIndex2 =
+        string.toLowerCase().indexOf(subTerm.toLowerCase()) + subTerm.length;
+      const chars = [" ", "-", "/", ".", ",", ";", "?"];
+
+      if (
+        (chars.some((elem) => string[getIndex1 - 1] === elem) ||
+          getIndex1 === 0) &&
+        (chars.some((elem) => string[getIndex2] === elem) ||
+          getIndex2 === string.length)
+      ) {
+        return (
+          <>
+            <span>{string.substring(0, getIndex1)} </span>
+            <div className={["p-1", styles.tooltip].join(" ")}>
+              {string.substring(getIndex1, getIndex2)}
+              <span
+                className={["p-1", styles.tooltiptext].join(" ")}
+                data-container="body"
+              >
+                {tooltip}
+              </span>
+            </div>
+            <span>{string.substring(getIndex2, string.length)}</span>
+          </>
+        );
+      } else {
+        return string;
+      }
+    }
+  };
+
+  /* const createFinalStrings = (quest1, ans1) => {
+    const result4 = new Array();
+    console.log("answers", ans1);
+
+    for (const i in ans1) {
+      result4[i] = terms.some((element) =>
+        ans1[i].toLowerCase().includes(element.term.toLowerCase())
+      );
+    }
+
+    result4[result4.length] = terms.some((element) =>
+      quest1.toLowerCase().includes(element.term.toLowerCase())
+    );
+
+    const result4Checker = (result4) => result4.some(Boolean);
+    //const newQuestString4 = obj.multiple.multiple_quest[0];
+    //const newAnsStrings4 = obj.multiple.multiple_ans;
+    const newQuestString4 = quest1;
+    const newAnsStrings4 = ans1;
+
+    if (result4Checker) {
+      const questStringsFound = findSubstrings(quest1, terms);
+      for (const j in questStringsFound) {
+        newQuestString4 = replaceWithTooltip(
+          quest1,
+          questStringsFound[j].term,
+          questStringsFound[j].expl
+        );
+      }
+
+      for (const j in newAnsStrings4) {
+        if (result4[j] === true) {
+          const termsFound = findSubstrings(ans1[j], terms);
+          for (const k in termsFound)
+            newAnsStrings4[j] = replaceWithTooltip(
+              ans1[j],
+              termsFound[k].term,
+              termsFound[k].expl
+            );
+        }
+      }
+    }
+    return { newQuest: newQuestString4, newAnswers: newAnsStrings4 };
+  }; */
+
   const renderQuestions = (obj) => {
     if (obj.text != null) {
+      const result1 = terms.some((element) =>
+        obj.text.text.includes(element.term)
+      );
+      console.log("cat1");
+
+      const newQuestString = obj.text.text;
+
+      if (result1) {
+        const stringsFound = findSubstrings(obj.single.single_quest[0], terms);
+
+        for (const i in stringsFound) {
+          newQuestString = replaceWithTooltip(
+            obj.text.text,
+            stringsFound[i].term,
+            stringsFound[i].expl
+          );
+        }
+      }
+
       return (
         <>
           <p>questionid: {obj.QuestID}</p>
@@ -269,15 +409,62 @@ const StepTwo = (props) => {
         </>
       );
     } else if (obj.single != null && obj.single.attach === false) {
-      const answers = obj.single.single_ans.map((ans) => ({
+      const result2 = new Array();
+      console.log("cat2");
+
+      for (const i in obj.single.single_ans) {
+        result2[i] = terms.some((element) =>
+          obj.single.single_ans[i]
+            .toLowerCase()
+            .includes(element.term.toLowerCase())
+        );
+      }
+
+      result2[result2.length] = terms.some((element) =>
+        obj.single.single_quest[0]
+          .toLowerCase()
+          .includes(element.term.toLowerCase())
+      );
+
+      const result2Checker = (result2) => result2.some(Boolean);
+      const newQuestString2 = obj.single.single_quest[0];
+      const newAnsStrings2 = obj.single.single_ans;
+
+      if (result2Checker) {
+        const questStringsFound = findSubstrings(
+          obj.single.single_quest[0],
+          terms
+        );
+        for (const i in questStringsFound) {
+          newQuestString2 = replaceWithTooltip(
+            obj.single.single_quest[0],
+            questStringsFound[i].term,
+            questStringsFound[i].expl
+          );
+        }
+        for (const i in newAnsStrings2) {
+          if (result2[i] === true) {
+            const termsFound = findSubstrings(obj.single.single_ans[i], terms);
+            for (const j in termsFound) {
+              newAnsStrings2[i] = replaceWithTooltip(
+                obj.single.single_ans[i],
+                termsFound[j].term,
+                termsFound[j].expl
+              );
+            }
+          }
+        }
+      }
+      const answers = newAnsStrings2.map((ans) => ({
         label: ans,
         value: ans,
       }));
       console.log("answers", answers);
+
       return (
         <>
           <p>questionid: {obj.QuestID}</p>
-          <p className="fs-5">{obj.single.single_quest[0]}</p>
+          <p className="fs-5">{newQuestString2}</p>
 
           <div className="col-xl-6 p-2">
             <Select
@@ -300,15 +487,59 @@ const StepTwo = (props) => {
         </>
       );
     } else if (obj.single != null && obj.single.attach === true) {
-      const answers = obj.single.single_ans.map((ans) => ({
+      const result3 = new Array();
+      console.log("cat3");
+      for (const i in obj.single.single_ans) {
+        result3[i] = terms.some((element) =>
+          obj.single.single_ans[0][i]
+            .toLowerCase()
+            .includes(element.term.toLowerCase())
+        );
+      }
+      result3[result3.length] = terms.some((element) =>
+        obj.single.single_quest[0]
+          .toLowerCase()
+          .includes(element.term.toLowerCase())
+      );
+
+      const result3Checker = (result3) => result3.some(Boolean);
+      const newQuestString3 = obj.single.single_quest[0];
+      const newAnsStrings3 = obj.single.single_ans;
+
+      if (result3Checker) {
+        const questStringsFound = findSubstrings(
+          obj.single.single_quest[0],
+          terms
+        );
+        for (const i in questStringsFound) {
+          newQuestString3 = replaceWithTooltip(
+            obj.single.single_quest[0],
+            questStringsFound[i].term,
+            questStringsFound[i].expl
+          );
+        }
+        for (const i in newAnsStrings3) {
+          if (result3[i] === true) {
+            const termsFound = findSubstrings(obj.single.single_ans[i], terms);
+            for (const j in termsFound)
+              newAnsStrings3[i] = replaceWithTooltip(
+                obj.single.single_ans[i],
+                termsFound[j].term,
+                termsFound[j].expl
+              );
+          }
+        }
+      }
+      const answers = newAnsStrings3.map((ans) => ({
         label: ans,
         value: ans,
       }));
       console.log("answers", answers);
+
       return (
         <>
           <p>questionid: {obj.QuestID}</p>
-          <p className="fs-5">{obj.single.single_quest[0]}</p>
+          <p className="fs-5">{newQuestString3}</p>
 
           <div className="col-xl-6 p-2">
             <Select
@@ -335,7 +566,65 @@ const StepTwo = (props) => {
         </>
       );
     } else if (obj.multiple != null) {
-      const answers = obj.multiple.multiple_ans.map((ans) => ({
+      const result4 = new Array();
+      console.log("cat4");
+
+      for (const i in obj.multiple.multiple_ans) {
+        result4[i] = terms.some((element) =>
+          obj.multiple.multiple_ans[i]
+            .toLowerCase()
+            .includes(element.term.toLowerCase())
+        );
+      }
+
+      result4[result4.length] = terms.some((element) =>
+        obj.multiple.multiple_quest[0]
+          .toLowerCase()
+          .includes(element.term.toLowerCase())
+      );
+
+      const result4Checker = (result4) => result4.some(Boolean);
+      const newQuestString4 = obj.multiple.multiple_quest[0];
+      const newAnsStrings4 = obj.multiple.multiple_ans;
+
+      if (result4Checker) {
+        const questStringsFound = findSubstrings(
+          obj.multiple.multiple_quest[0],
+          terms
+        );
+        for (const j in questStringsFound) {
+          newQuestString4 = replaceWithTooltip(
+            obj.multiple.multiple_quest[0],
+            questStringsFound[j].term,
+            questStringsFound[j].expl
+          );
+        }
+
+        for (const j in newAnsStrings4) {
+          if (result4[j] === true) {
+            const termsFound = findSubstrings(
+              obj.multiple.multiple_ans[j],
+              terms
+            );
+            for (const k in termsFound)
+              newAnsStrings4[j] = replaceWithTooltip(
+                obj.multiple.multiple_ans[j],
+                termsFound[k].term,
+                termsFound[k].expl
+              );
+          }
+        }
+      }
+
+      /*      const finalQuestion = createFinalStrings(
+        obj.multiple.multiple_quest[0],
+        obj.multiple.multiple_ans
+      ).newQuest;
+      const finalAnswers = createFinalStrings(
+        obj.multiple.multiple_quest[0],
+        obj.multiple.multiple_ans
+      ).newAnswers; */
+      const answers = newAnsStrings4.map((ans) => ({
         label: ans,
         value: ans,
       }));
@@ -344,9 +633,9 @@ const StepTwo = (props) => {
       return (
         <>
           <p>questionid: {obj.QuestID}</p>
-          <p className="fs-5">{obj.multiple.multiple_quest[0]}</p>
+          <p className="fs-5">{newQuestString4}</p>
 
-          <div className="col-xl-6 p-2">
+          <div className="col-xl-6 p-2" styles={{ zIndex: 1 }}>
             <Select
               instanceId={obj._id}
               options={answers}

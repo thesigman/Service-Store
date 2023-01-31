@@ -55,9 +55,8 @@ $border-radius: 4px;
 .tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black; 
+  border-bottom: 2px dotted black; 
   overflow: visible !important;
-  z-index: 9999;
 }
 
 .tooltip .tooltiptext {
@@ -73,7 +72,6 @@ $border-radius: 4px;
   padding: 5px 0;
   border-radius: 6px;
   overflow: visible !important;
-  z-index: 9999;
  
   position: absolute;
 }
@@ -81,7 +79,35 @@ $border-radius: 4px;
 .tooltip:hover .tooltiptext {
   visibility: visible ;
   overflow: visible !important;
-  z-index: 9999;
+}
+
+.tooltipright {
+  position: relative;
+  display: inline-block;
+  border-bottom: 2px dotted black; 
+  overflow: visible !important;
+}
+
+.tooltipright .tooltiprighttext {
+  visibility: hidden;
+  width: 320px;
+  top: -5px;
+  left: 105%;
+  //margin-left: 160px;
+  background-color: rgb(0, 0, 0);
+  opacity: 0.8;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  overflow: visible !important;
+ 
+  position: absolute;
+}
+
+.tooltipright:hover .tooltiprighttext {
+  visibility: visible ;
+  overflow: visible !important;
 }
 
   .login {

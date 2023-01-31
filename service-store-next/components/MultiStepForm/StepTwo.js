@@ -292,12 +292,19 @@ const StepTwo = (props) => {
     return termsInString;
   };
 
-  const replaceWithTooltip = (string, subTerm, tooltip) => {
+  const replaceWithTooltip = (string, subTerm, tooltip, isQuestion) => {
     if (typeof string === "string") {
       const getIndex1 = string.toLowerCase().indexOf(subTerm.toLowerCase());
       const getIndex2 =
         string.toLowerCase().indexOf(subTerm.toLowerCase()) + subTerm.length;
       const chars = [" ", "-", "/", ".", ",", ";", "?"];
+      const tooltipStyle = styles.tooltipright;
+      const tooltipTextStyle = styles.tooltiprighttext;
+
+      if (isQuestion) {
+        tooltipStyle = styles.tooltip;
+        tooltipTextStyle = styles.tooltiptext;
+      }
 
       if (
         (chars.some((elem) => string[getIndex1 - 1] === elem) ||
@@ -308,10 +315,10 @@ const StepTwo = (props) => {
         return (
           <>
             <span>{string.substring(0, getIndex1)} </span>
-            <div className={["p-1", styles.tooltip].join(" ")}>
+            <div className={["p-1", tooltipStyle].join(" ")}>
               {string.substring(getIndex1, getIndex2)}
               <span
-                className={["p-1", styles.tooltiptext].join(" ")}
+                className={["p-1", tooltipTextStyle].join(" ")}
                 data-container="body"
               >
                 {tooltip}
@@ -387,7 +394,8 @@ const StepTwo = (props) => {
           newQuestString = replaceWithTooltip(
             obj.text.text,
             stringsFound[i].term,
-            stringsFound[i].expl
+            stringsFound[i].expl,
+            true
           );
         }
       }
@@ -410,7 +418,6 @@ const StepTwo = (props) => {
       );
     } else if (obj.single != null && obj.single.attach === false) {
       const result2 = new Array();
-      console.log("cat2");
 
       for (const i in obj.single.single_ans) {
         result2[i] = terms.some((element) =>
@@ -439,7 +446,8 @@ const StepTwo = (props) => {
           newQuestString2 = replaceWithTooltip(
             obj.single.single_quest[0],
             questStringsFound[i].term,
-            questStringsFound[i].expl
+            questStringsFound[i].expl,
+            true
           );
         }
         for (const i in newAnsStrings2) {
@@ -449,7 +457,8 @@ const StepTwo = (props) => {
               newAnsStrings2[i] = replaceWithTooltip(
                 obj.single.single_ans[i],
                 termsFound[j].term,
-                termsFound[j].expl
+                termsFound[j].expl,
+                false
               );
             }
           }
@@ -488,7 +497,7 @@ const StepTwo = (props) => {
       );
     } else if (obj.single != null && obj.single.attach === true) {
       const result3 = new Array();
-      console.log("cat3");
+
       for (const i in obj.single.single_ans) {
         result3[i] = terms.some((element) =>
           obj.single.single_ans[0][i]
@@ -515,7 +524,8 @@ const StepTwo = (props) => {
           newQuestString3 = replaceWithTooltip(
             obj.single.single_quest[0],
             questStringsFound[i].term,
-            questStringsFound[i].expl
+            questStringsFound[i].expl,
+            true
           );
         }
         for (const i in newAnsStrings3) {
@@ -525,7 +535,8 @@ const StepTwo = (props) => {
               newAnsStrings3[i] = replaceWithTooltip(
                 obj.single.single_ans[i],
                 termsFound[j].term,
-                termsFound[j].expl
+                termsFound[j].expl,
+                true
               );
           }
         }
@@ -567,7 +578,6 @@ const StepTwo = (props) => {
       );
     } else if (obj.multiple != null) {
       const result4 = new Array();
-      console.log("cat4");
 
       for (const i in obj.multiple.multiple_ans) {
         result4[i] = terms.some((element) =>
@@ -596,7 +606,8 @@ const StepTwo = (props) => {
           newQuestString4 = replaceWithTooltip(
             obj.multiple.multiple_quest[0],
             questStringsFound[j].term,
-            questStringsFound[j].expl
+            questStringsFound[j].expl,
+            true
           );
         }
 
@@ -610,7 +621,8 @@ const StepTwo = (props) => {
               newAnsStrings4[j] = replaceWithTooltip(
                 obj.multiple.multiple_ans[j],
                 termsFound[k].term,
-                termsFound[k].expl
+                termsFound[k].expl,
+                false
               );
           }
         }
